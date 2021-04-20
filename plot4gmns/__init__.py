@@ -29,4 +29,4 @@ __all__=['readNetwork','showNetByAllMode','showNetByAutoMode','showNetByBikeMode
          'showNetByLinkCapacity','showNetByLinkLaneNum','showNetByLinkFreeSpeed','showNetByPOIAttr',
          'showNetByPOIAttractionHeat','showNetByPOIProductionHeat','showNetByPOIAttractionContour',
          'showNetByPOIProductionContour','showNetByZoneDemandHeat','showNetByZoneDemandFlow','showNetByZoneAgent']
-print("plot4gmns, version 0.0.6")
+print("plot4gmns, version 0.0.8")
