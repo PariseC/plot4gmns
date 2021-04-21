@@ -1,7 +1,13 @@
 # Plot4GMNS: A visualization tool for visualizing and analyzing transportation network based on GMNS data format
 
+**Authors :** Dr.Junhua Chen, Zanyang Cui
+
+**Email :** cjh@bjtu.edu.cn, zanyangcui@outlook.com
 ## Introduction
+As railroad management researchers, we hope to offer free tools for visualizing multimodal networks in broader areas of transportation system modeling and optimization. 
 Plot4GMNS is an open-source transportation network data visualization and analysis tool based on GMNS data format. By taking advantage of OSM2GMNS and Grid2demand tools to obtain routable transportation network and demand, Plot4GMNS aims to visualize and analyze the node, link, POI, agent, and zone data of the network.
+
+
 ## Installation
 ```python
 pip install plot4gmns
