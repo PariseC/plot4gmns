@@ -6,10 +6,22 @@
 ## Introduction
 To enable rapid transportation modeling and optimization, as railroad management researchers, we provide this free open-source tool for visualizing multimodal networks. Based on GMNS data format by [Zepha foundation](https://zephyrtransport.org/), plot4gmns is designed for reading and plotting multimodal data sets including transportation network files, demand and agent trace files.
 
+## Requirements
+- pandas
+- shapely
+- matplotlib<=3.3.0
+- numpy
+- seaborn
+- scipy
+- chardet
+
 ## Installation
 ```python
 pip install plot4gmns
 ```
+
+>Note
+> - For Windows users, the _pip_ method might fail to install some dependencies. If errors occur when you try to install any of those dependencies, try instead to pip install their .whl files, which can be downloaded from the Unoffical Windows Binaries for [Python Extension Packages](https://www.lfd.uci.edu/~gohlke/pythonlibs/).
 
 ## Simple Example
 ```python
