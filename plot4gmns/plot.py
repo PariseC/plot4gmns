@@ -6,17 +6,18 @@ from matplotlib.collections import LineCollection
 from matplotlib.collections import PolyCollection
 from scipy.interpolate import griddata as gd
 from matplotlib.lines import Line2D
-from .setting import *
 
-def plotNetbySelectedObj(node_coords,link_coords,poi_coords):
-    fig, ax = plt.subplots(figsize=(13,10))
+
+def plotNetbySelectedObj(node_coords,link_coords,poi_coords,savefig):
+    fig, ax = plt.subplots(figsize=(10,8))
     # plot network nodes
     ax.scatter(node_coords[0], node_coords[1], marker='o', c='red', s=10,zorder=1)
     # plot network links
     ax.add_collection(LineCollection(link_coords, colors='orange', linewidths=1,zorder=2))
     # plot network pois
-    coll = PolyCollection(poi_coords, alpha=0.7,zorder=0)
-    ax.add_collection(coll)
+    if len(poi_coords):
+        coll = PolyCollection(poi_coords, alpha=0.7,zorder=0)
+        ax.add_collection(coll)
     # set axis
     ax.autoscale_view()
     plt.xlabel('x_coord')
@@ -24,8 +25,16 @@ def plotNetbySelectedObj(node_coords,link_coords,poi_coords):
     plt.tight_layout()
     # show fig
     plt.show()
-def plotNetbyNodeAttrRange(node_coords, link_coords,poi_coords,attr,value):
-    fig, ax = plt.subplots(figsize=(13, 10))
+    #save fig
+    if savefig:
+        try:
+            figname=savefig['filename'] if 'filename' in savefig.keys() else 'mode_network.png'
+            dpi=savefig['dpi'] if 'dpi' in savefig else 300
+            fig.savefig(figname,dpi=dpi,bbox_inches='tight')
+        except Exception as e:
+            print(e)
+def plotNetbyNodeAttrRange(node_coords, link_coords,poi_coords,attr,value,savefig):
+    fig, ax = plt.subplots(figsize=(10, 8))
     # plot network nodes
     max_v,min_v=max(value),min(value)
     s=np.array(value)/max_v*95+5
@@ -46,7 +55,7 @@ def plotNetbyNodeAttrRange(node_coords, link_coords,poi_coords,attr,value):
     ax1 = ax.scatter(node_coords[0][max_index], node_coords[1][max_index], marker='o', c='red', s=100, zorder=2)
     proxies.append(ax1)
     labels.append('%s:%.4f' % (attr, max_v))
-    ax.legend(proxies, labels)
+    ax.legend(proxies, labels,loc='upper right')
     # set axis
     ax.autoscale_view()
     plt.xlabel('x_coord')
@@ -54,8 +63,16 @@ def plotNetbyNodeAttrRange(node_coords, link_coords,poi_coords,attr,value):
     plt.tight_layout()
     # show fig
     plt.show()
-def plotNetbyLinkAttrRange(node_coords, link_coords,poi_coords,attr,value):
-    fig, ax = plt.subplots(figsize=(13, 10))
+    # save fig
+    if savefig:
+        try:
+            figname = savefig['filename'] if 'filename' in savefig.keys() else 'node_attr_range.png'
+            dpi = savefig['dpi'] if 'dpi' in savefig else 300
+            fig.savefig(figname, dpi=dpi, bbox_inches='tight')
+        except Exception as e:
+            print(e)
+def plotNetbyLinkAttrRange(node_coords, link_coords,poi_coords,attr,value,savefig):
+    fig, ax = plt.subplots(figsize=(10, 8))
     # plot network nodes
     ax.scatter(node_coords[0], node_coords[1], marker='o', c='red', s=10, zorder=2)
     # plot network links
@@ -68,7 +85,7 @@ def plotNetbyLinkAttrRange(node_coords, link_coords,poi_coords,attr,value):
     # add legend
     proxies = [Line2D([0, 1], [0, 1], color='orange', linewidth=0.5),
                Line2D([0, 1], [0, 1], color='orange', linewidth=5)]
-    ax.legend(proxies, ['%s:%.4f'%(attr,min(value)), '%s:%.4f'%(attr,max(value))])
+    ax.legend(proxies, ['%s:%.4f'%(attr,min(value)), '%s:%.4f'%(attr,max(value))],loc='upper right')
     # set axis
     ax.autoscale_view()
     plt.xlabel('x_coord')
@@ -76,8 +93,16 @@ def plotNetbyLinkAttrRange(node_coords, link_coords,poi_coords,attr,value):
     plt.tight_layout()
     # show fig
     plt.show()
-def plotNetbyPoiAttrHeat(poi_coords,value):
-    fig, ax = plt.subplots(figsize=(13,10))
+    # save fig
+    if savefig:
+        try:
+            figname = savefig['filename'] if 'filename' in savefig.keys() else 'link_attr_range.png'
+            dpi = savefig['dpi'] if 'dpi' in savefig else 300
+            fig.savefig(figname, dpi=dpi, bbox_inches='tight')
+        except Exception as e:
+            print(e)
+def plotNetbyZonePoiAttrDensity(poi_coords,value,savefig):
+    fig, ax = plt.subplots(figsize=(10,8))
     # plot network pois
     coll = PolyCollection(poi_coords, array=np.array(value), cmap='jet', edgecolors='none')
     ax.add_collection(coll)
@@ -89,45 +114,39 @@ def plotNetbyPoiAttrHeat(poi_coords,value):
     plt.tight_layout()
     # show fig
     plt.show()
-def plotNetbyPoiAttrContour(network,poi_coords,value):
-    fig, ax = plt.subplots(figsize=(13, 10))
-    # plot network pois
-    coll = PolyCollection(network.poi_coords, alpha=0.5, zorder=0)
-    ax.add_collection(coll)
-    # interpolate unstructured D-D data
-    poi_coords = np.array(poi_coords).reshape(-1, 2)
-    xi_coords = np.linspace(network.min_lng, network.max_lng, 200)
-    yi_coords = np.linspace(network.min_lat, network.max_lat, 200)
-    xi_coords, yi_coords = np.meshgrid(xi_coords, yi_coords)
-    zi = gd((poi_coords), value, (xi_coords, yi_coords), method='linear')
+    # save fig
+    if savefig:
+        try:
+            figname = savefig['filename'] if 'filename' in savefig.keys() else 'zone_poi_attr_density.png'
+            dpi = savefig['dpi'] if 'dpi' in savefig else 300
+            fig.savefig(figname, dpi=dpi, bbox_inches='tight')
+        except Exception as e:
+            print(e)
 
-    # plot contour with col value
-    contour = ax.contour(xi_coords, yi_coords, zi, alpha=0.8, levels=15, cmap='jet',zorder=1)
-    # show line label
-    plt.clabel(contour, fontsize=8, colors=('k', 'r'), fmt='%.2f')
-    # show bar
-    plt.colorbar(contour, ax=ax, shrink=0.8)
-    # set axis
-    ax.autoscale_view()
-    plt.xlabel('x_coord')
-    plt.ylabel('y_coord')
-    plt.tight_layout()
-    plt.show()
-def plotNetbyZoneDeamndHeat(network,demand,annot):
+def plotNetbyZoneDeamndHeat(network,demand,annot,savefig):
 
     max_vol = np.max(demand.reshape(1, -1))
     min_vol = np.min(demand.reshape(1, -1))
     labels = [str(i + 1) for i in range(network.number_of_zone)]
     data = pd.DataFrame(demand, index=labels, columns=labels)
-    sns.heatmap(data=data, vmax=max_vol, vmin=min_vol, annot=annot, cmap='jet')
+    fig=sns.heatmap(data=data, vmax=max_vol, vmin=min_vol, annot=annot, cmap='jet')
     # set axis
     plt.xlabel('to_zone_id')
     plt.ylabel('from_zone_id')
     plt.tight_layout()
     # show fig
     plt.show()
-def plotNetbyZoneDemandFlow(network,demand_line,values, zone_grid, zone_labels,annot,bg):
-    fig, ax = plt.subplots(figsize=(13, 10))
+    # save fig
+    if savefig:
+        try:
+            figname = savefig['filename'] if 'filename' in savefig.keys() else 'zone_demand_density.png'
+            dpi = savefig['dpi'] if 'dpi' in savefig else 300
+            scatter_fig = fig.get_figure()
+            scatter_fig.savefig(figname, dpi=dpi, bbox_inches='tight')
+        except Exception as e:
+            print(e)
+def plotNetbyZoneDemandFlow(network,demand_line,values, zone_grid, zone_labels,annot,bg,savefig):
+    fig, ax = plt.subplots(figsize=(10, 8))
     if bg:
         # plot network links
         ax.add_collection(LineCollection(network.link_coords, colors='black', linewidths=1, zorder=1))
@@ -155,57 +174,29 @@ def plotNetbyZoneDemandFlow(network,demand_line,values, zone_grid, zone_labels,a
     plt.ylabel('y_coord')
     plt.tight_layout()
     plt.show()
-def plotNetbyZoneAgent(network,agent_coords,agent_num,zone_grid,zone_labels):
-    fig, ax = plt.subplots(figsize=(13, 10))
-    # plot network links
-    ax.add_collection(LineCollection(network.link_coords, colors='orange', linewidths=1, zorder=1))
-    # plot network pois
-    coll = PolyCollection(network.poi_coords, alpha=0.5, zorder=0)
-    ax.add_collection(coll)
-    # plot zone agent
-    ax.add_collection(LineCollection(agent_coords, colors='brown', linewidths=1.5, zorder=1))
-    # plot zone grid
-    coll = PolyCollection(zone_grid, facecolors='none', linewidths=5, edgecolors='olive', zorder=0)
-    ax.add_collection(coll)
-    # label zone grid name
-    for label in zone_labels:
-        plt.annotate(str(label[0]), xy=(label[1], label[2]), xytext=(label[1], label[2]), weight='bold',
-                     color='b', fontsize=14)
-    # add legend
-    proxies=[]
-    labels=[]
-    for k,v in agent_num.items():
-        proxies.append(Line2D([0, 1], [0, 1], color='brown', linewidth=1.5))
-        labels.append(str(k)+'agents:%d'%v)
-    ax.legend(proxies, labels)
-    # set axis
-    ax.autoscale_view()
-    plt.xlabel('x_coord')
-    plt.ylabel('y_coord')
-    plt.tight_layout()
-    plt.show()
+    # save fig
+    if savefig:
+        try:
+            figname = savefig['filename'] if 'filename' in savefig.keys() else 'zone_demand_flow.png'
+            dpi = savefig['dpi'] if 'dpi' in savefig else 300
+            fig.savefig(figname, dpi=dpi, bbox_inches='tight')
+        except Exception as e:
+            print(e)
 
-
-
-
-
-
-
-
-def plotNetBySelectedAttributeRange(node_coords,link_coords,poi_coords,value,ranges):
-    fig, ax = plt.subplots(figsize=(13,10))
+def plotNetByAgentTrace(node_coords,link_coords,poi_coords,trace_node_coords,trace_route_coords,savefig):
+    fig, ax = plt.subplots(figsize=(10, 8))
     # plot network nodes
-    ax.scatter(node_coords[0], node_coords[1], marker='o', c='red', s=10,zorder=1)
+    ax.scatter(node_coords[0], node_coords[1], marker='o', c='red', s=10, zorder=1)
     # plot network links
-    # ax.add_collection(LineCollection(link_coords,array=link_free_speed,linewidths=1.5, cmap='jet',zorder=0))
-    ax.add_collection(LineCollection(link_coords, colors='orange', linewidths=value, zorder=2))
+    ax.add_collection(LineCollection(link_coords, colors='orange', linewidths=1, zorder=2))
     # plot network pois
-    coll = PolyCollection(poi_coords, alpha=0.5,zorder=0)
-    ax.add_collection(coll)
-    # set legend
-    proxies = [Line2D([0, 1], [0, 1],color='orange', linewidth=min(value)),
-               Line2D([0, 1], [0, 1],color='orange',linewidth=max(value))]
-    ax.legend(proxies, ['%.2f'%ranges[0],'%.2f'%ranges[1]])
+    if len(poi_coords):
+        coll = PolyCollection(poi_coords, alpha=0.7, zorder=0)
+        ax.add_collection(coll)
+    # plot trace node sequence
+    ax.scatter(trace_node_coords[0],trace_node_coords[1], marker='o', c='black', s=15, zorder=2)
+    # plot trace route
+    ax.add_collection(LineCollection(trace_route_coords, colors='blue', linewidths=2, zorder=2))
     # set axis
     ax.autoscale_view()
     plt.xlabel('x_coord')
@@ -213,53 +204,11 @@ def plotNetBySelectedAttributeRange(node_coords,link_coords,poi_coords,value,ran
     plt.tight_layout()
     # show fig
     plt.show()
-
-def plotNetByLinkTypes(node_coords,link_classifier_coords,poi_coords):
-    fig, ax = plt.subplots(figsize=(13,10))
-    # plot network nodes
-    ax.scatter(node_coords[0], node_coords[1], marker='o', c='red', s=10,zorder=1)
-    # plot network links
-    proxies=[]
-    labels=[]
-    for classifier,link_coords in link_classifier_coords.items():
-        link_ax=ax.add_collection(LineCollection(link_coords, colors=link_type_color_dict[classifier], linewidths=1.5,
-                                                 zorder=2))
-        proxies.append(link_ax)
-        labels.append(classifier)
-    # plot network pois
-    coll = PolyCollection(poi_coords, alpha=0.5,zorder=0)
-    ax.add_collection(coll)
-    # set legend
-    ax.legend(proxies,labels)
-    # set axis
-    ax.autoscale_view()
-    plt.xlabel('x_coord')
-    plt.ylabel('y_coord')
-    plt.tight_layout()
-    # show fig
-    plt.show()
-
-def plotNetByNodeCtrlTypes(node_classifier_coords,link_coords,poi_coords):
-    fig, ax = plt.subplots(figsize=(13,10))
-    # plot network nodes
-    proxies = []
-    labels = []
-    for classifier,node_coord in node_classifier_coords.items():
-        node_ax=ax.scatter(node_coord[0], node_coord[1], marker='o', c=node_ctrl_color_dict[classifier], s=10,zorder=2)
-        proxies.append(node_ax)
-        labels.append('ctrl-'+str(classifier))
-
-    # plot network links
-    ax.add_collection(LineCollection(link_coords, colors='orange', linewidths=1.5, zorder=1))
-    # plot network pois
-    coll = PolyCollection(poi_coords, alpha=0.5,zorder=0)
-    ax.add_collection(coll)
-    # set legend
-    ax.legend(proxies, labels)
-    # set axis
-    ax.autoscale_view()
-    plt.xlabel('x_coord')
-    plt.ylabel('y_coord')
-    plt.tight_layout()
-    # show fig
-    plt.show()
+    # save fig
+    if savefig:
+        try:
+            figname = savefig['filename'] if 'filename' in savefig.keys() else 'agent_trace.png'
+            dpi = savefig['dpi'] if 'dpi' in savefig else 300
+            fig.savefig(figname, dpi=dpi, bbox_inches='tight')
+        except Exception as e:
+            print(e)

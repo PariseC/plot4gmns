@@ -1,52 +1,11 @@
 
 
-link_type_color_dict = {'motorway': 'aqua',
-                        'trunk': 'blue',
-                        'primary': 'darkcyan',
-                        'secondary': 'darkmagenta',
-                        'tertiary': 'darkred',
-                        'residential': 'darkviolet',
-                        'service': 'fuchsia',
-                        'cycleway':'lime',
-                        'footway': 'magenta',
-                        'track': 'orangered',
-                        'unclassified': 'maroon',
-                        'connector':'black',
-                        'railway':'brown',
-                        'aeroway':'navy'}
+avl_node_attrs=['ctrl_type','activity_type','production','attraction']
+avl_node_attrs_for_num=['ctrl_type','activity_type']
+avl_node_attrs_for_range=['production','attraction']
 
-node_attr_int_color_dict={0: 'darkred',
-                      1: 'blue',
-                      2: 'darkcyan',
-                      3: 'darkmagenta',
-                      4: 'aqua',
-                      5: 'darkviolet',
-                      6: 'fuchsia',
-                      7:'lime',
-                      8: 'magenta',
-                      9: 'orangered',
-                      10: 'maroon',
-                      11:'black',
-                      12:'brown',
-                      13:'navy'}
+avl_link_attrs=['link_type_name','allowed_uses','free_speed','lanes','capacity','length']
+avl_link_attrs_for_num=['link_type_name','allowed_uses']
+avl_link_attrs_for_range=['free_speed','lanes','capacity','length']
 
-node_activity_type_color_dict={'motorway': 'aqua',
-                               'trunk': 'blue',
-                               'primary': 'darkcyan',
-                               'secondary': 'darkmagenta',
-                               'tertiary': 'darkred',
-                               'residential': 'darkviolet',
-                               'service': 'fuchsia',
-                               'cycleway':'lime',
-                               'footway': 'magenta',
-                               'track': 'orangered',
-                               'unclassified': 'maroon',
-                               'connector':'black',
-                               'railway':'brown',
-                               'aeroway':'navy',
-                               'poi':'darkgreen',
-                               'centroid node':'darkslategray'}
-
-valid_node_attr_for_Net=['ctrl_type','activity_type','production','attraction']
-valid_link_attr_for_Net=['link_type_name','allowed_uses','free_speed','lanes','capacity','length']
-valid_poi_attr_for_Net=['building','activity_zone_id']
+avl_poi_attrs=['building','activity_zone_id']

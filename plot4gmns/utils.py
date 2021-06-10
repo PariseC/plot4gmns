@@ -1,88 +1,126 @@
+import chardet
 import numpy as np
 from shapely import geometry
 
+def get_encoding(file):
+    with open(file,'rb') as f:
+        tmp = chardet.detect(f.read())
+        return tmp['encoding']
 
 def statNodeAttrValue(network,attr):
     attr_values={}
     try:
-        for k,node in network.node_dict.items():
-            if attr == 'ctrl_type':
+        if attr == 'ctrl_type':
+            for k, node in network.node_dict.items():
                 if isinstance(node.ctrl_type,int):
                     if node.ctrl_type not in attr_values.keys() and isinstance(node.ctrl_type,int):
                         attr_values[node.ctrl_type]=1
                     else:
                         attr_values[node.ctrl_type]+=1
-            elif attr == 'activity_type':
-                if node.activity_type not in attr_values.keys() and node.activity_type:
-                    attr_values[node.activity_type]=1
-                else:
-                    attr_values[node.activity_type]+=1
-            elif attr == 'production':
-                if node.production not in attr_values.keys() and isinstance(node.production,float):
-                    attr_values[node.production]=1
-                else:
-                    attr_values[node.production]+=1
-            elif attr == 'attraction':
-                if node.attraction not in attr_values.keys() and isinstance(node.attraction,float):
-                    attr_values[node.attraction]=1
-                else:
-                    attr_values[node.attraction]+=1
+        elif attr == 'activity_type':
+            for k, node in network.node_dict.items():
+                if node.activity_type:
+                    if node.activity_type not in attr_values.keys() and node.activity_type:
+                        attr_values[node.activity_type]=1
+                    else:
+                        attr_values[node.activity_type]+=1
+        elif attr == 'production':
+            min_v=float('inf')
+            max_v=-float('inf')
+            for k, node in network.node_dict.items():
+                if isinstance(node.production,float):
+                    if node.production<min_v:
+                        min_v=node.production
+                    if node.production>max_v:
+                        max_v=node.production
+            attr_values = {'min_v': min_v, 'max_v': max_v}
+        elif attr == 'attraction':
+            min_v=float('inf')
+            max_v=-float('inf')
+            for k, node in network.node_dict.items():
+                if isinstance(node.attraction,float):
+                    if node.attraction<min_v:
+                        min_v=node.attraction
+                    if node.attraction>max_v:
+                        max_v=node.attraction
+            attr_values={'min_v':min_v,'max_v':max_v}
     except Exception as e:
         print(e)
     return attr_values
+
 def statLinkAttrValue(network,attr):
     attr_values={}
     try:
-        for k,link in network.link_dict.items():
-            if attr == 'length':
+        if attr == 'length':
+            min_v=float('inf')
+            max_v=-float('inf')
+            for k, link in network.link_dict.items():
                 if isinstance(link.length,float):
-                    if link.length not in attr_values.keys() and isinstance(link.length,float):
-                        attr_values[link.length] = 1
-                    else:
-                        attr_values[link.length] += 1
-            elif attr == 'lanes':
+                    if link.length>max_v:
+                        max_v=link.length
+                    if link.length<min_v:
+                        min_v=link.length
+            attr_values={'min_v':min_v,'max_v':max_v}
+        elif attr == 'lanes':
+            min_v = float('inf')
+            max_v = -float('inf')
+            for k, link in network.link_dict.items():
                 if isinstance(link.lanes,int):
-                    if link.lanes not in attr_values.keys() and isinstance(link.lanes,int):
-                        attr_values[link.lanes] = 1
-                    else:
-                        attr_values[link.lanes] += 1
-            elif attr == 'free_speed':
+                    if link.lanes>max_v:
+                        max_v=link.lanes
+                    if link.lanes<min_v:
+                        min_v=link.lanes
+            attr_values = {'min_v': min_v, 'max_v': max_v}
+        elif attr == 'free_speed':
+            min_v = float('inf')
+            max_v = -float('inf')
+            for k, link in network.link_dict.items():
                 if isinstance(link.free_speed,float):
-                    if link.free_speed not in attr_values.keys() and isinstance(link.free_speed,float):
-                        attr_values[link.free_speed] = 1
-                    else:
-                        attr_values[link.free_speed] += 1
-            elif attr == 'capacity':
+                    if link.free_speed>max_v:
+                        max_v=link.free_speed
+                    if link.free_speed<min_v:
+                        min_v=link.free_speed
+            attr_values = {'min_v': min_v, 'max_v': max_v}
+        elif attr == 'capacity':
+            min_v = float('inf')
+            max_v = -float('inf')
+            for k, link in network.link_dict.items():
                 if isinstance(link.capacity,float):
-                    if link.capacity not in attr_values.keys() and isinstance(link.capacity,float):
-                        attr_values[link.capacity] = 1
-                    else:
-                        attr_values[link.capacity] += 1
-            elif attr == 'link_type_name':
+                    if link.capacity>max_v:
+                        max_v=link.capacity
+                    if link.capacity<min_v:
+                        min_v=link.capacity
+            attr_values = {'min_v': min_v, 'max_v': max_v}
+        elif attr == 'link_type_name':
+            for k, link in network.link_dict.items():
                 if isinstance(link.link_type_name,str):
-                    if link.link_type_name not in attr_values.keys() and isinstance(link.link_type_name,str):
+                    if link.link_type_name not in attr_values.keys() :
                         attr_values[link.link_type_name] = 1
                     else:
                         attr_values[link.link_type_name] += 1
-            elif attr == 'allowed_uses':
-                if isinstance(link.allowed_uses,str):
-                    if link.allowed_uses not in attr_values.keys() and isinstance(link.allowed_uses,str):
-                        attr_values[link.allowed_uses] = 1
+        elif attr == 'allowed_uses':
+            for k, link in network.link_dict.items():
+                for allowed_uses in link.allowed_uses:
+                    if allowed_uses not in attr_values:
+                        attr_values[allowed_uses] = 1
                     else:
-                        attr_values[link.allowed_uses] += 1
+                        attr_values[allowed_uses] += 1
     except Exception as e:
         print(e)
     return attr_values
+
 def statPoiAttrValue(network,attr):
     attr_values={}
     try:
-        for k,poi in network.poi_dict.items():
-            if attr == 'building':
-                if poi.building not in attr_values.keys() and isinstance(poi.building,str):
-                    attr_values[poi.building] = 1
-                else:
-                    attr_values[poi.building] += 1
-            elif attr == 'activity_zone_id':
+        if attr == 'building':
+            for k, poi in network.poi_dict.items():
+                for building in poi.building:
+                    if building not in attr_values.keys() and isinstance(building,str):
+                        attr_values[building] = 1
+                    else:
+                        attr_values[building] += 1
+        elif attr == 'activity_zone_id':
+            for k, poi in network.poi_dict.items():
                 if isinstance(poi.activity_zone_id,int):
                     if poi.activity_zone_id not in attr_values.keys() and isinstance(poi.activity_zone_id,int):
                         attr_values[poi.activity_zone_id] = 1
@@ -91,6 +129,28 @@ def statPoiAttrValue(network,attr):
     except Exception as e:
         print(e)
     return attr_values
+
+def searchNetMode(network,net_type):
+    node_x_coords=[]
+    node_y_coords=[]
+    link_coords=[]
+    unique_links=[]
+    for k,link in network.link_dict.items():
+        if (link.from_node_id, link.to_node_id) not in unique_links and (link.to_node_id, link.from_node_id) not in unique_links:
+            coords = list(link.geometry.coords)
+            for allowed_uses in link.allowed_uses:
+                if allowed_uses in net_type:
+                    try:
+                        from_node = network.node_dict[link.from_node_id]
+                        to_node = network.node_dict[link.to_node_id]
+                        node_x_coords.extend([from_node.x_coord,to_node.x_coord])
+                        node_y_coords.extend([from_node.y_coord,to_node.y_coord])
+                    except:
+                        pass
+                    link_coords.append(np.array(coords))
+                    unique_links.append((link.from_node_id, link.to_node_id))
+    node_coords=[node_x_coords,node_y_coords]
+    return [node_coords,link_coords]
 
 def searchNetbyNodeAttr(network,attr,value):
     node_x_coords = []
@@ -117,7 +177,7 @@ def searchNetbyNodeAttr(network,attr,value):
                                 unique_links.append((in_link.from_node_id, node.node_id))
             elif isinstance(value, tuple):
                 if value[0]>value[1]:
-                    print('please input vaild range')
+                    print('please input available ctrl_type range')
                 else:
                     for k, node in network.node_dict.items():
                         if isinstance(node.ctrl_type,int):
@@ -174,7 +234,7 @@ def searchNetbyNodeAttr(network,attr,value):
         elif attr=='production':
             if isinstance(value,tuple):
                 if value[0] > value[1]:
-                    print('please input vaild range')
+                    print('please input available node production range')
                 else:
                     for k, node in network.node_dict.items():
                         if isinstance(node.production,float):
@@ -196,7 +256,7 @@ def searchNetbyNodeAttr(network,attr,value):
         elif attr=='attraction':
             if isinstance(value, tuple):
                 if value[0] > value[1]:
-                    print('please input vaild range')
+                    print('please input available node attraction range')
                 else:
                     for k, node in network.node_dict.items():
                         if isinstance(node.attraction,float):
@@ -219,21 +279,24 @@ def searchNetbyNodeAttr(network,attr,value):
         print(e)
     node_coords=[node_x_coords,node_y_coords]
     return [node_coords,link_coords]
+
 def statNodeAttrRange(network,attr):
     node_x_coords = []
     node_y_coords = []
     values=[]
     try:
-        if attr=='production':
+        if attr=='production' :
             for k,node in network.node_dict.items():
-                node_x_coords.append(node.x_coord)
-                node_y_coords.append(node.y_coord)
-                values.append(node.production)
-        else:
+                if isinstance(node.production,float):
+                    node_x_coords.append(node.x_coord)
+                    node_y_coords.append(node.y_coord)
+                    values.append(node.production)
+        elif attr=='attraction':
             for k, node in network.node_dict.items():
-                node_x_coords.append(node.x_coord)
-                node_y_coords.append(node.y_coord)
-                values.append(node.attraction)
+                if isinstance(node.attraction,float):
+                    node_x_coords.append(node.x_coord)
+                    node_y_coords.append(node.y_coord)
+                    values.append(node.attraction)
     except Exception as e:
         print(e)
     node_coords=[node_x_coords,node_y_coords]
@@ -327,32 +390,42 @@ def searchNetbyLinkAttr(network,attr,value):
         elif attr=='allowed_uses':
             if isinstance(value, str):
                 for k, link in network.link_dict.items():
-                    from_node = network.node_dict[link.from_node_id]
-                    to_node = network.node_dict[link.to_node_id]
                     if (link.from_node_id, link.to_node_id) not in unique_links and (
                             link.to_node_id, link.from_node_id) not in unique_links:
-                        if link.allowed_uses == value:
-                            coords = list(link.geometry.coords)
-                            node_x_coords.extend([from_node.x_coord, to_node.x_coord])
-                            node_y_coords.extend([from_node.y_coord, to_node.y_coord])
-                            link_coords.append(np.array(coords))
-                            unique_links.append((link.from_node_id, link.to_node_id))
+                        for allowed_uses in link.allowed_uses:
+                            if allowed_uses == value:
+                                coords = list(link.geometry.coords)
+                                try:
+                                    from_node = network.node_dict[link.from_node_id]
+                                    to_node = network.node_dict[link.to_node_id]
+                                    node_x_coords.extend([from_node.x_coord, to_node.x_coord])
+                                    node_y_coords.extend([from_node.y_coord, to_node.y_coord])
+                                except:
+                                    pass
+                                link_coords.append(np.array(coords))
+                                unique_links.append((link.from_node_id, link.to_node_id))
             elif isinstance(value, list):
                 for k, link in network.link_dict.items():
-                    from_node = network.node_dict[link.from_node_id]
-                    to_node = network.node_dict[link.to_node_id]
+
                     if (link.from_node_id, link.to_node_id) not in unique_links and (
                             link.to_node_id, link.from_node_id) not in unique_links:
-                        if link.allowed_uses in value:
-                            coords = list(link.geometry.coords)
-                            node_x_coords.extend([from_node.x_coord, to_node.x_coord])
-                            node_y_coords.extend([from_node.y_coord, to_node.y_coord])
-                            link_coords.append(np.array(coords))
-                            unique_links.append((link.from_node_id, link.to_node_id))
+                        for allowed_uses in link.allowed_uses:
+                            if allowed_uses in value:
+                                coords = list(link.geometry.coords)
+                                try:
+                                    from_node = network.node_dict[link.from_node_id]
+                                    to_node = network.node_dict[link.to_node_id]
+                                    node_x_coords.extend([from_node.x_coord, to_node.x_coord])
+                                    node_y_coords.extend([from_node.y_coord, to_node.y_coord])
+                                except:
+                                    pass
+                                link_coords.append(np.array(coords))
+                                unique_links.append((link.from_node_id, link.to_node_id))
     except Exception as e:
         print(e)
     node_coords = [node_x_coords, node_y_coords]
     return node_coords,link_coords
+
 def statLinkAttrRange(network,attr):
     node_x_coords=[]
     node_y_coords=[]
@@ -408,24 +481,26 @@ def searchNetbyPoiAttr(network,attr,value):
         if attr=='building':
             if isinstance(value,str):
                 for k,poi in network.poi_dict.items():
-                    if poi.building==value:
-                        if isinstance(poi.geometry, geometry.MultiPolygon):
-                            for geom in poi.geometry.geoms:
-                                coords = list(geom.exterior.coords)
+                    for building in poi.building:
+                        if building==value:
+                            if isinstance(poi.geometry, geometry.MultiPolygon):
+                                for geom in poi.geometry.geoms:
+                                    coords = list(geom.exterior.coords)
+                                    poi_coords.append(np.array(coords))
+                            elif isinstance(poi.geometry, geometry.Polygon):
+                                coords = list(poi.geometry.exterior.coords)
                                 poi_coords.append(np.array(coords))
-                        elif isinstance(poi.geometry, geometry.Polygon):
-                            coords = list(poi.geometry.exterior.coords)
-                            poi_coords.append(np.array(coords))
             elif isinstance(value,list):
                 for k, poi in network.poi_dict.items():
-                    if poi.building in value:
-                        if isinstance(poi.geometry, geometry.MultiPolygon):
-                            for geom in poi.geometry.geoms:
-                                coords = list(geom.exterior.coords)
+                    for building in poi.building:
+                        if building in value:
+                            if isinstance(poi.geometry, geometry.MultiPolygon):
+                                for geom in poi.geometry.geoms:
+                                    coords = list(geom.exterior.coords)
+                                    poi_coords.append(np.array(coords))
+                            elif isinstance(poi.geometry, geometry.Polygon):
+                                coords = list(poi.geometry.exterior.coords)
                                 poi_coords.append(np.array(coords))
-                        elif isinstance(poi.geometry, geometry.Polygon):
-                            coords = list(poi.geometry.exterior.coords)
-                            poi_coords.append(np.array(coords))
         elif attr=='activity_zone_id':
             if isinstance(value,tuple):
                 for k, poi in network.poi_dict.items():
@@ -440,7 +515,8 @@ def searchNetbyPoiAttr(network,attr,value):
     except Exception as e:
         print(e)
     return poi_coords
-def statPoiAttrRangeforHeat(network,attr):
+
+def statPoiAttrRangeforDensity(network,attr):
     poi_coords=[]
     values=[]
     try:
@@ -450,41 +526,34 @@ def statPoiAttrRangeforHeat(network,attr):
                     for geom in poi.geometry.geoms:
                         coords = list(geom.exterior.coords)
                         poi_coords.append(np.array(coords))
-                        values.append(network.poi_trip_dict[poi.building].production_rate1)
+                        v=0
+                        for building in poi.building:
+                           v=v+ network.poi_trip_dict[building].production_rate1
+                        values.append(v)
                 elif isinstance(poi.geometry, geometry.Polygon):
                     coords = list(poi.geometry.exterior.coords)
                     poi_coords.append(np.array(coords))
-                    values.append(network.poi_trip_dict[poi.building].production_rate1)
-        else:
+                    v = 0
+                    for building in poi.building:
+                        v = v + network.poi_trip_dict[building].production_rate1
+                    values.append(v)
+        elif attr=='attraction_rate1':
             for k, poi in network.poi_dict.items():
                 if isinstance(poi.geometry, geometry.MultiPolygon):
                     for geom in poi.geometry.geoms:
                         coords = list(geom.exterior.coords)
                         poi_coords.append(np.array(coords))
-                        values.append(network.poi_trip_dict[poi.building].attraction_rate1)
+                        v = 0
+                        for building in poi.building:
+                            v = v + network.poi_trip_dict[building].attraction_rate1
+                        values.append(v)
                 elif isinstance(poi.geometry, geometry.Polygon):
                     coords = list(poi.geometry.exterior.coords)
                     poi_coords.append(np.array(coords))
-                    values.append(network.poi_trip_dict[poi.building].attraction_rate1)
-    except Exception as e:
-        print(e)
-    return poi_coords,values
-def statPoiAttrRangeforContour(network,attr):
-    poi_coords=[]
-    values=[]
-    try:
-        if attr == 'production_rate1':
-            for k, poi in network.poi_dict.items():
-                if isinstance(poi.centroid, geometry.Point):
-                    coords = list(poi.centroid.coords)
-                    poi_coords.append(coords)
-                    values.append(network.poi_trip_dict[poi.building].production_rate1)
-        else:
-            for k, poi in network.poi_dict.items():
-                if isinstance(poi.centroid, geometry.Point):
-                    coords = list(poi.centroid.coords)
-                    poi_coords.append(coords)
-                    values.append(network.poi_trip_dict[poi.building].attraction_rate1)
+                    v = 0
+                    for building in poi.building:
+                        v = v + network.poi_trip_dict[building].attraction_rate1
+                    values.append(v)
     except Exception as e:
         print(e)
     return poi_coords,values
@@ -520,236 +589,20 @@ def statZoneDemandforFlow(network):
     except Exception as e:
         print(e)
     return demand_line,values,zone_grid,zone_labels
-def statZoneAgent(network,zone_list):
-    agent_coords=[]
-    zone_grid=[]
-    zone_labels=[]
-    agent_num={}
-    zone_id_list=[id for zone_od in zone_list for id in zone_od]
-    try:
-        if isinstance(zone_list,list):
-            for k,agent in network.agent_dict.items():
-                if (agent.o_zone_id,agent.d_zone_id) in zone_list:
-                    if isinstance(agent.geometry, geometry.LineString):
-                        coords = list(agent.geometry.coords)
-                        agent_coords.append(np.array(coords))
-                        if (agent.o_zone_id,agent.d_zone_id) in agent_num.keys():
-                            agent_num[agent.o_zone_id,agent.d_zone_id]+=1
-                        else:
-                            agent_num[agent.o_zone_id, agent.d_zone_id]=1
-            for k, zone in network.zone_dict.items():
-                if zone.activity_zone_id in zone_id_list or zone.activity_zone_id in zone_id_list:
-                    if isinstance(zone.geometry, geometry.Polygon):
-                        coords = list(zone.geometry.exterior.coords)
-                        zone_grid.append(np.array(coords))
-                    zone_labels.append([zone.activity_zone_id, zone.centroid_x, zone.centroid_y])
-    except Exception as e:
-        print(e)
-    return agent_coords,agent_num,zone_grid,zone_labels
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def searchNetMode(network,net_type):
+def statAgentTracebyID(network,agent_id):
+    agent_trace_route_coords = []
     node_x_coords=[]
     node_y_coords=[]
-    # node_id=[]
-    link_coords=[]
-    unique_links=[]
-    for k,link in network.link_dict.items():
-        from_node = network.node_dict[link.from_node_id]
-        to_node = network.node_dict[link.to_node_id]
-        if (link.from_node_id, link.to_node_id) not in unique_links and (link.to_node_id, link.from_node_id) not in unique_links:
-            coords = list(link.geometry.coords)
-            if link.allowed_uses==net_type:
-                node_x_coords.extend([from_node.x_coord,to_node.x_coord])
-                node_y_coords.extend([from_node.y_coord,to_node.y_coord])
-                # node_id.extend([from_node.node_id,to_node.node_id])
-                link_coords.append(np.array(coords))
-
-            unique_links.append((link.from_node_id, link.to_node_id))
-    node_coords=[node_x_coords,node_y_coords]
-    return [node_coords,link_coords]
-
-def searchPOIType(network,poi_type):
-    poi_coords=[]
-    for k, poi in network.poi_dict.items():
-        if poi.building==poi_type:
-            if isinstance(poi.geometry, geometry.MultiPolygon):
-                for geom in poi.geometry.geoms:
-                    coords = list(geom.exterior.coords)
-                    poi_coords.append(np.array(coords))
-            elif isinstance(poi.geometry, geometry.Polygon):
-                coords = list(poi.geometry.exterior.coords)
-                poi_coords.append(np.array(coords))
-    return poi_coords
-
-def searchNetSpeedRange(network,vmin,vmax):
-    node_x_coords = []
-    node_y_coords = []
-    link_coords = []
-    link_free_speed=[]
-    unique_links = []
-    for k, link in network.link_dict.items():
-        from_node = network.node_dict[link.from_node_id]
-        to_node = network.node_dict[link.to_node_id]
-        if (link.from_node_id, link.to_node_id) not in unique_links and (
-        link.to_node_id, link.from_node_id) not in unique_links:
-            coords = list(link.geometry.coords)
-            if link.free_speed <=vmax and link.free_speed>=vmin:
-                node_x_coords.extend([from_node.x_coord, to_node.x_coord])
-                node_y_coords.extend([from_node.y_coord, to_node.y_coord])
-                link_coords.append(np.array(coords))
-                link_free_speed.append(link.free_speed)
-            unique_links.append((link.from_node_id, link.to_node_id))
-    node_coords = [node_x_coords, node_y_coords]
-    link_free_speed=(np.array(link_free_speed)/vmax)*4.5+0.5
-    return [node_coords, link_coords,link_free_speed]
-
-def searchNetLaneNum(network,min_lanes,max_lanes):
-    node_x_coords = []
-    node_y_coords = []
-    link_coords = []
-    link_lanes=[]
-    unique_links = []
-    for k, link in network.link_dict.items():
-        from_node = network.node_dict[link.from_node_id]
-        to_node = network.node_dict[link.to_node_id]
-        if (link.from_node_id, link.to_node_id) not in unique_links and (link.to_node_id, link.from_node_id) not in unique_links:
-            coords = list(link.geometry.coords)
-            if link.lanes <=max_lanes and link.lanes>=min_lanes:
-                node_x_coords.extend([from_node.x_coord, to_node.x_coord])
-                node_y_coords.extend([from_node.y_coord, to_node.y_coord])
-                link_coords.append(np.array(coords))
-                link_lanes.append(link.lanes)
-            unique_links.append((link.from_node_id, link.to_node_id))
-    node_coords = [node_x_coords, node_y_coords]
-    link_lanes=(np.array(link_lanes)/max_lanes)*4.5+0.5
-    return [node_coords, link_coords,link_lanes]
-
-def searchNetCapRange(network,min_cap,max_cap):
-    node_x_coords = []
-    node_y_coords = []
-    link_coords = []
-    link_cap=[]
-    unique_links = []
-    for k, link in network.link_dict.items():
-        from_node = network.node_dict[link.from_node_id]
-        to_node = network.node_dict[link.to_node_id]
-        if (link.from_node_id, link.to_node_id) not in unique_links and (link.to_node_id, link.from_node_id) not in unique_links:
-            coords = list(link.geometry.coords)
-            if link.capacity <=max_cap and link.capacity>=min_cap:
-                node_x_coords.extend([from_node.x_coord, to_node.x_coord])
-                node_y_coords.extend([from_node.y_coord, to_node.y_coord])
-                link_coords.append(np.array(coords))
-                link_cap.append(link.capacity)
-            unique_links.append((link.from_node_id, link.to_node_id))
-    node_coords = [node_x_coords, node_y_coords]
-    link_cap=(np.array(link_cap)/max_cap)*4.5+0.5
-    return [node_coords, link_coords,link_cap]
-
-
-def searchNetLinkType(network,link_type):
-    if link_type:
-        node_x_coords = []
-        node_y_coords = []
-        link_coords = []
-        unique_links = []
-        for k,link in network.link_dict.items():
-            from_node = network.node_dict[link.from_node_id]
-            to_node = network.node_dict[link.to_node_id]
-            if (link.from_node_id, link.to_node_id) not in unique_links and (link.to_node_id, link.from_node_id) not in unique_links:
-                coords = list(link.geometry.coords)
-                if link.link_type_name==link_type:
-                    node_x_coords.extend([from_node.x_coord,to_node.x_coord])
-                    node_y_coords.extend([from_node.y_coord,to_node.y_coord])
-                    link_coords.append(np.array(coords))
-
-                unique_links.append((link.from_node_id, link.to_node_id))
-        node_coords=[node_x_coords,node_y_coords]
-        return [node_coords,link_coords]
-    else:
-        node_x_coords = []
-        node_y_coords = []
-        link_classifier_coords = {}
-        link_classifier_coords_num={}
-        unique_links = []
-        for k, link in network.link_dict.items():
-            from_node = network.node_dict[link.from_node_id]
-            to_node = network.node_dict[link.to_node_id]
-            if (link.from_node_id, link.to_node_id) not in unique_links and (link.to_node_id, link.from_node_id) not in unique_links:
-                node_x_coords.extend([from_node.x_coord, to_node.x_coord])
-                node_y_coords.extend([from_node.y_coord, to_node.y_coord])
-                coords = list(link.geometry.coords)
-                if link.link_type_name in link_classifier_coords.keys():
-                    link_classifier_coords[link.link_type_name].append(np.array(coords))
-                else:
-                    link_classifier_coords[link.link_type_name]=[np.array(coords)]
-                unique_links.append((link.from_node_id, link.to_node_id))
-            if link.link_type_name in link_classifier_coords_num:
-                link_classifier_coords_num[link.link_type_name]+=1
-            else:
-                link_classifier_coords_num[link.link_type_name]=1
-        node_coords = [node_x_coords, node_y_coords]
-        for k,v in link_classifier_coords_num.items():
-            print('the number of {} is :{}'.format(k,v))
-        return [node_coords, link_classifier_coords]
-
-def searchNetNodeCtrl(network,ctrl_type):
-    if isinstance(ctrl_type,int):
-        node_x_coords = []
-        node_y_coords = []
-        link_coords = []
-        unique_links=[]
-        for k,node in network.node_dict.items():
-            if node.ctrl_type==ctrl_type:
-                node_x_coords.extend([node.x_coord,node.x_coord])
-                node_y_coords.extend([node.y_coord,node.y_coord])
-                for out_link in node.out_link_list:
-                    if (node.node_id, out_link.to_node_id) not in unique_links and \
-                            (out_link.to_node_id,node.node_id) not in unique_links:
-                        coords = list(out_link.geometry.coords)
-                        link_coords.append(np.array(coords))
-                    unique_links.append((node.node_id, out_link.to_node_id))
-                for in_link in node.in_link_list:
-                    if (in_link.from_node_id,node.node_id) not in unique_links and \
-                            (node.node_id, in_link.from_node_id) not in unique_links:
-                        coords = list(in_link.geometry.coords)
-                        link_coords.append(np.array(coords))
-                    unique_links.append((in_link.from_node_id,node.node_id))
-        node_selected_coords=[node_x_coords,node_y_coords]
-        return [node_selected_coords,link_coords]
-    else:
-        node_classifier_coords={}
-        node_classifier_coords_num={}
-        for k, node in network.node_dict.items():
-            if node.ctrl_type in node_classifier_coords.keys():
-                node_classifier_coords[node.ctrl_type][0].append(node.x_coord)
-                node_classifier_coords[node.ctrl_type][1].append(node.y_coord)
-                node_classifier_coords_num[node.ctrl_type]+=1
-            else:
-                node_classifier_coords[node.ctrl_type]=[[node.x_coord,],[node.y_coord]]
-                node_classifier_coords_num[node.ctrl_type]= 1
-
-        for k, v in node_classifier_coords_num.items():
-            print('the number of {} is :{}'.format(k, v))
-        return [node_classifier_coords]
+    agent=network.agent_dict[agent_id]
+    if isinstance(agent.geometry, geometry.LineString):
+        coords = list(agent.geometry.coords)
+        agent_trace_route_coords.append(np.array(coords))
+    for node_id in agent.node_sequence:
+        try:
+            node_x_coords.append(network.node_dict[node_id].x_coord)
+            node_y_coords.append(network.node_dict[node_id].y_coord)
+        except:
+            pass
+    agent_trace_node_coords=[node_x_coords,node_y_coords]
+    return agent_trace_node_coords,agent_trace_route_coords
