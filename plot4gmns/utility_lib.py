@@ -54,14 +54,28 @@ class POIStyle:
         self.facecolor = 'y'
         self.edgecolor = 'black'
 
+class DemandStyle:
+    def __init__(self):
+        self.linewidth = 1
+        self.linecolor = 'b'
+
+class ZoneStyle:
+    def __init__(self):
+        self.linewidth = 1
+        self.edgecolors = 'blue'
+        self.fontsize = 10
+        self.fontcolor = 'r'
 
 class Style:
     def __init__(self):
-        self.figure_szie = (10, 8)
+        self.figure_size = (10, 8)
         self.dpi = 300
+        self.cmap = 'jet'
         self.node_style = NodeStyle()
         self.link_style = LinkStyle()
         self.poi_style = POIStyle()
+        self.demand_style = DemandStyle()
+        self.zone_style = ZoneStyle()
 
 
 def path2linux(path: Union[str, Path]) -> str:
