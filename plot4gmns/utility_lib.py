@@ -54,10 +54,12 @@ class POIStyle:
         self.facecolor = 'y'
         self.edgecolor = 'black'
 
+
 class DemandStyle:
     def __init__(self):
         self.linewidth = 1
         self.linecolor = 'b'
+
 
 class ZoneStyle:
     def __init__(self):
@@ -65,6 +67,7 @@ class ZoneStyle:
         self.edgecolors = 'blue'
         self.fontsize = 10
         self.fontcolor = 'r'
+
 
 class Style:
     def __init__(self):
@@ -134,3 +137,23 @@ def check_required_files_exist(required_files: list, dir_files: list) -> bool:
           missing files are: {[required_files_short[i] for i in range(len(required_files_short)) if not mask[i]]}")
 
     return False
+
+
+def generate_absolute_path(file_name: str = "p4g_fig.png", folder_name: str = "p4g_fig_results"):
+    # create folder if not exist
+    if not os.isdir(os.path.join(Path(__file__).parent, folder_name)):
+        os.mkdir(os.path.join(Path(__file__).parent, folder_name))
+    return path2linux(os.path.join(Path(__file__).parent, folder_name, file_name))
+
+
+def update_filename(path_filename: str, ) -> str:
+    """if the file name exist in path,then create new file name with _1, _1_1, ..."""
+    filename_abspath = path2linux(os.path.abspath(path_filename))
+
+    file_suffix = filename_abspath.split(".")[-1]
+    file_without_suffix = filename_abspath[:-len(file_suffix) - 1]
+
+    if os.path.exists(filename_abspath):
+        filename_update = f"{file_without_suffix}_1.{file_suffix}"
+        return update_filename(filename_update)
+    return filename_abspath

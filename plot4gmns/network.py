@@ -68,12 +68,11 @@ class Link:
     def update_coords_by_float_attr(self, column: str, min_v: int, max_v: int) -> None:
         # extract link coordinates of specified network mode from link dataset
 
-        res = self.value[(self.value[column] >= min_v) &
-                           (self.value[column] <= max_v)]
+        res = self.value[(self.value[column] >= min_v) & (self.value[column] <= max_v)]
         self.link_coords = res['geometry'].map(lambda x: np.array(list(x.coords))).tolist()
         f_n = res['from_node_id'].tolist()
         t_n = res['to_node_id'].tolist()
-        self.node_id_list = list(set(f_n+t_n))
+        self.node_id_list = list(set(f_n + t_n))
 
     def update_coords_by_attr_distribution(self, column: str) -> None:
         self.link_coords = self.value['geometry'].map(lambda x: np.array(list(x.coords))).tolist()
@@ -108,8 +107,8 @@ class POI:
             self.poi_coords = res['geometry'].map(convert_geometry_to_list).tolist()
         else:
             self.poi_coords = self.value['geometry'].map(convert_geometry_to_list).tolist()
-    def update_coords_by_attr_distribution(self, column: str,rate: float =1.0) -> None:
-        #
+
+    def update_coords_by_attr_distribution(self, column: str, rate: float = 1.0) -> None:
         def convert_geometry_to_list(geometry):
             coords = []
             if isinstance(geometry, MultiPolygon):
@@ -120,8 +119,8 @@ class POI:
             return coords
         poi_coords_ = self.value['geometry'].map(convert_geometry_to_list).tolist()
         attr_distribution_ = self.value[column].tolist()
-        sorted_index_ = sorted(range(self.value.shape[0]), key= lambda id: attr_distribution_[id],reverse=True)
-        selected_number = int(round(rate * self.value.shape[0],0))
+        sorted_index_ = sorted(range(self.value.shape[0]), key=lambda id: attr_distribution_[id], reverse=True)
+        selected_number = int(round(rate * self.value.shape[0], 0))
         sorted_index = sorted_index_[:selected_number]
         self.poi_coords = [poi_coords_[id] for id in sorted_index]
         self.attr_distribution = [attr_distribution_[id] for id in sorted_index]
@@ -136,24 +135,23 @@ class Demand:
 
     def convert_str_to_geometry(self) -> None:
         # load a POI geometry from a WKT string.
-
         self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))
 
     def update_demand_matrix(self,number_of_zone):
-        #
-        demand_matrix = np.zeros((number_of_zone,number_of_zone))
+
+        demand_matrix = np.zeros((number_of_zone, number_of_zone))
         for row in range(self.value.shape[0]):
             o_zone_id = self.value['o_zone_id'][row]
             d_zone_id = self.value['d_zone_id'][row]
             vol = self.value['volume'][row]
-            demand_matrix[o_zone_id-1, d_zone_id-1] = vol
+            demand_matrix[o_zone_id - 1, d_zone_id - 1] = vol
         self.demand_matrix = demand_matrix
 
     def update_coords(self):
-        #
-        res = self.value[self.value['volume']>0]
+        res = self.value[self.value['volume'] > 0]
         self.demand_OD_coords = res['geometry'].map(lambda x: np.array(list(x.coords))).tolist()
         self.demand_OD_vol = res['volume'].tolist()
+
 
 class Zone:
     def __init__(self):
@@ -163,12 +161,12 @@ class Zone:
 
     def convert_str_to_geometry(self) -> None:
         # load a POI geometry from a WKT string.
-
         self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))
 
     def update_coords(self):
         self.zone_coords = self.value['geometry'].map(lambda x: np.array(list(x.exterior.coords))).tolist()
-        self.zone_names = self.value[['name','centroid_x','centroid_y']].values.tolist()
+        self.zone_names = self.value[['name', 'centroid_x', 'centroid_y']].values.tolist()
+
 
 class MultiNet:
     def __init__(self):

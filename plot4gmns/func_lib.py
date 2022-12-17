@@ -18,6 +18,7 @@ def read_single_csv_file(file_name: str, geo_type: str) -> tuple:
             return (None, False)
     return (df, True)
 
+
 def generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:
     """read Multi-mode network from CSV file in the format of GMNS
 
@@ -45,16 +46,6 @@ def generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:
     # initialize a MultiNet object
     mnet = MultiNet()
 
-    def read_single_csv_file(file_name: str, geo_type: str) -> tuple:
-        df = pd.read_csv(os.path.join(file_name))
-
-        # check if the required columns exist
-        for column in required_columns[geo_type]:
-            if column not in df.columns:
-                print(f"{file_name} does not contain required column {column}!")
-                return (None, False)
-        return (df, True)
-
     # add required files and / or  optional files to the MultiNet object
     files_found = check_dir(input_dir)
     for filename in files_found:
@@ -78,6 +69,7 @@ def generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:
     print("Complete file loading")
     return mnet
 
+
 def extract_coordinates_by_network_mode(mnet: MultiNet, modes: tuple) -> None:
     # extract node,link, and poi coordinates of the specified network mode
     mnet.link.update_coords_by_str_attr(modes)
@@ -85,6 +77,7 @@ def extract_coordinates_by_network_mode(mnet: MultiNet, modes: tuple) -> None:
     mnet.POI.update_coords_by_poi_type()
     if len(mnet.link.link_coords) == 0:
         raise Exception("please try other modes")
+
 
 def extract_coordinates_by_node_type(mnet: MultiNet, osm_highway: list) -> None:
     # extract node,link, and poi coordinates of the specified node type
@@ -105,6 +98,7 @@ def extract_coordinates_by_node_type(mnet: MultiNet, osm_highway: list) -> None:
     if not x_coords:
         raise Exception("please try other keys")
 
+
 def extract_coordinates_by_link_lane(mnet: MultiNet, lanes: tuple) -> None:
     # extract node,link, and poi coordinates of the specified network link lanes
 
@@ -113,6 +107,7 @@ def extract_coordinates_by_link_lane(mnet: MultiNet, lanes: tuple) -> None:
     mnet.POI.update_coords_by_poi_type()
     if len(mnet.link.link_coords) == 0:
         raise Exception("no results found, please try other keys")
+
 
 def extract_coordinates_by_link_free_speed(mnet: MultiNet, free_speed: tuple) -> None:
     # extract node,link, and poi coordinates of the specified network link free speed
@@ -123,6 +118,7 @@ def extract_coordinates_by_link_free_speed(mnet: MultiNet, free_speed: tuple) ->
     if len(mnet.link.link_coords) == 0:
         raise Exception("no results found, please try other keys")
 
+
 def extract_coordinates_by_link_length(mnet: MultiNet, length: tuple) -> None:
     # extract node,link, and poi coordinates of the specified network link length
 
@@ -131,6 +127,7 @@ def extract_coordinates_by_link_length(mnet: MultiNet, length: tuple) -> None:
     mnet.POI.update_coords_by_poi_type()
     if len(mnet.link.link_coords) == 0:
         raise Exception("no results found, please try other keys")
+
 
 def extract_coordinates_by_link_lane_distribution(mnet: MultiNet, column: str) -> None:
     # extract node,link, and poi coordinates of the network link lane distribution
@@ -141,6 +138,7 @@ def extract_coordinates_by_link_lane_distribution(mnet: MultiNet, column: str) -
     mnet.node.update_coords(column='node_id')
     mnet.POI.update_coords_by_poi_type()
 
+
 def extract_coordinates_by_link_capacity_distribution(mnet: MultiNet, column: str) -> None:
     # extract node,link, and poi coordinates of the network link capacity distribution
 
@@ -149,6 +147,7 @@ def extract_coordinates_by_link_capacity_distribution(mnet: MultiNet, column: st
     mnet.link.update_coords_by_attr_distribution(column)
     mnet.node.update_coords(column='node_id')
     mnet.POI.update_coords_by_poi_type()
+
 
 def extract_coordinates_by_poi_type(mnet: MultiNet, poi_type: list) -> None:
     # extract node,link, and poi coordinates of the specified network POI type
@@ -159,6 +158,7 @@ def extract_coordinates_by_poi_type(mnet: MultiNet, poi_type: list) -> None:
     if len(mnet.POI.poi_coords) == 0:
         raise Exception("no results found, please try other keys")
 
+
 def extract_coordinates_by_poi_attr_distribution(mnet: MultiNet, column: str) -> None:
     # extract node,link, and poi coordinates of the network POI attraction or production distribution
 
@@ -168,10 +168,11 @@ def extract_coordinates_by_poi_attr_distribution(mnet: MultiNet, column: str) ->
     mnet.link.update_coords_by_str_attr(modes=('all'))
     mnet.POI.update_coords_by_attr_distribution(column=column)
 
+
 def count_demand_matrix(mnet: MultiNet) -> None:
     # count demand matrix of zones
-
     mnet.demand.update_demand_matrix(mnet.zone.value.shape[0])
+
 
 def extract_coordinates_by_demand_OD(mnet: MultiNet, load_zone: bool, load_network: bool) -> None:
     # extract coordinates of the network demand OD
