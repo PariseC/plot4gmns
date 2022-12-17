@@ -6,7 +6,7 @@
 
 ## Introduction
 
-To enable rapid transportation modeling and optimization, as railroad management researchers, we provide this free open-source tool for visualizing multimodal networks. Based on GMNS data format by [Zepha foundation](https://zephyrtransport.org/), plot4gmns is designed for reading and plotting multimodal data sets including transportation network files, demand and agent trace files.
+To enable rapid transportation modeling and optimization, as traffic management researchers, we provide this free open-source tool for visualizing multimodal networks. Based on GMNS data format by [Zepha foundation](https://zephyrtransport.org/), plot4gmns is designed for reading and plotting multimodal data sets including transportation network files, demand and agent trace files.
 
 ## Requirements
 
