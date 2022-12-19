@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5daf3128-a039-48ef-af3c-187286c892d2" name="Changes" comment="update functions">
+    <list default="true" id="1313aaa9-b40b-4911-9a2c-ff5a7e1b945a" name="Changes" comment="fixed some bugs and updated readme.md">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/media/all_mode.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/media/auto_mode.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/media/link_type_secondary.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/media/node_ctrl_type_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/media/poi_parking.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/media/zone_demand_flow.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/media/zone_trace.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plot4gmns/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot4gmns/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plot4gmns/_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot4gmns/_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plot4gmns/func_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot4gmns/func_lib.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plot4gmns/network.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot4gmns/network.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/plot4gmns/plot4gmns.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot4gmns/plot4gmns.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plot4gmns/utility_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot4gmns/utility_lib.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="v0.1.0" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -40,17 +32,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "E:/CoderStudio/Py/2020-09-10-Papers/基于灵活编组的城际铁路Y型线路多周期列车开行方案优化",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/CoderStudio/Py/2020-09-10-Papers/基于灵活编组的城际铁路Y型线路多周期列车开行方案优化&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Plot4GMNS" />
@@ -137,6 +129,6 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Plot4GMNS$main.coverage" NAME="main Coverage Results" MODIFIED="1671453788823" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Plot4GMNS$main.coverage" NAME="main Coverage Results" MODIFIED="1671456815666" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

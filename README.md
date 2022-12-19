@@ -44,11 +44,17 @@ mnet=p4g.generate_multi_network_from_csv(r'./datasets')
 cf = p4g.show_network_by_modes(mnet=mnet)
 # show the figure on the current window
 cf.show()
+```
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_mode.png?raw=true" width="800" height="600" alt=" "/><br/>
+
+```python
 # show 'bike' mode network
 cf = p4g.show_network_by_modes(mnet=mnet,modes=['bike'])
 cf.show() # show the figure on the current window
 ```
-<img src="https://github.com/PariseC/plot4gmns/blob/main/media/node_ctrl_type_1.png?raw=true" width="800" height="600" alt=" "/><br/>
+
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_bike_mode.png?raw=true" width="800" height="600" alt=" "/><br/>
+
 
 **Step 3: show network with given node types**
 ```python
@@ -56,7 +62,7 @@ cf = p4g.show_network_by_node_types(mnet=mnet,osm_highway=['traffic_signals','cr
 cf.show()
 ```
 
-<img src="https://github.com/PariseC/plot4gmns/blob/main/media/node_ctrl_type_1.png?raw=true" width="800" height="600" alt=" "/><br/>
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_node_type.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 4: show network by given link types**
 ```python
@@ -65,37 +71,57 @@ cf = p4g.show_network_by_link_types(mnet=mnet,link_types=['secondary','footway']
 cf.show()
 ```
 
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_link_type.png?raw=true" width="800" height="600" alt=" "/><br/>
+
 **Step 5: show network by given link attributes range**
 ```python
 # show network by given link length range
 cf = p4g.show_network_by_link_length(mnet=mnet,min_length=10,max_length=50)
 cf.show()
+```
 
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_link_length.png?raw=true" width="800" height="600" alt=" "/><br/>
+
+```python
 # show network by given link lane range
 cf = p4g.show_network_by_link_lanes(mnet=mnet,min_lanes=1,max_lanes=3)
 cf.show()
+```
 
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_link_lane.png?raw=true" width="800" height="600" alt=" "/><br/>
+
+```python
 # show network by given link free speed range
 cf = p4g.show_network_by_link_free_speed(mnet=mnet,min_free_speed=10,max_free_speed=40)
 cf.show()
 ```
 
-<img src="https://github.com/PariseC/plot4gmns/blob/main/media/link_type_secondary.png?raw=true" width="800" height="600" alt=" "/><br/>
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_link_free_speed.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 6: show network by link attributes distribution**
 ```python
 # show network by link lane distribution
 cf = p4g.show_network_by_link_lane_distribution(mnet=mnet)
 cf.show()
+```
 
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_link_lane_distribution.png?raw=true" width="800" height="600" alt=" "/><br/>
+
+```python
 # show network by link capacity distribution
 cf = p4g.show_network_by_link_capacity_distribution(mnet=mnet)
 cf.show()
+```
 
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_link_capacity_distribution.png?raw=true" width="800" height="600" alt=" "/><br/>
+
+```python
 # show network by link free speed distribution
 cf = p4g.show_network_by_link_free_speed_distribution(mnet=mnet)
 cf.show()
 ```
+
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_link_free_speed_distribution.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 7: show network with given POI types**
 ```python
@@ -103,32 +129,40 @@ cf = p4g.show_network_by_poi_types(mnet=mnet,poi_type=['public','industrial'])
 cf.show()
 ```
 
-<img src="https://github.com/PariseC/plot4gmns/blob/main/media/poi_parking.png?raw=true" width="800" height="600" alt=" "/><br/>
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_poi_type.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 8: show network by poi attributes  distribution**
 ```python
 # show network by poi attraction distribution
 cf = p4g.show_network_by_poi_attraction_distribution(mnet=mnet)
 cf.show()
+```
+
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_poi_attraction_distribution.png?raw=true" width="800" height="600" alt=" "/><br/>
+
+```python
 # show network by poi production distribution
 cf = p4g.show_network_by_poi_production_distribution(mnet=mnet)
 cf.show()
 ```
 
-<img src="https://github.com/PariseC/plot4gmns/blob/main/media/zone_demand_flow.png?raw=true" width="800" height="600" alt=" "/><br/>
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_poi_production_distribution.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 9: show network demand matrix heatmap**
 ```python
-p4g.show_network_demand_matrix_heatmap(mnet)
+cf = p4g.show_network_demand_matrix_heatmap(mnet)
+cf.show()
 ```
 
-<img src="https://github.com/PariseC/plot4gmns/blob/main/media/zone_trace.png?raw=true?raw=true" width="800" height="600" alt=" "/><br/>
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_demand_matrix_heatmap.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 10: show network demand OD**
 ```python
 cf = p4g.show_network_by_demand_OD(mnet=mnet,load_network=True)
 cf.show()
 ```
+
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_demand_od.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 ## Advance
 
@@ -142,16 +176,24 @@ cf = p4g.show_network_by_link_lane_distribution(mnet=mnet)
 cf.show()
 ```
 
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_link_lane_distribution2.png?raw=true" width="800" height="600" alt=" "/><br/>
+
 **Step 2: Show different networks on one diagram**
 
 By default, this tool will clear the original contents before drawing. If you want to draw different content on a graph, you can refer to the following example
 
 ```python
-# not show nodes
 mnet.node_loaded = False
+mnet.POI_loaded = False
 cf = p4g.show_network_by_link_lane_distribution(mnet=mnet)
+mnet.link_loaded = False
+mnet.POI_loaded = True
+cf = p4g.show_network_by_poi_attraction_distribution(mnet,fig_obj=cf)
 cf.show()
 ```
+
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_poi_attraction_distribution_2.png?raw=true" width="800" height="600" alt=" "/><br/>
+
 
 **Step 3: Set the drawing style**
 
@@ -175,9 +217,10 @@ Users can refer to the following examples to adjust the color, size and other at
 | mnet.style.zone_style.fontcolor       | str                     | zone label font color          |
 
 ```python
-# not show nodes
-mnet.node_loaded = False
-cf = p4g.show_network_by_link_lane_distribution(mnet=mnet)
+mnet.style.node_style.size = 3
+mnet.style.link_style.linecolor = 'green'
+mnet.style.poi_style.facecolor = 'gray'
+cf = p4g.show_network_by_modes(mnet=mnet)
 cf.show()
 ```
-## Logs
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_mode2.png?raw=true" width="800" height="600" alt=" "/><br/>

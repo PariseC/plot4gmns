@@ -628,7 +628,7 @@ def show_network_by_link_free_speed_distribution(
     # add legend
     proxies = [Line2D([0, 1], [0, 1], color=mnet.style.link_style.linecolor, linewidth=0.5),
                Line2D([0, 1], [0, 1], color=mnet.style.link_style.linecolor, linewidth=5)]
-    ax.legend(proxies, ['%s:%.4f' % ('lanes', min_v), '%s:%.4f' % ('lanes', max_v)], loc='upper right')
+    ax.legend(proxies, ['%s:%.4f' % ('free speed', min_v), '%s:%.4f' % ('free speed', max_v)], loc='upper right')
     ax.autoscale_view()
     plt.xlabel('x_coord')
     plt.ylabel('y_coord')
@@ -701,7 +701,7 @@ def show_network_by_link_capacity_distribution(
     # add legend
     proxies = [Line2D([0, 1], [0, 1], color=mnet.style.link_style.linecolor, linewidth=0.5),
                Line2D([0, 1], [0, 1], color=mnet.style.link_style.linecolor, linewidth=5)]
-    ax.legend(proxies, ['%s:%.4f' % ('lanes', min_v), '%s:%.4f' % ('lanes', max_v)], loc='upper right')
+    ax.legend(proxies, ['%s:%.4f' % ('capacity', min_v), '%s:%.4f' % ('capacity', max_v)], loc='upper right')
     ax.autoscale_view()
     plt.xlabel('x_coord')
     plt.ylabel('y_coord')
