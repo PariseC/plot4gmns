@@ -199,22 +199,22 @@ cf.show()
 
 Users can refer to the following examples to adjust the color, size and other attributes of the image before drawing.
 
-| parameter                             | Value                   | Description                    |
-|---------------------------------------|-------------------------|--------------------------------|
-| mnet.style.figure_size                | tuple,(width,height)    | Image size                     |
-| mnet.style.node_style.size            | int                     | node marker size               |
-| mnet.style.node_style.colors          | dict,{node_type:color}  | node color in different types  |
+| parameter                             | Value             | Description                    |
+|---------------------------------------|-------------------|--------------------------------|
+| mnet.style.figure_size                | tuple,(width,height) | Image size                     |
+| mnet.style.node_style.size            | int               | node marker size               |
+| mnet.style.node_style.colors          | dict,{node_type:color} | node color in different types  |
 | mnet.style.node_style.markers         | dict,{node_type:marker} | node marker in different types |
-| mnet.style.link_style.linecolor       | str                     | link color                     |
-| mnet.style.link_style.linewidth       | str                     | link width                     |
-| mnet.style.poi_style.facecolor        | str                     | POI facecolor                  |
-| mnet.style.poi_style.edgecolor        | str                     | POI edgecolor                  |
-| mnet.style.demand_style.linecolor     | str                     | demand flow line color         |
-| mnet.style.demand_style.linelinewidth | str                     | demand flow line width         |
-| mnet.style.zone_style.linewidth       | str                     | zone grid line width           |
-| mnet.style.zone_style.edgecolors      | str                     | zone grid edgecolors           |
-| mnet.style.zone_style.fontsize        | str                     | zone label font size           |
-| mnet.style.zone_style.fontcolor       | str                     | zone label font color          |
+| mnet.style.link_style.linecolor       | str               | link color                     |
+| mnet.style.link_style.linewidth       | float                   | link width                     |
+| mnet.style.poi_style.facecolor        | str               | POI facecolor                  |
+| mnet.style.poi_style.edgecolor        | str               | POI edgecolor                  |
+| mnet.style.demand_style.linecolor     | str               | demand flow line color         |
+| mnet.style.demand_style.linelinewidth | float                   | demand flow line width         |
+| mnet.style.zone_style.linewidth       | float             | zone grid line width           |
+| mnet.style.zone_style.edgecolors      | str               | zone grid edgecolors           |
+| mnet.style.zone_style.fontsize        | int               | zone label font size           |
+| mnet.style.zone_style.fontcolor       | str               | zone label font color          |
 
 ```python
 mnet.style.node_style.size = 3
