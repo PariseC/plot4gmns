@@ -53,21 +53,30 @@ class Link:
         self.value['railway'] = self.value['allowed_uses'].map(lambda x: "railway" in x.split(';'))
         self.value.drop(columns=['allowed_uses'], inplace=True)
 
-    def update_coords_by_str_attr(self, modes: tuple) -> None:
+    def update_coords_by_link_modes(self, modes: list) -> None:
         # extract link coordinates of specified network mode from link dataset
-        if modes == ('all'):
+        if 'all' in modes:
             self.link_coords = self.value['geometry'].map(lambda x: np.array(list(x.coords))).tolist()
             self.ID = []
         else:
+            self.link_coords = []
+            self.node_id_list = []
             for mode in modes:
                 res = self.value[self.value[mode] == True]
                 self.link_coords.extend(res['geometry'].map(lambda x: np.array(list(x.coords))).tolist())
                 self.node_id_list.extend(res['from_node_id'].tolist() + res['to_node_id'].tolist())
             self.node_id_list = list(set(self.node_id_list))
 
-    def update_coords_by_float_attr(self, column: str, min_v: int, max_v: int) -> None:
-        # extract link coordinates of specified network mode from link dataset
+    def update_coords_by_link_types(self, link_types: list) -> None:
+        # extract link coordinates of specified link types from link dataset
+        node_id_list = []
+        res = self.value[self.value['link_type_name'].isin(link_types)]
+        self.link_coords.extend(res['geometry'].map(lambda x: np.array(list(x.coords))).tolist())
+        node_id_list.extend(res['from_node_id'].tolist() + res['to_node_id'].tolist())
+        self.node_id_list = list(set(self.node_id_list))
 
+    def update_coords_by_float_attr(self, column: str, min_v: int, max_v: int) -> None:
+        # extract link coordinates of specified network link attributes range from link dataset
         res = self.value[(self.value[column] >= min_v) & (self.value[column] <= max_v)]
         self.link_coords = res['geometry'].map(lambda x: np.array(list(x.coords))).tolist()
         f_n = res['from_node_id'].tolist()
@@ -77,7 +86,6 @@ class Link:
     def update_coords_by_attr_distribution(self, column: str) -> None:
         self.link_coords = self.value['geometry'].map(lambda x: np.array(list(x.coords))).tolist()
         self.attr_distribution = self.value[column].tolist()
-
 
 class POI:
     def __init__(self):

@@ -11,14 +11,13 @@ from typing import Union
 from .network import MultiNet
 from .utility_lib import generate_absolute_path, update_filename
 from .func_lib import (
-    generate_multi_network_from_csv,
     extract_coordinates_by_network_mode,
-    extract_coordinates_by_node_type,
+    extract_coordinates_by_node_types,
+    extract_coordinates_by_link_types,
     extract_coordinates_by_link_lane,
     extract_coordinates_by_link_free_speed,
     extract_coordinates_by_link_length,
-    extract_coordinates_by_link_lane_distribution,
-    extract_coordinates_by_link_capacity_distribution,
+    extract_coordinates_by_link_attr_distribution,
     extract_coordinates_by_poi_type,
     extract_coordinates_by_poi_attr_distribution,
     count_demand_matrix,
@@ -30,12 +29,26 @@ from matplotlib.collections import LineCollection
 from matplotlib.collections import PolyCollection
 
 
-def show_network_by_mode(mnet: MultiNet, modes: tuple = ('all'), fig_obj: plt = None, isSave2png: bool = True) -> plt:
-    """draw network of different modes
+def show_network_by_modes(
+        mnet: MultiNet,
+        modes: list = ['all'],
+        fig_obj: plt = None,
+        isSave2png: bool = True
+) -> plt:
+    """draw network links of different modes
+    Parameters
+    ----------
+    mnet : MultiNet object
+    modes : tuple, optional
+            network mode, valid to ('all', 'auto', 'bike', 'walk', 'railway'),Defaults to ('all').
+    fig_obj : figure object (plt) ,optional
+              if not None, will continue to draw elements on the existing figure object. Defaults to None
+    isSave2png : bool, optional
+                 if Ture, save the figure to a png file. Defaults to True.
 
-    Args:
-        mnet (MultiNet): MultiNet object
-        modes (tuple, optional): network mode, valid to ('all', 'auto', 'bike', 'walk', 'railway'), Defaults to ('all').
+    Returns
+    -------
+    figure object
     """
 
     extract_coordinates_by_network_mode(mnet, modes)
@@ -43,6 +56,7 @@ def show_network_by_mode(mnet: MultiNet, modes: tuple = ('all'), fig_obj: plt = 
     if fig_obj:
         # get ax from fog_obj and add more data later
         ax = fig_obj.gca()
+        fig = fig_obj
     else:
         # create an empty fig and ax and add data later
         fig, ax = plt.subplots(figsize=mnet.style.figure_size, dpi=mnet.style.dpi)
@@ -87,23 +101,28 @@ def show_network_by_mode(mnet: MultiNet, modes: tuple = ('all'), fig_obj: plt = 
     return plt
 
 
-def show_network_by_node_type(mnet: MultiNet, osm_highway: list, fig_obj: plt = None, isSave2png: bool = True) -> plt:
-    """
-    draw network of different modes
-
-     Parameters
+def show_network_by_node_types(
+        mnet: MultiNet,
+        osm_highway: list,
+        fig_obj: plt = None,
+        isSave2png: bool = True
+) -> plt:
+    """draw network nodes according to specified node types
+    Parameters
     ----------
-    mnet : MNet object
-        a file path
-    modes : tuple
-        network mode, a valid network mode must belong to [ 'auto', 'bike', 'walk', 'railway']
-        users can also simply input 'all' to select all modes
+    mnet : MultiNet object
+    osm_highway : list
+                  list of network node types to display.
+    fig_obj : figure object (plt) ,optional
+              if not None, will continue to draw elements on the existing figure object. Defaults to None;
+    isSave2png : bool, optional
+                 if Ture, save the figure to a png file. Defaults to True.
 
     Returns
     -------
-    None
-
+    figure object
     """
+
     if isinstance(osm_highway, str):
         osm_highway_ = [osm_highway]
     elif isinstance(osm_highway, list):
@@ -114,13 +133,14 @@ def show_network_by_node_type(mnet: MultiNet, osm_highway: list, fig_obj: plt = 
     if fig_obj:
         # get ax from fog_obj and add more data later
         ax = fig_obj.gca()
+        fig = fig_obj
     else:
         # create an empty fig and ax and add data later
         fig, ax = plt.subplots(figsize=mnet.style.figure_size, dpi=mnet.style.dpi)
 
     # draw network nodes
     if mnet.node_loaded:
-        extract_coordinates_by_node_type(mnet, osm_highway_)
+        extract_coordinates_by_node_types(mnet, osm_highway_)
         for id in range(len(mnet.node.x_coords)):
             x_coords = mnet.node.x_coords[id]
             y_coords = mnet.node.y_coords[id]
@@ -163,24 +183,109 @@ def show_network_by_node_type(mnet: MultiNet, osm_highway: list, fig_obj: plt = 
 
     return plt
 
-
-def show_network_by_link_lane(mnet: MultiNet, min_lanes: int, max_lanes: int, fig_obj: plt = None, isSave2png: bool = True) -> plt:
-    """
-    draw network of different modes
-
+def show_network_by_link_types(
+        mnet: MultiNet,
+        link_types: list,
+        fig_obj: plt = None,
+        isSave2png: bool = True
+) -> plt:
+    """draw network nodes according to specified link types
     Parameters
     ----------
-    mnet : MNet object
-        a file path
-    min_lanes : int
-        the minimum number of lanes to be displayed
-    max_lanes : int
-        the maximum number of lanes to be displayed
+    mnet : MultiNet object
+    link_types : list
+                 list of network link types to display.
+    fig_obj : figure object (plt) ,optional
+              if not None, will continue to draw elements on the existing figure object. Defaults to None;
+    isSave2png : bool, optional
+                 if Ture, save the figure to a png file. Defaults to True.
+
     Returns
     -------
-    None
-
+    figure object
     """
+
+    if isinstance(link_types, str):
+        link_types_ = [link_types]
+    elif isinstance(link_types, list):
+        link_types_ = link_types
+    else:
+        raise Exception("TypeError: str or list is expected ")
+
+    if fig_obj:
+        # get ax from fog_obj and add more data later
+        ax = fig_obj.gca()
+        fig = fig_obj
+    else:
+        # create an empty fig and ax and add data later
+        fig, ax = plt.subplots(figsize=mnet.style.figure_size, dpi=mnet.style.dpi)
+
+    # draw network nodes
+    extract_coordinates_by_link_types(mnet, link_types_)
+    if mnet.node_loaded:
+        ax.scatter(mnet.node.x_coords,
+                   mnet.node.y_coords,
+                   marker=mnet.style.node_style.markers['other'],
+                   c=mnet.style.node_style.colors['other'],
+                   s=mnet.style.node_style.size,
+                   edgecolors=mnet.style.node_style.edgecolors,
+                   zorder=2)
+
+    # draw network links
+    if mnet.link_loaded:
+        ax.add_collection(
+            LineCollection(mnet.link.link_coords,
+                           colors=mnet.style.link_style.linecolor,
+                           linewidths=mnet.style.link_style.linewidth,
+                           zorder=1))
+
+    # draw network pois
+    if mnet.POI_loaded:
+        ax.add_collection(
+            PolyCollection(mnet.POI.poi_coords,
+                           alpha=0.7,
+                           facecolors=mnet.style.poi_style.facecolor,
+                           edgecolors=mnet.style.poi_style.edgecolor,
+                           zorder=0))
+
+    ax.autoscale_view()
+    plt.xlabel('x_coord')
+    plt.ylabel('y_coord')
+    plt.tight_layout()
+
+    if isSave2png:
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_type.png"))
+        plt.savefig(path_figure)
+        print(f"Successfully save network_by_mode.png to {path_figure}")
+
+    return plt
+
+
+def show_network_by_link_lanes(
+        mnet: MultiNet,
+        min_lanes: int,
+        max_lanes: int,
+        fig_obj: plt = None,
+        isSave2png: bool = True
+) -> plt:
+    """draw network links according to specified link lane number
+    Parameters
+    ----------
+    mnet : MultiNet object
+    min_lanes : int
+                the minimum number of lanes to be displayed.
+    max_lanes : int
+                the maximum number of lanes to be displayed.
+    fig_obj : figure object (plt) ,optional
+              if not None, will continue to draw elements on the existing figure object. Defaults to None;
+    isSave2png : bool, optional
+                 if Ture, save the figure to a png file. Defaults to True.
+
+    Returns
+    -------
+    figure object
+    """
+
     if min_lanes > max_lanes:
         print("ValueError: 'min_lanes' should not less than 'max_lanes' ")
     extract_coordinates_by_link_lane(mnet, (min_lanes, max_lanes))
@@ -188,6 +293,7 @@ def show_network_by_link_lane(mnet: MultiNet, min_lanes: int, max_lanes: int, fi
     if fig_obj:
         # get ax from fog_obj and add more data later
         ax = fig_obj.gca()
+        fig = fig_obj
     else:
         # create an empty fig and ax and add data later
         fig, ax = plt.subplots(figsize=mnet.style.figure_size, dpi=mnet.style.dpi)
@@ -232,23 +338,32 @@ def show_network_by_link_lane(mnet: MultiNet, min_lanes: int, max_lanes: int, fi
     return plt
 
 
-def show_network_by_link_free_speed(mnet: MultiNet, min_free_speed: int, max_free_speed: int, fig_obj: plt = None, isSave2png: bool = True) -> plt:
-    """
-    draw network of different modes
 
+def show_network_by_link_free_speed(
+        mnet: MultiNet,
+        min_free_speed: int,
+        max_free_speed: int,
+        fig_obj: plt = None,
+        isSave2png: bool = True
+) -> plt:
+    """draw network links according to specified link free speed
     Parameters
     ----------
-    mnet : MNet object
-        a file path
+    mnet : MultiNet object
     min_free_speed : int
-        the minimum free speed of link to be displayed
+                     the minimum free speed of link to be displayed.
     max_free_speed : int
-        the maximum free speed of link to be displayed
+                     the maximum free speed of link to be displayed.
+    fig_obj : figure object (plt) ,optional
+              if not None, will continue to draw elements on the existing figure object. Defaults to None;
+    isSave2png : bool, optional
+                 if Ture, save the figure to a png file. Defaults to True.
+
     Returns
     -------
-    None
-
+    figure object
     """
+
     if min_free_speed > max_free_speed:
         print("ValueError: 'min_lanes' should not less than 'max_lanes' ")
     extract_coordinates_by_link_free_speed(
@@ -257,6 +372,7 @@ def show_network_by_link_free_speed(mnet: MultiNet, min_free_speed: int, max_fre
     if fig_obj:
         # get ax from fog_obj and add more data later
         ax = fig_obj.gca()
+        fig = fig_obj
     else:
         # create an empty fig and ax and add data later
         fig, ax = plt.subplots(figsize=mnet.style.figure_size, dpi=mnet.style.dpi)
@@ -301,23 +417,31 @@ def show_network_by_link_free_speed(mnet: MultiNet, min_free_speed: int, max_fre
     return plt
 
 
-def show_network_by_link_length(mnet: MultiNet, min_length: int, max_length: int, fig_obj: plt = None, isSave2png: bool = True) -> plt:
-    """
-    draw network of different modes
-
+def show_network_by_link_length(
+        mnet: MultiNet,
+        min_length: int,
+        max_length: int,
+        fig_obj: plt = None,
+        isSave2png: bool = True
+) -> plt:
+    """draw network links according to specified link free speed
     Parameters
     ----------
-    mnet : MNet object
-        a file path
+    mnet : MultiNet object
     min_length : int
-        the shortest link to be displayed
+                 the shortest link to be displayed.
     max_length : int
-        the longest link to be displayed,
+                 the longest link to be displayed.
+    fig_obj : figure object (plt) ,optional
+              if not None, will continue to draw elements on the existing figure object. Defaults to None;
+    isSave2png : bool, optional
+                 if Ture, save the figure to a png file. Defaults to True.
+
     Returns
     -------
-    None
-
+    figure object
     """
+
     if min_length > max_length:
         print("ValueError: 'min_lanes' should not less than 'max_lanes' ")
     extract_coordinates_by_link_length(mnet, (min_length, max_length))
@@ -325,6 +449,7 @@ def show_network_by_link_length(mnet: MultiNet, min_length: int, max_length: int
     if fig_obj:
         # get ax from fog_obj and add more data later
         ax = fig_obj.gca()
+        fig = fig_obj
     else:
         # create an empty fig and ax and add data later
         fig, ax = plt.subplots(figsize=mnet.style.figure_size, dpi=mnet.style.dpi)
@@ -368,23 +493,31 @@ def show_network_by_link_length(mnet: MultiNet, min_length: int, max_length: int
     return plt
 
 
-def show_network_by_link_lane_distribution(mnet: MultiNet, fig_obj: plt = None, isSave2png: bool = True) -> plt:
+def show_network_by_link_lane_distribution(
+        mnet: MultiNet,
+        fig_obj: plt = None,
+        isSave2png: bool = True
+) -> plt:
+    """draw network links according to the distribution of number of link lanes
+    Parameters
+    ----------
+    mnet : MultiNet object
+    fig_obj : figure object (plt) ,optional
+              if not None, will continue to draw elements on the existing figure object. Defaults to None;
+    isSave2png : bool, optional
+                 if Ture, save the figure to a png file. Defaults to True.
+
+    Returns
+    -------
+    figure object
     """
-      draw network of different modes
 
-      Parameters
-      ----------
-      mnet : MNet object
-      Returns
-      -------
-      None
-
-      """
-    extract_coordinates_by_link_lane_distribution(mnet, 'lanes')
+    extract_coordinates_by_link_attr_distribution(mnet, 'lanes')
 
     if fig_obj:
         # get ax from fog_obj and add more data later
         ax = fig_obj.gca()
+        fig = fig_obj
     else:
         # create an empty fig and ax and add data later
         fig, ax = plt.subplots(figsize=mnet.style.figure_size, dpi=mnet.style.dpi)
@@ -434,24 +567,104 @@ def show_network_by_link_lane_distribution(mnet: MultiNet, fig_obj: plt = None, 
 
     return plt
 
+def show_network_by_link_free_speed_distribution(
+        mnet: MultiNet,
+        fig_obj: plt = None,
+        isSave2png: bool = True
+) -> plt:
+    """draw network links according to the distribution of link free speed
+    Parameters
+    ----------
+    mnet : MultiNet object
+    fig_obj : figure object (plt) ,optional
+              if not None, will continue to draw elements on the existing figure object. Defaults to None;
+    isSave2png : bool, optional
+                 if Ture, save the figure to a png file. Defaults to True.
 
-def show_network_by_link_capacity_distribution(mnet: MultiNet, fig_obj: plt = None, isSave2png: bool = True) -> plt:
+    Returns
+    -------
+    figure object
     """
-      draw network of different modes
 
-      Parameters
-      ----------
-      mnet : MNet object
-      Returns
-      -------
-      None
-
-      """
-    extract_coordinates_by_link_lane_distribution(mnet, 'capacity')
+    extract_coordinates_by_link_attr_distribution(mnet, 'free_speed')
 
     if fig_obj:
         # get ax from fog_obj and add more data later
         ax = fig_obj.gca()
+        fig = fig_obj
+    else:
+        # create an empty fig and ax and add data later
+        fig, ax = plt.subplots(figsize=mnet.style.figure_size, dpi=mnet.style.dpi)
+
+    # draw network nodes
+    if mnet.node_loaded:
+        ax.scatter(mnet.node.x_coords,
+                   mnet.node.y_coords,
+                   marker=mnet.style.node_style.markers['other'],
+                   c=mnet.style.node_style.colors['other'],
+                   s=mnet.style.node_style.size,
+                   edgecolors=mnet.style.node_style.edgecolors,
+                   zorder=2)
+
+    # draw network links
+    if mnet.link_loaded:
+        max_v, min_v = max(mnet.link.attr_distribution), min(mnet.link.attr_distribution)
+        w = np.array(mnet.link.attr_distribution) / max_v * 4.5 + 0.5
+        ax.add_collection(
+            LineCollection(mnet.link.link_coords,
+                           colors=mnet.style.link_style.linecolor,
+                           linewidths=w,
+                           zorder=1))
+
+    # draw network pois
+    if mnet.POI_loaded:
+        ax.add_collection(
+            PolyCollection(mnet.POI.poi_coords,
+                           alpha=0.7,
+                           facecolors=mnet.style.poi_style.facecolor,
+                           edgecolors=mnet.style.poi_style.edgecolor,
+                           zorder=0))
+
+    # add legend
+    proxies = [Line2D([0, 1], [0, 1], color=mnet.style.link_style.linecolor, linewidth=0.5),
+               Line2D([0, 1], [0, 1], color=mnet.style.link_style.linecolor, linewidth=5)]
+    ax.legend(proxies, ['%s:%.4f' % ('lanes', min_v), '%s:%.4f' % ('lanes', max_v)], loc='upper right')
+    ax.autoscale_view()
+    plt.xlabel('x_coord')
+    plt.ylabel('y_coord')
+    plt.tight_layout()
+
+    if isSave2png:
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_free_speed_distribution.png"))
+        plt.savefig(path_figure)
+        print(f"Successfully save network_by_mode.png to {path_figure}")
+
+    return plt
+
+def show_network_by_link_capacity_distribution(
+        mnet: MultiNet,
+        fig_obj: plt = None,
+        isSave2png: bool = True
+) -> plt:
+    """draw network links according to the distribution of link capacity
+    Parameters
+    ----------
+    mnet : MultiNet object
+    fig_obj : figure object (plt) ,optional
+              if not None, will continue to draw elements on the existing figure object. Defaults to None;
+    isSave2png : bool, optional
+                 if Ture, save the figure to a png file. Defaults to True.
+
+    Returns
+    -------
+    figure object
+    """
+    extract_coordinates_by_link_attr_distribution(mnet, 'capacity')
+
+    if fig_obj:
+        # get ax from fog_obj and add more data later
+        ax = fig_obj.gca()
+        fig = fig_obj
     else:
         # create an empty fig and ax and add data later
         fig, ax = plt.subplots(figsize=mnet.style.figure_size, dpi=mnet.style.dpi)
@@ -502,20 +715,28 @@ def show_network_by_link_capacity_distribution(mnet: MultiNet, fig_obj: plt = No
     return plt
 
 
-def show_network_by_poi_type(mnet: MultiNet, poi_type: Union[str, list], fig_obj: plt = None, isSave2png: bool = True) -> plt:
+def show_network_by_poi_types(
+        mnet: MultiNet,
+        poi_type: Union[str, list],
+        fig_obj: plt = None,
+        isSave2png: bool = True
+) -> plt:
+    """draw network according to the specified POI types
+    Parameters
+    ----------
+    mnet : MultiNet object
+    poi_type : str|list
+               list of network POI types to display.
+    fig_obj : figure object (plt) ,optional
+              if not None, will continue to draw elements on the existing figure object. Defaults to None;
+    isSave2png : bool, optional
+                 if Ture, save the figure to a png file. Defaults to True.
+
+    Returns
+    -------
+    figure object
     """
-      draw network of different modes
 
-      Parameters
-      ----------
-      mnet : MNet object
-      poi_type : list/str
-        POI types need to display
-      Returns
-      -------
-      None
-
-      """
     if isinstance(poi_type, str):
         poi_type_ = [poi_type]
     elif isinstance(poi_type, list):
@@ -527,6 +748,7 @@ def show_network_by_poi_type(mnet: MultiNet, poi_type: Union[str, list], fig_obj
     if fig_obj:
         # get ax from fog_obj and add more data later
         ax = fig_obj.gca()
+        fig = fig_obj
     else:
         # create an empty fig and ax and add data later
         fig, ax = plt.subplots(figsize=mnet.style.figure_size, dpi=mnet.style.dpi)
@@ -571,23 +793,30 @@ def show_network_by_poi_type(mnet: MultiNet, poi_type: Union[str, list], fig_obj
     return plt
 
 
-def show_network_by_poi_production_distribution(mnet: MultiNet, fig_obj: plt = None, isSave2png: bool = True) -> plt:
+def show_network_by_poi_production_distribution(
+        mnet: MultiNet,
+        fig_obj: plt = None,
+        isSave2png: bool = True
+) -> plt:
+    """draw network according to the distribution of poi production
+    Parameters
+    ----------
+    mnet : MultiNet object
+    fig_obj : figure object (plt) ,optional
+              if not None, will continue to draw elements on the existing figure object. Defaults to None;
+    isSave2png : bool, optional
+                 if Ture, save the figure to a png file. Defaults to True.
+
+    Returns
+    -------
+    figure object
     """
-      draw network of different modes
-
-      Parameters
-      ----------
-      mnet : MNet object
-      Returns
-      -------
-      None
-
-      """
     extract_coordinates_by_poi_attr_distribution(mnet=mnet, column='production')
 
     if fig_obj:
         # get ax from fog_obj and add more data later
         ax = fig_obj.gca()
+        fig = fig_obj
     else:
         # create an empty fig and ax and add data later
         fig, ax = plt.subplots(figsize=mnet.style.figure_size, dpi=mnet.style.dpi)
@@ -634,23 +863,30 @@ def show_network_by_poi_production_distribution(mnet: MultiNet, fig_obj: plt = N
     return plt
 
 
-def show_network_by_poi_attraction_distribution(mnet: MultiNet, fig_obj: plt = None, isSave2png: bool = True) -> plt:
+def show_network_by_poi_attraction_distribution(
+        mnet: MultiNet,
+        fig_obj: plt = None,
+        isSave2png: bool = True
+) -> plt:
+    """draw network according to the distribution of poi attraction
+    Parameters
+    ----------
+    mnet : MultiNet object
+    fig_obj : figure object (plt) ,optional
+              if not None, will continue to draw elements on the existing figure object. Defaults to None;
+    isSave2png : bool, optional
+                 if Ture, save the figure to a png file. Defaults to True.
+
+    Returns
+    -------
+    figure object
     """
-      draw network of different modes
-
-      Parameters
-      ----------
-      mnet : MNet object
-      Returns
-      -------
-      None
-
-      """
     extract_coordinates_by_poi_attr_distribution(mnet=mnet, column='attraction')
 
     if fig_obj:
         # get ax from fog_obj and add more data later
         ax = fig_obj.gca()
+        fig = fig_obj
     else:
         # create an empty fig and ax and add data later
         fig, ax = plt.subplots(figsize=mnet.style.figure_size, dpi=mnet.style.dpi)
@@ -697,20 +933,27 @@ def show_network_by_poi_attraction_distribution(mnet: MultiNet, fig_obj: plt = N
     return plt
 
 
-def show_network_demand_matrix_heatmap(mnet: MultiNet, annot: bool = False, fig_obj: plt = None, isSave2png: bool = True) -> plt:
+def show_network_demand_matrix_heatmap(
+        mnet: MultiNet,
+        annot: bool = False,
+        isSave2png: bool = True
+) -> plt:
+    """draw network according to the distribution of poi attraction
+    Parameters
+    ----------
+    mnet : MultiNet object
+    annot : bool or rectangular dataset, optional
+            If True, write the data value in each cell. If an array-like with the
+            same shape as ``data``, then use this to annotate the heatmap instead
+            of the data. Note that DataFrames will match on position, not index.
+    isSave2png : bool, optional
+                 if Ture, save the figure to a png file. Defaults to True.
+
+    Returns
+    -------
+    figure object
     """
-      draw network of different modes
 
-      Parameters
-      ----------
-      mnet : MNet object
-      annot : bool
-        True: show values
-      Returns
-      -------
-      None
-
-      """
     count_demand_matrix(mnet)
     max_vol = np.max(mnet.demand.demand_matrix.reshape(1, -1))
     min_vol = np.min(mnet.demand.demand_matrix.reshape(1, -1))
@@ -718,7 +961,7 @@ def show_network_demand_matrix_heatmap(mnet: MultiNet, annot: bool = False, fig_
     df = pd.DataFrame(mnet.demand.demand_matrix, index=labels, columns=labels)
 
     plt.figure(figsize=(mnet.style.figure_size), dpi=mnet.style.dpi)
-    fig = sns.heatmap(data=df, vmax=max_vol, vmin=min_vol, annot=annot, cmap=mnet.style.cmap)
+    sns.heatmap(data=df, vmax=max_vol, vmin=min_vol, annot=annot, cmap=mnet.style.cmap)
 
     sns.set(font_scale=1.5)
     plt.rc('font', family='Times New Roman', size=6)
@@ -733,26 +976,36 @@ def show_network_demand_matrix_heatmap(mnet: MultiNet, annot: bool = False, fig_
 
     return plt
 
+def show_network_by_demand_OD(
+        mnet: MultiNet,
+        load_zone: bool = True,
+        load_network: bool = False,
+        fig_obj: plt = None,
+        isSave2png: bool = True
+) -> plt:
+    """draw network according to the distribution of poi attraction
+    Parameters
+    ----------
+    mnet : MultiNet object
+    load_zone : bool, optional
+                if True, draw the zone grid.
+    load_network : bool, optional
+                   if True, draw the network as the background
+    fig_obj : figure object (plt) ,optional
+                 if not None, will continue to draw elements on the existing figure object. Defaults to None;
+    isSave2png : bool, optional
+                    if Ture, save the figure to a png file. Defaults to True.
 
-def show_network_by_demand_OD(mnet: MultiNet, load_zone: bool = True, load_network: bool = False, fig_obj: plt = None, isSave2png: bool = True) -> plt:
+    Returns
+    -------
+    figure object
     """
-      draw network of different modes
-
-      Parameters
-      ----------
-      mnet : MNet object
-      poi_type : list/str
-        POI types need to display
-      Returns
-      -------
-      None
-
-      """
     extract_coordinates_by_demand_OD(mnet, load_zone, load_network)
 
     if fig_obj:
         # get ax from fog_obj and add more data later
         ax = fig_obj.gca()
+        fig = fig_obj
     else:
         # create an empty fig and ax and add data later
         fig, ax = plt.subplots(figsize=mnet.style.figure_size, dpi=mnet.style.dpi)
@@ -788,6 +1041,7 @@ def show_network_by_demand_OD(mnet: MultiNet, load_zone: bool = True, load_netwo
                            facecolors='none',
                            linewidths=mnet.style.zone_style.linewidth,
                            edgecolors=mnet.style.zone_style.edgecolors,
+                           facecolor='none',
                            zorder=3)
         )
         for label in mnet.zone.zone_names:
@@ -820,10 +1074,3 @@ def show_network_by_demand_OD(mnet: MultiNet, load_zone: bool = True, load_netwo
         print(f"Successfully save network_by_mode.png to {path_figure}")
 
     return plt
-
-
-if __name__ == "__main__":
-    input_dir = r"E:\CoderStudio\Py\2022-09-11-open_source_packages\Berlin"
-
-    mnet = generate_multi_network_from_csv(input_dir)
-

@@ -28,7 +28,7 @@ class NodeStyle:
         self.markers = {
             'traffic_signals': 'd',
             'bus_stop': 's',
-            'crossing': '+',
+            'crossing': '>',
             'elevator': 's',
             'give_way': '^',
             'turning_circle': 's8',
@@ -141,7 +141,7 @@ def check_required_files_exist(required_files: list, dir_files: list) -> bool:
 
 def generate_absolute_path(file_name: str = "p4g_fig.png", folder_name: str = "p4g_fig_results"):
     # create folder if not exist
-    if not os.isdir(os.path.join(Path(__file__).parent, folder_name)):
+    if not os.path.isdir(os.path.join(Path(__file__).parent, folder_name)):
         os.mkdir(os.path.join(Path(__file__).parent, folder_name))
     return path2linux(os.path.join(Path(__file__).parent, folder_name, file_name))
 

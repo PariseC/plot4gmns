@@ -70,34 +70,47 @@ def generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:
     return mnet
 
 
-def extract_coordinates_by_network_mode(mnet: MultiNet, modes: tuple) -> None:
+def extract_coordinates_by_network_mode(mnet: MultiNet, modes: list) -> None:
     # extract node,link, and poi coordinates of the specified network mode
-    mnet.link.update_coords_by_str_attr(modes)
+    mnet.link.update_coords_by_link_modes(modes)
     mnet.node.update_coords(column='node_id',values=mnet.link.node_id_list)
     mnet.POI.update_coords_by_poi_type()
     if len(mnet.link.link_coords) == 0:
         raise Exception("please try other modes")
 
 
-def extract_coordinates_by_node_type(mnet: MultiNet, osm_highway: list) -> None:
+def extract_coordinates_by_node_types(mnet: MultiNet, osm_highway: list) -> None:
     # extract node,link, and poi coordinates of the specified node type
 
     x_coords = []
     y_coords = []
+    isValid = False
     for highway_type in osm_highway:
         mnet.node.update_coords(column='osm_highway', values=[highway_type])
         x_coords.append(mnet.node.x_coords)
         y_coords.append(mnet.node.y_coords)
         if len(mnet.node.x_coords) == 0:
             print(f"ValueError: '{highway_type}' osm_highway not found")
+        else:
+            isValid = True
 
     mnet.node.x_coords = x_coords
     mnet.node.y_coords = y_coords
-    mnet.link.update_coords_by_str_attr(modes=('all'))
+    mnet.link.update_coords_by_link_modes(modes=('all'))
     mnet.POI.update_coords_by_poi_type()
-    if not x_coords:
-        raise Exception("please try other keys")
+    if not isValid:
+        valid_values = mnet.node.value['osm_highway'].unique()
+        raise Exception(f"no results found, please try the following keywords:\n{valid_values}")
 
+def extract_coordinates_by_link_types(mnet: MultiNet, link_types: list) -> None:
+    # extract node,link, and poi coordinates of the specified node type
+
+    mnet.link.update_coords_by_link_types(link_types)
+    mnet.node.update_coords(column='node_id', values=mnet.link.node_id_list)
+    mnet.POI.update_coords_by_poi_type()
+    if len(mnet.link.link_coords) == 0:
+        valid_values = mnet.link.value['link_type_name'].unique()
+        raise Exception(f"no results found, please try the following keywords:\n{valid_values}")
 
 def extract_coordinates_by_link_lane(mnet: MultiNet, lanes: tuple) -> None:
     # extract node,link, and poi coordinates of the specified network link lanes
@@ -106,7 +119,8 @@ def extract_coordinates_by_link_lane(mnet: MultiNet, lanes: tuple) -> None:
     mnet.node.update_coords(column='node_id', values=mnet.link.node_id_list)
     mnet.POI.update_coords_by_poi_type()
     if len(mnet.link.link_coords) == 0:
-        raise Exception("no results found, please try other keys")
+        valid_values = mnet.link.value['lanes'].unique()
+        raise Exception(f"no results found, the number of lanes should be between {min(valid_values)} and {max(valid_values)}")
 
 
 def extract_coordinates_by_link_free_speed(mnet: MultiNet, free_speed: tuple) -> None:
@@ -116,7 +130,8 @@ def extract_coordinates_by_link_free_speed(mnet: MultiNet, free_speed: tuple) ->
     mnet.node.update_coords(column='node_id', values=mnet.link.node_id_list)
     mnet.POI.update_coords_by_poi_type()
     if len(mnet.link.link_coords) == 0:
-        raise Exception("no results found, please try other keys")
+        valid_values = mnet.link.value['free_speed'].unique()
+        raise Exception(f"no results found, the link free speed should be between {min(valid_values)} and {max(valid_values)}")
 
 
 def extract_coordinates_by_link_length(mnet: MultiNet, length: tuple) -> None:
@@ -126,10 +141,11 @@ def extract_coordinates_by_link_length(mnet: MultiNet, length: tuple) -> None:
     mnet.node.update_coords(column='node_id', values=mnet.link.node_id_list)
     mnet.POI.update_coords_by_poi_type()
     if len(mnet.link.link_coords) == 0:
-        raise Exception("no results found, please try other keys")
+        valid_values = mnet.link.value['length'].unique()
+        raise Exception(f"no results found, the link length should be between {max(valid_values)} and {min(valid_values)}")
 
 
-def extract_coordinates_by_link_lane_distribution(mnet: MultiNet, column: str) -> None:
+def extract_coordinates_by_link_attr_distribution(mnet: MultiNet, column: str) -> None:
     # extract node,link, and poi coordinates of the network link lane distribution
 
     if mnet.link.value[column].isnull().any():
@@ -138,25 +154,18 @@ def extract_coordinates_by_link_lane_distribution(mnet: MultiNet, column: str) -
     mnet.node.update_coords(column='node_id')
     mnet.POI.update_coords_by_poi_type()
 
-
-def extract_coordinates_by_link_capacity_distribution(mnet: MultiNet, column: str) -> None:
-    # extract node,link, and poi coordinates of the network link capacity distribution
-
-    if mnet.link.value[column].isnull().any():
-        raise Exception(f"ValueError: nan found in {column}")
-    mnet.link.update_coords_by_attr_distribution(column)
-    mnet.node.update_coords(column='node_id')
-    mnet.POI.update_coords_by_poi_type()
-
-
 def extract_coordinates_by_poi_type(mnet: MultiNet, poi_type: list) -> None:
     # extract node,link, and poi coordinates of the specified network POI type
 
     mnet.node.update_coords(column='node_id')
-    mnet.link.update_coords_by_str_attr(modes=('all'))
+    mnet.link.update_coords_by_link_modes(modes=('all'))
     mnet.POI.update_coords_by_poi_type(poi_type=poi_type)
     if len(mnet.POI.poi_coords) == 0:
-        raise Exception("no results found, please try other keys")
+        valid_values_1 = mnet.POI.value['building'].unique().tolist()
+        valid_values_2 = mnet.POI.value['amenity'].unique().tolist()
+        valid_values_3 = mnet.POI.value['leisure'].unique().tolist()
+        valid_values = valid_values_1 + valid_values_2 + valid_values_3
+        raise Exception(f"no results found, please try the following keywords:\n{valid_values}")
 
 
 def extract_coordinates_by_poi_attr_distribution(mnet: MultiNet, column: str) -> None:
@@ -165,7 +174,7 @@ def extract_coordinates_by_poi_attr_distribution(mnet: MultiNet, column: str) ->
     if mnet.POI.value[column].isnull().any():
         raise Exception(f"ValueError: nan found in {column}")
     mnet.node.update_coords(column='node_id')
-    mnet.link.update_coords_by_str_attr(modes=('all'))
+    mnet.link.update_coords_by_link_modes(modes=('all'))
     mnet.POI.update_coords_by_attr_distribution(column=column)
 
 
@@ -182,5 +191,5 @@ def extract_coordinates_by_demand_OD(mnet: MultiNet, load_zone: bool, load_netwo
         mnet.zone.update_coords()
     if load_network:
         mnet.node.update_coords()
-        mnet.link.update_coords_by_str_attr(modes=('all'))
+        mnet.link.update_coords_by_link_modes(modes=('all'))
         mnet.POI.update_coords_by_poi_type()
