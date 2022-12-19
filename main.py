@@ -1,46 +1,65 @@
-# -*- coding: utf-8 -*-
-# @Time    : 2021/4/13 18:47
-# @Author  : CZY
-# @File    : test_plot4gmns.py
-# @Software: PyCharm
-"""
-For :
-"""
-import plot4gmns as pg
-net=pg.readNetwork('../data/DC')
-# net.get_valid_node_attr_list()
-# net.get_valid_link_attr_list()
-# net.get_valid_poi_attr_list()
-# net.get_valid_zone_id_list()
+import plot4gmns as p4g
+mnet = p4g.generate_multi_network_from_csv(r'E:\CoderStudio\Py\2021-04-30-TestPackages\usingGrid2Demand\Berlin')
 
-# pg.get_node_attr_value_list(net,'activity_type')
-# pg.get_link_attr_value_list(net,'link_type_name')# if the capacity value exists in the link.csv
-# pg.get_poi_attr_value_list(net,'building')
-# pg.get_zone_id_list(net)
+# cf = p4g.show_network_by_modes(mnet=mnet)
+# cf.show()
 
+# cf = p4g.show_network_by_modes(mnet=mnet,modes=['bike'])
+# cf.show()
 
-# pg.showNetByAllMode(net)
-# pg.showNetByAutoMode(net)
-# pg.showNetByBikeMode(net)
-# pg.showNetByWalkMode(net)
-# pg.showNetByRailMode(net)
+# cf = p4g.show_network_by_node_types(mnet=mnet,osm_highway=['traffic_signals','crossing'])
+# cf.show()
 
-# pg.showNetByNodeAttr(net,{'activity_type':'primary'})
-# pg.showNetByLinkAttr(net,{'link_type_name':'secondary'})
+# cf = p4g.show_network_by_link_types(mnet=mnet,link_types=['secondary','footway'])
+# cf.show()
 
-# pg.showNetByNodeProduction(net)
-# pg.showNetByNodeAttraction(net)
-# pg.showNetByLinkFreeSpeed(net)
-# pg.showNetByLinkLaneNum(net)
-# pg.showNetByLinkCapacity(net)
+# cf = p4g.show_network_by_link_length(mnet=mnet,min_length=10,max_length=50)
+# cf.show()
 
-# pg.showNetByPOIAttr(net,{'activity_zone_id':(1,5)})
-# pg.showNetByPOIAttractionHeat(net)
-# pg.showNetByPOIProductionHeat(net)
-# pg.showNetByPOIAttractionContour(net)
-# pg.showNetByPOIProductionContour(net)
-#
-# pg.showNetByZoneDemandHeat(net,annot=False)# annot:bool,whether or not show zone-to-zone demand value
-# pg.showNetByZoneDemandFlow(net)
+# cf = p4g.show_network_by_link_free_speed(mnet=mnet,min_free_speed=10,max_free_speed=40)
+# cf.show()
 
-pg.showNetByZoneAgent(net,[(1,15),(6,5)])
+# cf = p4g.show_network_by_link_lanes(mnet=mnet,min_lanes=2,max_lanes=4)
+# cf.show()
+
+# cf = p4g.show_network_by_link_lane_distribution(mnet=mnet)
+# cf.show()
+
+# cf = p4g.show_network_by_link_capacity_distribution(mnet=mnet)
+# cf.show()
+
+# cf = p4g.show_network_by_link_free_speed_distribution(mnet=mnet)
+# cf.show()
+
+# cf = p4g.show_network_by_poi_types(mnet=mnet,poi_type=['public','industrial'])
+# cf.show()
+
+# cf = p4g.show_network_by_poi_attraction_distribution(mnet=mnet)
+# cf.show()
+
+# cf = p4g.show_network_by_poi_production_distribution(mnet=mnet)
+# cf.show()
+
+# cf = p4g.show_network_demand_matrix_heatmap(mnet)
+# cf.show()
+
+# cf = p4g.show_network_by_demand_OD(mnet=mnet)
+# cf.show()
+
+# mnet.node_loaded = False
+# cf = p4g.show_network_by_link_lane_distribution(mnet=mnet)
+# cf.show()
+
+# mnet.node_loaded = False
+# mnet.POI_loaded = False
+# cf = p4g.show_network_by_link_lane_distribution(mnet=mnet)
+# mnet.link_loaded = False
+# mnet.POI_loaded = True
+# cf = p4g.show_network_by_poi_attraction_distribution(mnet,fig_obj=cf)
+# cf.show()
+
+# mnet.style.node_style.size = 3
+# mnet.style.link_style.linecolor = 'green'
+# mnet.style.poi_style.facecolor = 'gray'
+# cf = p4g.show_network_by_modes(mnet=mnet)
+# cf.show()
