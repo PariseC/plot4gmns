@@ -34,7 +34,7 @@ Before starting, you must have prepared network files, including node.csv, link.
 
 Step 1: generate multimodal network
 
-* [ ] ***show networks in different modes***
+* [X] ***show networks in different modes***
 * * **show network with given node types***
 
 * * **show network by given link types***
@@ -50,9 +50,13 @@ Step 1: generate multimodal network
 
 **Advance**
 
-* * [ ] 1:  ***Show only network elements of interest***
-* * [ ] 2:  ***Show different networks on one diagram***
-* * [ ] 3:  ***Set the drawing style***
+* [X]
+      ***Show only network elements of interest***
+* [X]
+      ***Show different networks on one diagram***
+
+* [X]
+      ***Set the drawing style***
 
 
 **Step 1: generate multimodal network**
