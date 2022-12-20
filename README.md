@@ -4,8 +4,6 @@
 
 **Email:** cjh@bjtu.edu.cn, zanyangcui@outlook.com, luoxiangyong01@gmail.com
 
-
-
 ## Introduction
 
 To enable rapid transportation modeling and optimization, as traffic management researchers, we provide this free open-source tool for visualizing multimodal networks. Based on GMNS data format by [Zepha foundation](https://zephyrtransport.org/), plot4gmns is designed for reading and plotting multimodal data sets including transportation network files, demand and agent trace files.
@@ -33,6 +31,29 @@ pip install plot4gmns
 ## Quick Start
 
 Before starting, you must have prepared network files, including node.csv, link.csv, poi.csv, demand.csv, and zone.csv. The [osm2gmns](https://github.com/asu-trans-ai-lab/OSM2GMNS) package will help you quickly obtain node, link, and poi data, and the[ grid2demand](https://github.com/asu-trans-ai-lab/grid2demand) package will help you obtain network demand and zone information.
+
+Step 1: generate multimodal network
+
+* >  ***show networks in different modes***
+* > * **show network with given node types***
+
+* > * **show network by given link types***
+* > * **show network by given link attributes range***
+
+* > * **show network by link attributes distribution***
+* > *** show network with given POI types***
+
+* > *** show network by poi attributes distribution***
+* > *** show network demand matrix heatmap***
+
+* > *** show network demand OD***
+
+**Advance**
+
+* * [ ] 1:  ***Show only network elements of interest***
+* * [ ] 2:  ***Show different networks on one diagram***
+* * [ ] 3:  ***Set the drawing style***
+
 
 **Step 1: generate multimodal network**
 
@@ -140,7 +161,7 @@ cf.show()
 
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_poi_type.png?raw=true" width="800" height="600" alt=" "/><br/>
 
-**Step 8: show network by poi attributes  distribution**
+**Step 8: show network by poi attributes distribution**
 
 ```python
 # show network by poi attraction distribution
