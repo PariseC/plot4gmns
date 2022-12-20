@@ -4,6 +4,10 @@
 
 **Email:** cjh@bjtu.edu.cn, zanyangcui@outlook.com, luoxiangyong01@gmail.com
 
+
+
+[TOC]
+
 ## Introduction
 
 To enable rapid transportation modeling and optimization, as traffic management researchers, we provide this free open-source tool for visualizing multimodal networks. Based on GMNS data format by [Zepha foundation](https://zephyrtransport.org/), plot4gmns is designed for reading and plotting multimodal data sets including transportation network files, demand and agent trace files.
@@ -29,22 +33,25 @@ pip install plot4gmns
 > - For Windows users, the _pip_ method might fail to install some dependencies. If errors occur when you try to install any of those dependencies, try instead to pip install their .whl files, which can be downloaded from the Unoffical Windows Binaries for [Python Extension Packages](https://www.lfd.uci.edu/~gohlke/pythonlibs/).
 
 ## Quick Start
-Before starting, you must have prepared network files, including node.csv, link.csv, poi.csv, demand.csv, and zone.csv. The osm2gmns package will help you quickly obtain node, link, and poi data, and the grid2demand package will help you obtain network demand and zone information.
 
+Before starting, you must have prepared network files, including node.csv, link.csv, poi.csv, demand.csv, and zone.csv. The [osm2gmns](https://github.com/asu-trans-ai-lab/OSM2GMNS) package will help you quickly obtain node, link, and poi data, and the[ grid2demand](https://github.com/asu-trans-ai-lab/grid2demand) package will help you obtain network demand and zone information.
 
 **Step 1: generate multimodal network**
+
 ```python
 >>>import plot4gmns as p4g
 mnet=p4g.generate_multi_network_from_csv(r'./datasets')
 ```
 
 **Step 2: show networks in different modes**
+
 ```python
 # draw 'all' modes network and save to png file
 cf = p4g.show_network_by_modes(mnet=mnet)
 # show the figure on the current window
 cf.show()
 ```
+
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_mode.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 ```python
@@ -55,8 +62,8 @@ cf.show() # show the figure on the current window
 
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_bike_mode.png?raw=true" width="800" height="600" alt=" "/><br/>
 
-
 **Step 3: show network with given node types**
+
 ```python
 cf = p4g.show_network_by_node_types(mnet=mnet,osm_highway=['traffic_signals','crossing'])
 cf.show()
@@ -65,6 +72,7 @@ cf.show()
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_node_type.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 4: show network by given link types**
+
 ```python
 # show network by given link length range
 cf = p4g.show_network_by_link_types(mnet=mnet,link_types=['secondary','footway'])
@@ -74,6 +82,7 @@ cf.show()
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_link_type.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 5: show network by given link attributes range**
+
 ```python
 # show network by given link length range
 cf = p4g.show_network_by_link_length(mnet=mnet,min_length=10,max_length=50)
@@ -99,6 +108,7 @@ cf.show()
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_link_free_speed.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 6: show network by link attributes distribution**
+
 ```python
 # show network by link lane distribution
 cf = p4g.show_network_by_link_lane_distribution(mnet=mnet)
@@ -124,6 +134,7 @@ cf.show()
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_link_free_speed_distribution.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 7: show network with given POI types**
+
 ```python
 cf = p4g.show_network_by_poi_types(mnet=mnet,poi_type=['public','industrial'])
 cf.show()
@@ -132,6 +143,7 @@ cf.show()
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_poi_type.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 8: show network by poi attributes  distribution**
+
 ```python
 # show network by poi attraction distribution
 cf = p4g.show_network_by_poi_attraction_distribution(mnet=mnet)
@@ -149,6 +161,7 @@ cf.show()
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_poi_production_distribution.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 9: show network demand matrix heatmap**
+
 ```python
 cf = p4g.show_network_demand_matrix_heatmap(mnet)
 cf.show()
@@ -157,6 +170,7 @@ cf.show()
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_demand_matrix_heatmap.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 10: show network demand OD**
+
 ```python
 cf = p4g.show_network_by_demand_OD(mnet=mnet,load_network=True)
 cf.show()
@@ -169,6 +183,7 @@ cf.show()
 **Step 1: Show only network elements of interest**
 
 The tool displays all elements by default, such as nodes, links, and POIs. If you want to display only the elements of interest, you can refer to the following example to modify the state of other elements before invoking the drawing command.
+
 ```python
 # not show nodes
 mnet.node_loaded = False
@@ -194,27 +209,26 @@ cf.show()
 
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_poi_attraction_distribution_2.png?raw=true" width="800" height="600" alt=" "/><br/>
 
-
 **Step 3: Set the drawing style**
 
 Users can refer to the following examples to adjust the color, size and other attributes of the image before drawing.
 
-| parameter                             | Value             | Description                    |
-|---------------------------------------|-------------------|--------------------------------|
-| mnet.style.figure_size                | tuple,(width,height) | Image size                     |
-| mnet.style.node_style.size            | int               | node marker size               |
-| mnet.style.node_style.colors          | dict,{node_type:color} | node color in different types  |
+| parameter                             | Value                   | Description                    |
+| ------------------------------------- | ----------------------- | ------------------------------ |
+| mnet.style.figure_size                | tuple,(width,height)    | Image size                     |
+| mnet.style.node_style.size            | int                     | node marker size               |
+| mnet.style.node_style.colors          | dict,{node_type:color}  | node color in different types  |
 | mnet.style.node_style.markers         | dict,{node_type:marker} | node marker in different types |
-| mnet.style.link_style.linecolor       | str               | link color                     |
+| mnet.style.link_style.linecolor       | str                     | link color                     |
 | mnet.style.link_style.linewidth       | float                   | link width                     |
-| mnet.style.poi_style.facecolor        | str               | POI facecolor                  |
-| mnet.style.poi_style.edgecolor        | str               | POI edgecolor                  |
-| mnet.style.demand_style.linecolor     | str               | demand flow line color         |
+| mnet.style.poi_style.facecolor        | str                     | POI facecolor                  |
+| mnet.style.poi_style.edgecolor        | str                     | POI edgecolor                  |
+| mnet.style.demand_style.linecolor     | str                     | demand flow line color         |
 | mnet.style.demand_style.linelinewidth | float                   | demand flow line width         |
-| mnet.style.zone_style.linewidth       | float             | zone grid line width           |
-| mnet.style.zone_style.edgecolors      | str               | zone grid edgecolors           |
-| mnet.style.zone_style.fontsize        | int               | zone label font size           |
-| mnet.style.zone_style.fontcolor       | str               | zone label font color          |
+| mnet.style.zone_style.linewidth       | float                   | zone grid line width           |
+| mnet.style.zone_style.edgecolors      | str                     | zone grid edgecolors           |
+| mnet.style.zone_style.fontsize        | int                     | zone label font size           |
+| mnet.style.zone_style.fontcolor       | str                     | zone label font color          |
 
 ```python
 mnet.style.node_style.size = 3
@@ -223,4 +237,5 @@ mnet.style.poi_style.facecolor = 'gray'
 cf = p4g.show_network_by_modes(mnet=mnet)
 cf.show()
 ```
+
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_mode2.png?raw=true" width="800" height="600" alt=" "/><br/>
