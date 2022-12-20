@@ -54,6 +54,10 @@ Step 1: generate multimodal network
 * [X] ***Show different networks on one diagram***
 * [X] ***Set the drawing style***
 
+---
+
+
+
 **Step 1: generate multimodal network**
 
 ```python
