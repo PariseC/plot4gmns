@@ -34,19 +34,19 @@ Before starting, you must have prepared network files, including node.csv, link.
 
 Step 1: generate multimodal network
 
-* >  ***show networks in different modes***
-* > * **show network with given node types***
+* [ ] ***show networks in different modes***
+* * **show network with given node types***
 
-* > * **show network by given link types***
-* > * **show network by given link attributes range***
+* * **show network by given link types***
+* * **show network by given link attributes range***
 
-* > * **show network by link attributes distribution***
-* > *** show network with given POI types***
+* * **show network by link attributes distribution***
+* *** show network with given POI types***
 
-* > *** show network by poi attributes distribution***
-* > *** show network demand matrix heatmap***
+* *** show network by poi attributes distribution***
+* *** show network demand matrix heatmap***
 
-* > *** show network demand OD***
+* *** show network demand OD***
 
 **Advance**
 
