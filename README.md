@@ -32,7 +32,6 @@ pip install plot4gmns
 
 Before starting, you must have prepared network files, including node.csv, link.csv, poi.csv, demand.csv, and zone.csv. The [osm2gmns](https://github.com/asu-trans-ai-lab/OSM2GMNS) package will help you quickly obtain node, link, and poi data, and the[ grid2demand](https://github.com/asu-trans-ai-lab/grid2demand) package will help you obtain network demand and zone information.
 
-Step 1: generate multimodal network
 
 * [X] ***show networks in different modes***
 * [X] **show network with given node types**
@@ -94,7 +93,7 @@ cf.show()
 **Step 4: show network by given link types**
 
 ```python
-# show network by given link length range
+# show network by given link types
 cf = p4g.show_network_by_link_types(mnet=mnet,link_types=['secondary','footway'])
 cf.show()
 ```
