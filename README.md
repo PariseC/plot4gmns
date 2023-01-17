@@ -17,6 +17,7 @@ To enable rapid transportation modeling and optimization, as traffic management 
 - seaborn
 - scipy
 - chardet
+- keplergl
 
 ## Installation
 
@@ -32,19 +33,14 @@ pip install plot4gmns
 
 Before starting, you must have prepared network files, including node.csv, link.csv, poi.csv, demand.csv, and zone.csv. The [osm2gmns](https://github.com/asu-trans-ai-lab/OSM2GMNS) package will help you quickly obtain node, link, and poi data, and the[ grid2demand](https://github.com/asu-trans-ai-lab/grid2demand) package will help you obtain network demand and zone information.
 
-
 * [X] ***show networks in different modes***
 * [X] **show network with given node types**
-
 * [X] **show network by given link types**
 * [X] **show network by given link attributes range**
-
 * [X] **show network by link attributes distribution**
 * [X] **show network with given POI types**
-
 * [X] **show network by poi attributes distribution**
 * [X] **show network demand matrix heatmap**
-
 * [X] **show network demand OD**
 
 **Advance**
@@ -52,8 +48,7 @@ Before starting, you must have prepared network files, including node.csv, link.
 * [X] ***Show only network elements of interest***
 * [X] ***Show different networks on one diagram***
 * [X] ***Set the drawing style***
-
-## 
+* [X] Generate plot4gmns_vis_map.html (interactive map) for your project data
 
 **Step 1: generate multimodal network**
 
