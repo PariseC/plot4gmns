@@ -48,7 +48,7 @@ Before starting, you must have prepared network files, including node.csv, link.
 * [X] ***Show only network elements of interest***
 * [X] ***Show different networks on one diagram***
 * [X] ***Set the drawing style***
-* [X] Generate plot4gmns_vis_map.html (interactive map) for your project data
+* [X] Generate plot4gmns_vis_map.html (interactive map) from your project data
 
 **Step 1: generate multimodal network**
 
