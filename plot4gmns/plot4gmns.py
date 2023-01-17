@@ -183,6 +183,7 @@ def show_network_by_node_types(
 
     return plt
 
+
 def show_network_by_link_types(
         mnet: MultiNet,
         link_types: list,
@@ -222,6 +223,7 @@ def show_network_by_link_types(
 
     # draw network nodes
     extract_coordinates_by_link_types(mnet, link_types_)
+
     if mnet.node_loaded:
         ax.scatter(mnet.node.x_coords,
                    mnet.node.y_coords,
@@ -336,7 +338,6 @@ def show_network_by_link_lanes(
         print(f"Successfully save figure to {path_figure}")
 
     return plt
-
 
 
 def show_network_by_link_free_speed(
@@ -567,6 +568,7 @@ def show_network_by_link_lane_distribution(
 
     return plt
 
+
 def show_network_by_link_free_speed_distribution(
         mnet: MultiNet,
         fig_obj: plt = None,
@@ -640,6 +642,7 @@ def show_network_by_link_free_speed_distribution(
         print(f"Successfully save figure to {path_figure}")
 
     return plt
+
 
 def show_network_by_link_capacity_distribution(
         mnet: MultiNet,
@@ -975,6 +978,7 @@ def show_network_demand_matrix_heatmap(
         print(f"Successfully save figure to {path_figure}")
 
     return plt
+
 
 def show_network_by_demand_OD(
         mnet: MultiNet,
