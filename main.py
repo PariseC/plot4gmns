@@ -25,10 +25,10 @@ mnet = p4g.generate_multi_network_from_csv(r'E:\CoderStudio\Py\2021-04-30-TestPa
 # cf = p4g.show_network_by_link_lane_distribution(mnet=mnet)
 # cf.show()
 
-cf = p4g.show_network_by_link_capacity_distribution(mnet=mnet)
-cf.show()
-cf = p4g.show_network_by_link_free_speed_distribution(mnet=mnet)
-cf.show()
+# cf = p4g.show_network_by_link_capacity_distribution(mnet=mnet)
+# cf.show()
+# cf = p4g.show_network_by_link_free_speed_distribution(mnet=mnet)
+# cf.show()
 
 # cf = p4g.show_network_by_poi_types(mnet=mnet,poi_type=['public','industrial'])
 # cf.show()
