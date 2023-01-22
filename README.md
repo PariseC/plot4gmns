@@ -67,7 +67,7 @@ Before starting, you must have prepared network files, including node.csv, link.
 **Step 1: generate multimodal network**
 
 ```python
->>>import plot4gmns as p4g
+import plot4gmns as p4g
 mnet=p4g.generate_multi_network_from_csv(r'./datasets')
 ```
 
