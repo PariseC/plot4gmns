@@ -11,7 +11,7 @@
 - [Install](#install)
 - [Features](#features)
 - [Usage](#usage)
-    - [Quick Start](#quick start)
+    - [Quickstart](#quickstart)
     - [Advance](#advance)
 - [Contributing](#contributing)
 
@@ -63,7 +63,7 @@ pip install plot4gmns
 ## Usage
 Before starting, you must have prepared network files, including node.csv, link.csv, poi.csv, demand.csv, and zone.csv. The [osm2gmns](https://github.com/asu-trans-ai-lab/OSM2GMNS) package will help you quickly obtain node, link, and poi data, and the[ grid2demand](https://github.com/asu-trans-ai-lab/grid2demand) package will help you obtain network demand and zone information.
 
-### Quick Start
+### Quickstart
 **Step 1: generate multimodal network**
 
 ```python

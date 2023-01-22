@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1313aaa9-b40b-4911-9a2c-ff5a7e1b945a" name="Changes" comment="realease v0.1.1">
+    <list default="true" id="1313aaa9-b40b-4911-9a2c-ff5a7e1b945a" name="Changes" comment="update readme">
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -146,7 +146,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674355808004</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="update readme">
+      <created>1674357759205</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1674357759205</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,9 +174,9 @@
     <MESSAGE value="update functions" />
     <MESSAGE value="update images" />
     <MESSAGE value="update images and readme" />
-    <MESSAGE value="update readme" />
     <MESSAGE value="realease v0.1.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="realease v0.1.1" />
+    <MESSAGE value="update readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="update readme" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Plot4GMNS$main.coverage" NAME="main Coverage Results" MODIFIED="1674355767587" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
