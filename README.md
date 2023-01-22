@@ -70,6 +70,9 @@ Before starting, you must have prepared network files, including node.csv, link.
 import plot4gmns as p4g
 mnet=p4g.generate_multi_network_from_csv(r'./datasets')
 ```
+>After executing the above command, you will get an Html file, as shown below. More visual operations are supported on the web site..
+
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/1674358532007.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 2: show networks in different modes**
 
