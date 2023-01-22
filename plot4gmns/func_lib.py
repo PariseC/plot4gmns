@@ -4,14 +4,17 @@ from .utility_lib import (required_files,
                           required_columns,
                           check_dir,
                           get_file_names_from_folder_by_type,
-                          check_required_files_exist)
+                          check_required_files_exist,
+                          update_filename,
+                          generate_absolute_path)
 from .network import MultiNet
+from keplergl import KeplerGl
 
 
 def read_single_csv_file(file_name: str, geo_type: str) -> tuple:
     df = pd.read_csv(os.path.join(file_name))
 
-    # check if the required columns exist
+    # check if the required columns exists
     for column in required_columns[geo_type]:
         if column not in df.columns:
             print(f"{file_name} does not contain required column {column}!")
@@ -67,7 +70,304 @@ def generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:
             mnet.zone.value, mnet.zone_loaded = read_single_csv_file(path_filename, element)
             mnet.zone.convert_str_to_geometry()
     print("Complete file loading")
+
+    # generate kepergl map, currently only support node, link, poi
+    # The reason to load data again but not from mnet is to avoid errors after further operations for nodes, links and poi in mnet.
+    map_layer_data = {}
+    if mnet.node_loaded:
+        map_layer_data["node"] = pd.read_csv(f"{input_dir}/node.csv")
+    if mnet.link_loaded:
+        map_layer_data["link"] = pd.read_csv(f"{input_dir}/link.csv")
+    if mnet.POI_loaded:
+        map_layer_data["poi"] = pd.read_csv(f"{input_dir}/poi.csv")
+    if mnet.demand_loaded:
+        map_layer_data["demand"] = pd.read_csv(f"{input_dir}/demand.csv")
+    if mnet.zone_loaded:
+        map_layer_data["zone"] = pd.read_csv(f"{input_dir}/zone.csv")
+
+    vis_map = generate_visualization_map_using_keplergl(map_layer_data)
+    path_vis_map = update_filename(generate_absolute_path(file_name="plot4gmns_vis_map.html"))
+    vis_map.save_to_html(file_name=path_vis_map)
+    # print(f"Successfully generate interactive map visualization to {path_vis_map}")
+
     return mnet
+
+
+def generate_visualization_map_using_keplergl(map_layer_data: dict, map_config: dict = None) -> None:
+
+    # use default map config if map_config is not provided
+    if map_config is None:
+        map_config = {'version': 'v1',
+                      'config': {
+                          'visState': {'filters': [{'dataId': ['node'],
+                                                           'id': '5nr9vi36l',
+                                                           'name': ['osm_highway'],
+                                                           'type': 'multiSelect',
+                                                           'value': [],
+                                                           'enlarged': False,
+                                                           'plotType': 'histogram',
+                                                           'animationWindow': 'free',
+                                                           'yAxis': None,
+                                                           'speed': 1},
+                                                          {'dataId': ['node'],
+                                                           'id': 'j7h51rv4m',
+                                                           'name': ['activity_type'],
+                                                           'type': 'multiSelect',
+                                                           'value': [],
+                                                           'enlarged': False,
+                                                           'plotType': 'histogram',
+                                                           'animationWindow': 'free',
+                                                           'yAxis': None,
+                                                           'speed': 1},
+                                                          {'dataId': ['node'],
+                                                           'id': 'zh6iqb0rl',
+                                                           'name': ['ctrl_type'],
+                                                           'type': 'multiSelect',
+                                                           'value': [],
+                                                           'enlarged': False,
+                                                           'plotType': 'histogram',
+                                                           'animationWindow': 'free',
+                                                           'yAxis': None,
+                                                           'speed': 1},
+                                                          {'dataId': ['poi'],
+                                                           'id': 'lw58ipjz',
+                                                           'name': ['building'],
+                                                           'type': 'multiSelect',
+                                                           'value': [],
+                                                           'enlarged': False,
+                                                           'plotType': 'histogram',
+                                                           'animationWindow': 'free',
+                                                           'yAxis': None,
+                                                           'speed': 1}],
+                                              'layers': [{'id': 'wthskia',
+                                                          'type': 'geojson',
+                                                          'config': {'dataId': 'link',
+                                                                     'label': 'link',
+                                                                     'color': [18, 147, 154],
+                                                                     'highlightColor': [252, 242, 26, 255],
+                                                                     'columns': {'geojson': 'geometry'},
+                                                                     'isVisible': True,
+                                                                     'visConfig': {'opacity': 0.8,
+                                                                                   'strokeOpacity': 0.8,
+                                                                                   'thickness': 0.5,
+                                                                                   'strokeColor': None,
+                                                                                   'colorRange': {'name': 'Global Warming',
+                                                                                                  'type': 'sequential',
+                                                                                                  'category': 'Uber',
+                                                                                                  'colors': ['#5A1846',
+                                                                                                             '#900C3F',
+                                                                                                             '#C70039',
+                                                                                                             '#E3611C',
+                                                                                                             '#F1920E',
+                                                                                                             '#FFC300']},
+                                                                                   'strokeColorRange': {'name': 'Global Warming',
+                                                                                                        'type': 'sequential',
+                                                                                                        'category': 'Uber',
+                                                                                                        'colors': ['#5A1846',
+                                                                                                                   '#900C3F',
+                                                                                                                   '#C70039',
+                                                                                                                   '#E3611C',
+                                                                                                                   '#F1920E',
+                                                                                                                   '#FFC300']},
+                                                                                   'radius': 10,
+                                                                                   'sizeRange': [0, 10],
+                                                                                   'radiusRange': [0, 50],
+                                                                                   'heightRange': [0, 500],
+                                                                                   'elevationScale': 5,
+                                                                                   'enableElevationZoomFactor': True,
+                                                                                   'stroked': True,
+                                                                                   'filled': False,
+                                                                                   'enable3d': False,
+                                                                                   'wireframe': False},
+                                                                     'hidden': False,
+                                                                     'textLabel': [{'field': None,
+                                                                                    'color': [255, 255, 255],
+                                                                                    'size': 18,
+                                                                                    'offset': [0, 0],
+                                                                                    'anchor': 'start',
+                                                                                    'alignment': 'center'}]},
+                                                          'visualChannels': {'colorField': None,
+                                                                             'colorScale': 'quantile',
+                                                                             'strokeColorField': None,
+                                                                             'strokeColorScale': 'quantile',
+                                                                             'sizeField': None,
+                                                                             'sizeScale': 'linear',
+                                                                             'heightField': None,
+                                                                             'heightScale': 'linear',
+                                                                             'radiusField': None,
+                                                                             'radiusScale': 'linear'}},
+                                                         {'id': 'p7iq8',
+                                                          'type': 'geojson',
+                                                          'config': {'dataId': 'poi',
+                                                                     'label': 'poi',
+                                                                     'color': [221, 178, 124],
+                                                                     'highlightColor': [252, 242, 26, 255],
+                                                                     'columns': {'geojson': 'geometry'},
+                                                                     'isVisible': True,
+                                                                     'visConfig': {'opacity': 0.8,
+                                                                                   'strokeOpacity': 0.8,
+                                                                                   'thickness': 0.5,
+                                                                                   'strokeColor': [136, 87, 44],
+                                                                                   'colorRange': {'name': 'Global Warming',
+                                                                                                  'type': 'sequential',
+                                                                                                  'category': 'Uber',
+                                                                                                  'colors': ['#5A1846',
+                                                                                                             '#900C3F',
+                                                                                                             '#C70039',
+                                                                                                             '#E3611C',
+                                                                                                             '#F1920E',
+                                                                                                             '#FFC300']},
+                                                                                   'strokeColorRange': {'name': 'Global Warming',
+                                                                                                        'type': 'sequential',
+                                                                                                        'category': 'Uber',
+                                                                                                        'colors': ['#5A1846',
+                                                                                                                   '#900C3F',
+                                                                                                                   '#C70039',
+                                                                                                                   '#E3611C',
+                                                                                                                   '#F1920E',
+                                                                                                                   '#FFC300']},
+                                                                                   'radius': 10,
+                                                                                   'sizeRange': [0, 10],
+                                                                                   'radiusRange': [0, 50],
+                                                                                   'heightRange': [0, 500],
+                                                                                   'elevationScale': 5,
+                                                                                   'enableElevationZoomFactor': True,
+                                                                                   'stroked': True,
+                                                                                   'filled': True,
+                                                                                   'enable3d': False,
+                                                                                   'wireframe': False},
+                                                                     'hidden': False,
+                                                                     'textLabel': [{'field': None,
+                                                                                    'color': [255, 255, 255],
+                                                                                    'size': 18,
+                                                                                    'offset': [0, 0],
+                                                                                    'anchor': 'start',
+                                                                                    'alignment': 'center'}]},
+                                                          'visualChannels': {'colorField': None,
+                                                                             'colorScale': 'quantile',
+                                                                             'strokeColorField': None,
+                                                                             'strokeColorScale': 'quantile',
+                                                                             'sizeField': None,
+                                                                             'sizeScale': 'linear',
+                                                                             'heightField': None,
+                                                                             'heightScale': 'linear',
+                                                                             'radiusField': None,
+                                                                             'radiusScale': 'linear'}},
+                                                         {'id': '1ayio4d',
+                                                          'type': 'point',
+                                                          'config': {'dataId': 'node',
+                                                                     'label': 'node',
+                                                                     'color': [34, 63, 154],
+                                                                     'highlightColor': [252, 242, 26, 255],
+                                                                     'columns': {'lat': 'y_coord', 'lng': 'x_coord', 'altitude': None},
+                                                                     'isVisible': True,
+                                                                     'visConfig': {'radius': 10,
+                                                                                   'fixedRadius': False,
+                                                                                   'opacity': 0.8,
+                                                                                   'outline': False,
+                                                                                   'thickness': 2,
+                                                                                   'strokeColor': None,
+                                                                                   'colorRange': {'name': 'Global Warming',
+                                                                                                  'type': 'sequential',
+                                                                                                  'category': 'Uber',
+                                                                                                  'colors': ['#5A1846',
+                                                                                                             '#900C3F',
+                                                                                                             '#C70039',
+                                                                                                             '#E3611C',
+                                                                                                             '#F1920E',
+                                                                                                             '#FFC300']},
+                                                                                   'strokeColorRange': {'name': 'Global Warming',
+                                                                                                        'type': 'sequential',
+                                                                                                        'category': 'Uber',
+                                                                                                        'colors': ['#5A1846',
+                                                                                                                   '#900C3F',
+                                                                                                                   '#C70039',
+                                                                                                                   '#E3611C',
+                                                                                                                   '#F1920E',
+                                                                                                                   '#FFC300']},
+                                                                                   'radiusRange': [0, 50],
+                                                                                   'filled': True},
+                                                                     'hidden': False,
+                                                                     'textLabel': [{'field': None,
+                                                                                    'color': [255, 255, 255],
+                                                                                    'size': 18,
+                                                                                    'offset': [0, 0],
+                                                                                    'anchor': 'start',
+                                                                                    'alignment': 'center'}]},
+                                                          'visualChannels': {'colorField': None,
+                                                                             'colorScale': 'quantile',
+                                                                             'strokeColorField': None,
+                                                                             'strokeColorScale': 'quantile',
+                                                                             'sizeField': None,
+                                                                             'sizeScale': 'linear'}}],
+                                              'interactionConfig': {'tooltip': {'fieldsToShow': {'node': [{'name': 'name',
+                                                                                                           'format': None},
+                                                                                                          {'name': 'node_id',
+                                                                                                           'format': None},
+                                                                                                          {'name': 'osm_node_id', 'format': None},
+                                                                                                          {'name': 'osm_highway',
+                                                                                                           'format': None},
+                                                                                                          {'name': 'zone_id', 'format': None}],
+                                                                                                 'link': [{'name': 'name', 'format': None},
+                                                                                                          {'name': 'link_id',
+                                                                                                           'format': None},
+                                                                                                          {'name': 'osm_way_id',
+                                                                                                           'format': None},
+                                                                                                          {'name': 'from_node_id',
+                                                                                                           'format': None},
+                                                                                                          {'name': 'to_node_id', 'format': None}],
+                                                                                                 'poi': [{'name': 'name', 'format': None},
+                                                                                                         {'name': 'poi_id',
+                                                                                                          'format': None},
+                                                                                                         {'name': 'osm_way_id',
+                                                                                                          'format': None},
+                                                                                                         {'name': 'osm_relation_id',
+                                                                                                          'format': None},
+                                                                                                         {'name': 'building', 'format': None}]},
+                                                                                'compareMode': False,
+                                                                                'compareType': 'absolute',
+                                                                                'enabled': True},
+                                                                    'brush': {'size': 0.5, 'enabled': False},
+                                                                    'geocoder': {'enabled': False},
+                                                                    'coordinate': {'enabled': False}},
+                                              'layerBlending': 'normal',
+                                              'splitMaps': [],
+                                              'animationConfig': {'currentTime': None, 'speed': 1}},
+                            'mapState': {'bearing': 0,
+                                        'dragRotate': False,
+                                        'latitude': 52.550856103943644,
+                                        'longitude': 13.192007534858833,
+                                        'pitch': 0,
+                                        'zoom': 13,
+                                        'isSplit': False},
+                            'mapStyle': {'styleType': 'dark',
+                                        'topLayerGroups': {},
+                                        'visibleLayerGroups': {'label': True,
+                                                                'road': True,
+                                                                'border': False,
+                                                                'building': True,
+                                                                'water': True,
+                                                                'land': True,
+                                                                '3d building': False},
+                                        'threeDBuildingColor': [9.665468314072013,
+                                                                17.18305478057247,
+                                                                31.1442867897876],
+                                        'mapStyles': {}}
+                        }}
+
+    # auto zoom to the input data
+    x_coord_mean, y_coord_mean = map_layer_data["node"]["x_coord"].mean(), map_layer_data["node"]["y_coord"].mean()
+    map_config["config"]["mapState"]["longitude"] = x_coord_mean
+    map_config["config"]["mapState"]["latitude"] = y_coord_mean
+
+    try:
+        vis_map = KeplerGl(height=600, data=map_layer_data)
+        vis_map.config = map_config
+    except Exception as e:
+        vis_map = KeplerGl(height=600)
+        print(f"Created an empty KeplerGl map for the reason: {e}")
+    return vis_map
+
 
 
 def extract_coordinates_by_network_mode(mnet: MultiNet, modes: list) -> None:
