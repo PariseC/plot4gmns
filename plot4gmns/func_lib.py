@@ -6,7 +6,8 @@ from .utility_lib import (required_files,
                           get_file_names_from_folder_by_type,
                           check_required_files_exist,
                           update_filename,
-                          generate_absolute_path)
+                          generate_absolute_path,
+                          path2linux)
 from .network import MultiNet
 from keplergl import KeplerGl
 
@@ -71,7 +72,7 @@ def generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:
             mnet.zone.convert_str_to_geometry()
     print("Complete file loading")
 
-    # generate kepergl map, currently only support node, link, poi
+    # generate keplergl map, currently only support node, link, poi
     # The reason to load data again but not from mnet is to avoid errors after further operations for nodes, links and poi in mnet.
     map_layer_data = {}
     if mnet.node_loaded:
@@ -86,7 +87,8 @@ def generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:
         map_layer_data["zone"] = pd.read_csv(f"{input_dir}/zone.csv")
 
     vis_map = generate_visualization_map_using_keplergl(map_layer_data)
-    path_vis_map = update_filename(generate_absolute_path(file_name="plot4gmns_vis_map.html"))
+    path_vis_map = update_filename(generate_absolute_path(file_name="plot4gmns_vis_map.html",
+                                                          folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
     vis_map.save_to_html(file_name=path_vis_map)
     # print(f"Successfully generate interactive map visualization to {path_vis_map}")
 

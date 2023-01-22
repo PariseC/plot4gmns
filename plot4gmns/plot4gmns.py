@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 from typing import Union
 from .network import MultiNet
-from .utility_lib import generate_absolute_path, update_filename
+from .utility_lib import generate_absolute_path, update_filename, path2linux
 from .func_lib import (
     extract_coordinates_by_network_mode,
     extract_coordinates_by_node_types,
@@ -27,6 +27,7 @@ from matplotlib.lines import Line2D
 import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 from matplotlib.collections import PolyCollection
+import os
 
 
 def show_network_by_modes(
@@ -94,7 +95,8 @@ def show_network_by_modes(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_mode.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_mode.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
@@ -177,7 +179,8 @@ def show_network_by_node_types(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_node_type.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_node_type.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
@@ -256,7 +259,8 @@ def show_network_by_link_types(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_type.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_type.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
@@ -333,7 +337,8 @@ def show_network_by_link_lanes(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_lane.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_lane.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
@@ -411,7 +416,8 @@ def show_network_by_link_free_speed(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_free_speed.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_free_speed.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
@@ -487,7 +493,8 @@ def show_network_by_link_length(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_length.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_length.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
@@ -562,7 +569,8 @@ def show_network_by_link_lane_distribution(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_lane_distribution.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_lane_distribution.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
@@ -637,7 +645,8 @@ def show_network_by_link_free_speed_distribution(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_free_speed_distribution.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_free_speed_distribution.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
@@ -711,7 +720,8 @@ def show_network_by_link_capacity_distribution(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_capacity_distribution.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_capacity_distribution.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
@@ -789,7 +799,8 @@ def show_network_by_poi_types(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_poi_type.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_poi_type.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
@@ -859,7 +870,8 @@ def show_network_by_poi_production_distribution(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_poi_production_distribution.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_poi_production_distribution.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
@@ -929,7 +941,8 @@ def show_network_by_poi_attraction_distribution(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_poi_attraction_distribution.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_poi_attraction_distribution.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
@@ -973,7 +986,8 @@ def show_network_demand_matrix_heatmap(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_demand_matrix_heatmap.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_demand_matrix_heatmap.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
@@ -1073,7 +1087,8 @@ def show_network_by_demand_OD(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_demand_od.png"))
+        path_figure = update_filename(generate_absolute_path(file_name="network_by_demand_od.png",
+                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"Successfully save figure to {path_figure}")
 
