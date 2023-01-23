@@ -4,6 +4,17 @@
 
 **Email:** cjh@bjtu.edu.cn, zanyangcui@outlook.com, luoxiangyong01@gmail.com
 
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Requirements](#requirements)
+- [Install](#install)
+- [Features](#features)
+- [Usage](#usage)
+    - [Quickstart](#quickstart)
+    - [Advance](#advance)
+- [Contributing](#contributing)
+
 ## Introduction
 
 To enable rapid transportation modeling and optimization, as traffic management researchers, we provide this free open-source tool for visualizing multimodal networks. Based on GMNS data format by [Zepha foundation](https://zephyrtransport.org/), plot4gmns is designed for reading and plotting multimodal data sets including transportation network files, demand and agent trace files.
@@ -17,9 +28,8 @@ To enable rapid transportation modeling and optimization, as traffic management 
 - seaborn
 - scipy
 - chardet
-- keplergl
 
-## Installation
+## Install
 
 ```python
 pip install plot4gmns
@@ -29,33 +39,40 @@ pip install plot4gmns
 >
 > - For Windows users, the _pip_ method might fail to install some dependencies. If errors occur when you try to install any of those dependencies, try instead to pip install their .whl files, which can be downloaded from the Unoffical Windows Binaries for [Python Extension Packages](https://www.lfd.uci.edu/~gohlke/pythonlibs/).
 
-## Quick Start
+## Features
 
-Before starting, you must have prepared network files, including node.csv, link.csv, poi.csv, demand.csv, and zone.csv. The [osm2gmns](https://github.com/asu-trans-ai-lab/OSM2GMNS) package will help you quickly obtain node, link, and poi data, and the[ grid2demand](https://github.com/asu-trans-ai-lab/grid2demand) package will help you obtain network demand and zone information.
-
-* [X] ***show networks in different modes***
+* [X] **web-based network visualization**
+* [X] **show networks in different modes**
 * [X] **show network with given node types**
+
 * [X] **show network by given link types**
 * [X] **show network by given link attributes range**
+
 * [X] **show network by link attributes distribution**
 * [X] **show network with given POI types**
+
 * [X] **show network by poi attributes distribution**
 * [X] **show network demand matrix heatmap**
-* [X] **show network demand OD**
 
-**Advance**
+* [X] **show network demand OD**
 
 * [X] ***Show only network elements of interest***
 * [X] ***Show different networks on one diagram***
 * [X] ***Set the drawing style***
-* [X] Generate plot4gmns_vis_map.html (interactive map) from your project data
 
+## Usage
+Before starting, you must have prepared network files, including node.csv, link.csv, poi.csv, demand.csv, and zone.csv. The [osm2gmns](https://github.com/asu-trans-ai-lab/OSM2GMNS) package will help you quickly obtain node, link, and poi data, and the[ grid2demand](https://github.com/asu-trans-ai-lab/grid2demand) package will help you obtain network demand and zone information.
+
+### Quickstart
 **Step 1: generate multimodal network**
 
 ```python
->>>import plot4gmns as p4g
+import plot4gmns as p4g
 mnet=p4g.generate_multi_network_from_csv(r'./datasets')
 ```
+>After executing the above command, you will get an Html file, as shown below. More visual operations are supported on the web site..
+
+<img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/1674358532007.png?raw=true" width="800" height="600" alt=" "/><br/>
 
 **Step 2: show networks in different modes**
 
@@ -192,7 +209,7 @@ cf.show()
 
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_demand_od.png?raw=true" width="800" height="600" alt=" "/><br/>
 
-## Advance
+### Advance Usage
 
 **Step 1: Show only network elements of interest**
 
@@ -253,3 +270,19 @@ cf.show()
 ```
 
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/network_by_mode2.png?raw=true" width="800" height="600" alt=" "/><br/>
+
+## Contributing
+
+Feel free to dive in! [Open an issue](https://github.com/RichardLitt/standard-readme/issues).
+
+
+## Contributors
+
+[@PraiseC](https://github.com/PariseC)
+
+[@xyluo25](https://github.com/xyluo25)
+
+## Changelog
+
+- 2023-01-22 -- v0.1.1:
+  - Support web-based network visualization([Kepler.gl](https://github.com/keplergl/kepler.gl))
