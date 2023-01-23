@@ -23,7 +23,7 @@ To enable rapid transportation modeling and optimization, as traffic management 
 
 - pandas
 - shapely
-- matplotlib<=3.3.0
+- matplotlib
 - numpy
 - seaborn
 - scipy
