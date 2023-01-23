@@ -27,8 +27,9 @@ cf.show()
 
 # cf = p4g.show_network_by_link_lane_distribution(mnet=mnet)
 # cf.show()
-#
+
 # cf = p4g.show_network_by_link_capacity_distribution(mnet=mnet)
 # cf.show()
+
 # cf = p4g.show_network_by_link_free_speed_distribution(mnet=mnet)
 # cf.show()
