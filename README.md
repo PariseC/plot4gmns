@@ -28,6 +28,7 @@ To enable rapid transportation modeling and optimization, as traffic management 
 - seaborn
 - scipy
 - chardet
+- keplergl==0.3.2
 
 ## Install
 
