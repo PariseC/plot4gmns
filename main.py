@@ -2,7 +2,9 @@ import plot4gmns as p4g
 import pandas as pd
 from keplergl import KeplerGl
 
-mnet = p4g.generate_multi_network_from_csv(r'C:\Users\roche\Anaconda_workspace\001_Github\plot4gmns\datasets\Berlin')
+path_1 = r'C:\Users\roche\Anaconda_workspace\001_Github\plot4gmns\datasets\Berlin'
+path_2 =r"C:\Users\roche\Anaconda_workspace\001_Github\plot4gmns\datasets\Kansus_City"
+mnet = p4g.generate_multi_network_from_csv(path_2)
 
 # cf = p4g.show_network_by_modes(mnet=mnet)
 # cf.show()
