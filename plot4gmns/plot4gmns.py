@@ -97,7 +97,7 @@ def show_network_by_modes(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_mode.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
@@ -181,7 +181,7 @@ def show_network_by_node_types(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_node_type.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
@@ -261,7 +261,7 @@ def show_network_by_link_types(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_link_type.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
@@ -339,7 +339,7 @@ def show_network_by_link_lanes(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_link_lane.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
@@ -418,7 +418,7 @@ def show_network_by_link_free_speed(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_link_free_speed.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
@@ -495,7 +495,7 @@ def show_network_by_link_length(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_link_length.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
@@ -571,7 +571,7 @@ def show_network_by_link_lane_distribution(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_link_lane_distribution.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
@@ -647,7 +647,7 @@ def show_network_by_link_free_speed_distribution(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_link_free_speed_distribution.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
@@ -722,7 +722,7 @@ def show_network_by_link_capacity_distribution(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_link_capacity_distribution.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
@@ -801,7 +801,7 @@ def show_network_by_poi_types(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_poi_type.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
@@ -872,7 +872,7 @@ def show_network_by_poi_production_distribution(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_poi_production_distribution.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
@@ -943,7 +943,7 @@ def show_network_by_poi_attraction_distribution(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_poi_attraction_distribution.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
@@ -988,7 +988,7 @@ def show_network_demand_matrix_heatmap(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_demand_matrix_heatmap.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
@@ -1089,7 +1089,7 @@ def show_network_by_demand_OD(
     if isSave2png:
         path_figure = update_filename(generate_absolute_path(file_name="network_by_demand_od.png",
                                                              folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure)
+        plt.savefig(path_figure,dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
