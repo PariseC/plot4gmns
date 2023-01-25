@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1313aaa9-b40b-4911-9a2c-ff5a7e1b945a" name="Changes" comment="release v0.1.1">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datasets/Berlin/link.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/Berlin/link.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datasets/Berlin/node.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/Berlin/node.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datasets/Berlin/poi.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datasets/Berlin/poi.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plot4gmns/plot4gmns.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot4gmns/plot4gmns.py" afterDir="false" />
-    </list>
+    <list default="true" id="1313aaa9-b40b-4911-9a2c-ff5a7e1b945a" name="Changes" comment="release v0.1.1" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -181,7 +173,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674464339569</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="release v0.1.1">
+      <created>1674609073525</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1674609073525</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
