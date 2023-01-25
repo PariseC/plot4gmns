@@ -286,5 +286,5 @@ Feel free to dive in! [Open an issue](https://github.com/RichardLitt/standard-re
 
 ## Changelog
 
-- 2023-01-22 -- v0.1.1:
+- 2023-01-25 -- v0.1.1:
   - Support web-based network visualization([Kepler.gl](https://github.com/keplergl/kepler.gl))
