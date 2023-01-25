@@ -1,11 +1,9 @@
 import plot4gmns as p4g
-import pandas as pd
-from keplergl import KeplerGl
 
-mnet = p4g.generate_multi_network_from_csv(r'E:\CoderStudio\Py\2022-09-11-open_source_packages\Plot4GMNS\datasets\Berlin')
+mnet = p4g.generate_multi_network_from_csv(r'E:\BaiduBackup\Github\osm2rail\convert_csv_to_geos_files')
 
-cf = p4g.show_network_by_modes(mnet=mnet)
-cf.show()
+# cf = p4g.show_network_by_modes(mnet=mnet,modes=['auto'])
+# cf.show()
 
 # cf = p4g.show_network_by_modes(mnet=mnet,modes=['bike'])
 # cf.show()
@@ -32,4 +30,16 @@ cf.show()
 # cf.show()
 
 # cf = p4g.show_network_by_link_free_speed_distribution(mnet=mnet)
+# cf.show()
+#
+# cf = p4g.show_network_by_poi_types(mnet=mnet,poi_type=['apartments','industrial'])
+# cf.show()
+
+# cf = p4g.show_network_by_poi_attraction_distribution(mnet=mnet)
+# cf.show()
+
+# cf = p4g.show_network_by_poi_production_distribution(mnet=mnet)
+# cf.show()
+
+# cf = p4g.show_network_demand_matrix_heatmap(mnet)
 # cf.show()

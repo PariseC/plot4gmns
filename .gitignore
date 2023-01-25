@@ -113,6 +113,7 @@ dmypy.json
 setup.py
 # Pyre type checker
 .pyre/
+workspace.xml
 
 # the virtual env foldeer
 plot4gmns_env/

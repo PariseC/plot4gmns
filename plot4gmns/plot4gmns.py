@@ -40,7 +40,7 @@ def show_network_by_modes(
     Parameters
     ----------
     mnet : MultiNet object
-    modes : tuple, optional
+    modes :list, optional
             network mode, valid to ('all', 'auto', 'bike', 'walk', 'railway'),Defaults to ('all').
     fig_obj : figure object (plt) ,optional
               if not None, will continue to draw elements on the existing figure object. Defaults to None
