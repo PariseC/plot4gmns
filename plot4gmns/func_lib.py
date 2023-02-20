@@ -33,7 +33,7 @@ def generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:
         MNet: MultiNet object
     """
     # Tell the user the input files format
-    print(f"Please note, required input files are {required_files}")
+    print(f"Please note that required input files are {required_files}")
     print(f"Reading network from CSV files in {input_dir}...")
 
     # Check if the input directory exists
@@ -370,7 +370,7 @@ def extract_coordinates_by_node_types(mnet: MultiNet, osm_highway: list) -> None
     mnet.POI.update_coords_by_poi_type()
     if not isValid:
         valid_values = mnet.node.value['osm_highway'].unique()
-        raise Exception(f"no results found, please try the following keywords:\n{valid_values}")
+        raise Exception(f"No results found, please try the following keywords:\n{valid_values}")
 
 
 def extract_coordinates_by_link_types(mnet: MultiNet, link_types: list) -> None:
