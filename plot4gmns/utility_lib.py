@@ -72,7 +72,7 @@ class ZoneStyle:
 class Style:
     def __init__(self):
         self.figure_size = (10, 8)
-        self.dpi = 300
+        self.dpi = 150
         self.cmap = 'jet'
         self.node_style = NodeStyle()
         self.link_style = LinkStyle()
