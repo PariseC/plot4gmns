@@ -11,8 +11,8 @@
 - [Install](#install)
 - [Features](#features)
 - [Usage](#usage)
-    - [Quickstart](#quickstart)
-    - [Advance](#advance)
+  - [Quickstart](#quickstart)
+  - [Advance](#advance)
 - [Contributing](#contributing)
 
 ## Introduction
@@ -45,33 +45,31 @@ pip install plot4gmns
 * [X] **web-based network visualization**
 * [X] **show networks in different modes**
 * [X] **show network with given node types**
-
 * [X] **show network by given link types**
 * [X] **show network by given link attributes range**
-
 * [X] **show network by link attributes distribution**
 * [X] **show network with given POI types**
-
 * [X] **show network by poi attributes distribution**
 * [X] **show network demand matrix heatmap**
-
 * [X] **show network demand OD**
-
 * [X] ***Show only network elements of interest***
 * [X] ***Show different networks on one diagram***
 * [X] ***Set the drawing style***
 
 ## Usage
+
 Before starting, you must have prepared network files, including node.csv, link.csv, poi.csv, demand.csv, and zone.csv. The [osm2gmns](https://github.com/asu-trans-ai-lab/OSM2GMNS) package will help you quickly obtain node, link, and poi data, and the[ grid2demand](https://github.com/asu-trans-ai-lab/grid2demand) package will help you obtain network demand and zone information.
 
 ### Quickstart
+
 **Step 1: generate multimodal network**
 
 ```python
 import plot4gmns as p4g
 mnet=p4g.generate_multi_network_from_csv(r'./datasets')
 ```
->After executing the above command, you will get an Html file, as shown below. More visual operations are supported on the web site..
+
+> After executing the above command, you will get an Html file, as shown below. More visual operations are supported on the web site..
 
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/1674358532007.png?raw=true" width="800" height="600" alt=" "/><br/>
 
@@ -246,7 +244,7 @@ cf.show()
 Users can refer to the following examples to adjust the color, size and other attributes of the image before drawing.
 
 | parameter                             | Value                   | Description                      |
-|---------------------------------------|-------------------------|----------------------------------|
+| ------------------------------------- | ----------------------- | -------------------------------- |
 | mnet.style.figure_size                | tuple,(width,height)    | Image size                       |
 | mnet.style.dpi                        | int                     | the resolution in dots per inch. |
 | mnet.style.node_style.size            | int                     | node marker size                 |
@@ -277,7 +275,6 @@ cf.show()
 
 Feel free to dive in! [Open an issue](https://github.com/RichardLitt/standard-readme/issues).
 
-
 ## Contributors
 
 [@PraiseC](https://github.com/PariseC)
@@ -286,5 +283,11 @@ Feel free to dive in! [Open an issue](https://github.com/RichardLitt/standard-re
 
 ## Changelog
 
-- 2023-01-25 -- v0.1.1:
-  - Support web-based network visualization([Kepler.gl](https://github.com/keplergl/kepler.gl))
+2023-01-25 -- v0.1.1:
+
+Support web-based network visualization([Kepler.gl](https://github.com/keplergl/kepler.gl))
+
+### TODO LIST
+
+1. [ ] Add OD 3D visualization
+2. [ ]
