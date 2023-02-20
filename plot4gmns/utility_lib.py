@@ -103,8 +103,8 @@ def check_dir(input_dir: str,) -> list:
             files_found.append(file)
         else:
             files_not_found.append(file)
-    print(f"The following file was found in the folder: \n \t {files_found}")
-    print(f"The following file was not found in the folder: \n \t {files_not_found}")
+    print(f"The following file(s) was found in the folder: \n \t {files_found}")
+    print(f"The following file(s) was not found in the folder: \n \t {files_not_found}")
 
     return files_found
 
