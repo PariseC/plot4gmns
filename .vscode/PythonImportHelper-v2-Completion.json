@@ -1,0 +1,630 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "KeplerGl",
+        "importPath": "keplergl",
+        "description": "keplergl",
+        "isExtraImport": true,
+        "detail": "keplergl",
+        "documentation": {}
+    },
+    {
+        "label": "KeplerGl",
+        "importPath": "keplergl",
+        "description": "keplergl",
+        "isExtraImport": true,
+        "detail": "keplergl",
+        "documentation": {}
+    },
+    {
+        "label": "loads",
+        "importPath": "shapely.wkt",
+        "description": "shapely.wkt",
+        "isExtraImport": true,
+        "detail": "shapely.wkt",
+        "documentation": {}
+    },
+    {
+        "label": "MultiPolygon",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "Polygon",
+        "importPath": "shapely.geometry",
+        "description": "shapely.geometry",
+        "isExtraImport": true,
+        "detail": "shapely.geometry",
+        "documentation": {}
+    },
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "Union",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Union",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "seaborn",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "seaborn",
+        "description": "seaborn",
+        "detail": "seaborn",
+        "documentation": {}
+    },
+    {
+        "label": "Line2D",
+        "importPath": "matplotlib.lines",
+        "description": "matplotlib.lines",
+        "isExtraImport": true,
+        "detail": "matplotlib.lines",
+        "documentation": {}
+    },
+    {
+        "label": "matplotlib.pyplot",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "matplotlib.pyplot",
+        "description": "matplotlib.pyplot",
+        "detail": "matplotlib.pyplot",
+        "documentation": {}
+    },
+    {
+        "label": "LineCollection",
+        "importPath": "matplotlib.collections",
+        "description": "matplotlib.collections",
+        "isExtraImport": true,
+        "detail": "matplotlib.collections",
+        "documentation": {}
+    },
+    {
+        "label": "PolyCollection",
+        "importPath": "matplotlib.collections",
+        "description": "matplotlib.collections",
+        "isExtraImport": true,
+        "detail": "matplotlib.collections",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "plot4gmns",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "plot4gmns",
+        "description": "plot4gmns",
+        "detail": "plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "read_single_csv_file",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def read_single_csv_file(file_name: str, geo_type: str) -> tuple:\n    df = pd.read_csv(os.path.join(file_name))\n    # check if the required columns exists\n    for column in required_columns[geo_type]:\n        if column not in df.columns:\n            print(f\"{file_name} does not contain required column {column}!\")\n            return (None, False)\n    return (df, True)\ndef generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:\n    \"\"\"read Multi-mode network from CSV file in the format of GMNS",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "generate_multi_network_from_csv",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:\n    \"\"\"read Multi-mode network from CSV file in the format of GMNS\n    Args:\n        input_dir (str, optional): a file path. Defaults to './'.\n    Returns:\n        MNet: MultiNet object\n    \"\"\"\n    # Tell the user the input files format\n    print(f\"Please note that required input files are {required_files}\")\n    print(f\"Reading network from CSV files in {input_dir}...\")",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "generate_visualization_map_using_keplergl",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def generate_visualization_map_using_keplergl(map_layer_data: dict, map_config: dict = None) -> None:\n    # use default map config if map_config is not provided\n    map_config_default = {'version': 'v1',\n                          'config': {\n                              'visState': {'filters': [],\n                                           'layers': [{'id': 'wthskia',\n                                                       'type': 'geojson',\n                                                       'config': {'dataId': 'link',\n                                                                  'label': 'link',\n                                                                  'color': [18, 147, 154],",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "extract_coordinates_by_network_mode",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def extract_coordinates_by_network_mode(mnet: MultiNet, modes: list) -> None:\n    # extract node,link, and poi coordinates of the specified network mode\n    mnet.link.update_coords_by_link_modes(modes)\n    mnet.node.update_coords(column='node_id',values=mnet.link.node_id_list)\n    mnet.POI.update_coords_by_poi_type()\n    if len(mnet.link.link_coords) == 0:\n        raise Exception(\"please try other modes\")\ndef extract_coordinates_by_node_types(mnet: MultiNet, osm_highway: list) -> None:\n    # extract node,link, and poi coordinates of the specified node type\n    x_coords = []",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "extract_coordinates_by_node_types",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def extract_coordinates_by_node_types(mnet: MultiNet, osm_highway: list) -> None:\n    # extract node,link, and poi coordinates of the specified node type\n    x_coords = []\n    y_coords = []\n    isValid = False\n    for highway_type in osm_highway:\n        mnet.node.update_coords(column='osm_highway', values=[highway_type])\n        x_coords.append(mnet.node.x_coords)\n        y_coords.append(mnet.node.y_coords)\n        if len(mnet.node.x_coords) == 0:",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "extract_coordinates_by_link_types",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def extract_coordinates_by_link_types(mnet: MultiNet, link_types: list) -> None:\n    # extract node,link, and poi coordinates of the specified node type\n    mnet.link.update_coords_by_link_types(link_types)\n    mnet.node.update_coords(column='node_id', values=mnet.link.node_id_list)\n    mnet.POI.update_coords_by_poi_type()\n    if len(mnet.link.link_coords) == 0:\n        valid_values = mnet.link.value['link_type_name'].unique()\n        raise Exception(f\"no results found, please try the following keywords:\\n{valid_values}\")\ndef extract_coordinates_by_link_lane(mnet: MultiNet, lanes: tuple) -> None:\n    # extract node,link, and poi coordinates of the specified network link lanes",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "extract_coordinates_by_link_lane",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def extract_coordinates_by_link_lane(mnet: MultiNet, lanes: tuple) -> None:\n    # extract node,link, and poi coordinates of the specified network link lanes\n    mnet.link.update_coords_by_float_attr(column='lanes', min_v=lanes[0], max_v=lanes[1])\n    mnet.node.update_coords(column='node_id', values=mnet.link.node_id_list)\n    mnet.POI.update_coords_by_poi_type()\n    if len(mnet.link.link_coords) == 0:\n        valid_values = mnet.link.value['lanes'].unique()\n        raise Exception(f\"no results found, the number of lanes should be between {min(valid_values)} and {max(valid_values)}\")\ndef extract_coordinates_by_link_free_speed(mnet: MultiNet, free_speed: tuple) -> None:\n    # extract node,link, and poi coordinates of the specified network link free speed",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "extract_coordinates_by_link_free_speed",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def extract_coordinates_by_link_free_speed(mnet: MultiNet, free_speed: tuple) -> None:\n    # extract node,link, and poi coordinates of the specified network link free speed\n    mnet.link.update_coords_by_float_attr(column='free_speed', min_v=free_speed[0], max_v=free_speed[1])\n    mnet.node.update_coords(column='node_id', values=mnet.link.node_id_list)\n    mnet.POI.update_coords_by_poi_type()\n    if len(mnet.link.link_coords) == 0:\n        valid_values = mnet.link.value['free_speed'].unique()\n        raise Exception(f\"no results found, the link free speed should be between {min(valid_values)} and {max(valid_values)}\")\ndef extract_coordinates_by_link_length(mnet: MultiNet, length: tuple) -> None:\n    # extract node,link, and poi coordinates of the specified network link length",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "extract_coordinates_by_link_length",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def extract_coordinates_by_link_length(mnet: MultiNet, length: tuple) -> None:\n    # extract node,link, and poi coordinates of the specified network link length\n    mnet.link.update_coords_by_float_attr(column='length', min_v=length[0], max_v=length[1])\n    mnet.node.update_coords(column='node_id', values=mnet.link.node_id_list)\n    mnet.POI.update_coords_by_poi_type()\n    if len(mnet.link.link_coords) == 0:\n        valid_values = mnet.link.value['length'].unique()\n        raise Exception(f\"no results found, the link length should be between {max(valid_values)} and {min(valid_values)}\")\ndef extract_coordinates_by_link_attr_distribution(mnet: MultiNet, column: str) -> None:\n    # extract node,link, and poi coordinates of the network link lane distribution",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "extract_coordinates_by_link_attr_distribution",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def extract_coordinates_by_link_attr_distribution(mnet: MultiNet, column: str) -> None:\n    # extract node,link, and poi coordinates of the network link lane distribution\n    if mnet.link.value[column].isnull().any():\n        raise Exception(f\"ValueError: nan found in {column}\")\n    mnet.link.update_coords_by_attr_distribution(column)\n    mnet.node.update_coords(column='node_id')\n    mnet.POI.update_coords_by_poi_type()\ndef extract_coordinates_by_poi_type(mnet: MultiNet, poi_type: list) -> None:\n    # extract node,link, and poi coordinates of the specified network POI type\n    mnet.node.update_coords(column='node_id')",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "extract_coordinates_by_poi_type",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def extract_coordinates_by_poi_type(mnet: MultiNet, poi_type: list) -> None:\n    # extract node,link, and poi coordinates of the specified network POI type\n    mnet.node.update_coords(column='node_id')\n    mnet.link.update_coords_by_link_modes(modes=('all'))\n    mnet.POI.update_coords_by_poi_type(poi_type=poi_type)\n    if len(mnet.POI.poi_coords) == 0:\n        valid_values_1 = mnet.POI.value['building'].unique().tolist()\n        valid_values_2 = mnet.POI.value['amenity'].unique().tolist()\n        valid_values_3 = mnet.POI.value['leisure'].unique().tolist()\n        valid_values = valid_values_1 + valid_values_2 + valid_values_3",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "extract_coordinates_by_poi_attr_distribution",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def extract_coordinates_by_poi_attr_distribution(mnet: MultiNet, column: str) -> None:\n    # extract node,link, and poi coordinates of the network POI attraction or production distribution\n    if mnet.POI.value[column].isnull().any():\n        raise Exception(f\"ValueError: nan found in {column}\")\n    mnet.node.update_coords(column='node_id')\n    mnet.link.update_coords_by_link_modes(modes=('all'))\n    mnet.POI.update_coords_by_attr_distribution(column=column)\ndef count_demand_matrix(mnet: MultiNet) -> None:\n    # count demand matrix of zones\n    mnet.demand.update_demand_matrix(mnet.zone.value.shape[0])",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "count_demand_matrix",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def count_demand_matrix(mnet: MultiNet) -> None:\n    # count demand matrix of zones\n    mnet.demand.update_demand_matrix(mnet.zone.value.shape[0])\ndef extract_coordinates_by_demand_OD(mnet: MultiNet, load_zone: bool, load_network: bool) -> None:\n    # extract coordinates of the network demand OD\n    mnet.demand.update_coords()\n    if load_zone:\n        mnet.zone.update_coords()\n    if load_network:\n        mnet.node.update_coords()",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "extract_coordinates_by_demand_OD",
+        "kind": 2,
+        "importPath": "plot4gmns.func_lib",
+        "description": "plot4gmns.func_lib",
+        "peekOfCode": "def extract_coordinates_by_demand_OD(mnet: MultiNet, load_zone: bool, load_network: bool) -> None:\n    # extract coordinates of the network demand OD\n    mnet.demand.update_coords()\n    if load_zone:\n        mnet.zone.update_coords()\n    if load_network:\n        mnet.node.update_coords()\n        mnet.link.update_coords_by_link_modes(modes=('all'))\n        mnet.POI.update_coords_by_poi_type()",
+        "detail": "plot4gmns.func_lib",
+        "documentation": {}
+    },
+    {
+        "label": "Node",
+        "kind": 6,
+        "importPath": "plot4gmns.network",
+        "description": "plot4gmns.network",
+        "peekOfCode": "class Node:\n    def __init__(self):\n        self.value = None  # dataframe\n        self.x_coords = None\n        self.y_coords = None\n    def update_coords(self, column: str = '', values: list = []) -> None:\n        \"\"\"extract node coordinates from node dataset\n        Args:\n            column (str): node ID set to be extracted\n            values (list): Need to be specified",
+        "detail": "plot4gmns.network",
+        "documentation": {}
+    },
+    {
+        "label": "Link",
+        "kind": 6,
+        "importPath": "plot4gmns.network",
+        "description": "plot4gmns.network",
+        "peekOfCode": "class Link:\n    def __init__(self):\n        self.value = None  # dataframe\n        self.link_coords = []\n        self.node_id_list = []\n        self.attr_distribution = []\n    def convert_str_to_geometry(self) -> None:\n        # load a link geometry from a WKT string.\n        self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))\n    def extract_link_modes(self) -> None:",
+        "detail": "plot4gmns.network",
+        "documentation": {}
+    },
+    {
+        "label": "POI",
+        "kind": 6,
+        "importPath": "plot4gmns.network",
+        "description": "plot4gmns.network",
+        "peekOfCode": "class POI:\n    def __init__(self):\n        self.value = None  # dataframe\n        self.poi_coords = None\n    def convert_str_to_geometry(self) -> None:\n        # load a POI geometry from a WKT string.\n        self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))\n    def update_coords_by_poi_type(self, poi_type: list = []) -> None:\n        # extract POI boundary coordinates from POI dataset\n        def convert_geometry_to_list(geometry):",
+        "detail": "plot4gmns.network",
+        "documentation": {}
+    },
+    {
+        "label": "Demand",
+        "kind": 6,
+        "importPath": "plot4gmns.network",
+        "description": "plot4gmns.network",
+        "peekOfCode": "class Demand:\n    def __init__(self):\n        self.value = None  # dataframe\n        self.demand_matrix = None\n        self.demand_OD_coords = None\n        self.demand_OD_vol = None\n    def convert_str_to_geometry(self) -> None:\n        # load a POI geometry from a WKT string.\n        self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))\n    def update_demand_matrix(self,number_of_zone):",
+        "detail": "plot4gmns.network",
+        "documentation": {}
+    },
+    {
+        "label": "Zone",
+        "kind": 6,
+        "importPath": "plot4gmns.network",
+        "description": "plot4gmns.network",
+        "peekOfCode": "class Zone:\n    def __init__(self):\n        self.value = None  # dataframe\n        self.zone_coords = None\n        self.zone_names = None\n    def convert_str_to_geometry(self) -> None:\n        # load a POI geometry from a WKT string.\n        self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))\n    def update_coords(self):\n        self.zone_coords = self.value['geometry'].map(lambda x: np.array(list(x.exterior.coords))).tolist()",
+        "detail": "plot4gmns.network",
+        "documentation": {}
+    },
+    {
+        "label": "MultiNet",
+        "kind": 6,
+        "importPath": "plot4gmns.network",
+        "description": "plot4gmns.network",
+        "peekOfCode": "class MultiNet:\n    def __init__(self):\n        self.style = Style()\n        self.node = Node()  # Node\n        self.link = Link()  # Link\n        self.POI = POI()  # POI\n        self.demand = Demand()  # Demand\n        self.zone = Zone()  # zone\n        self.node_loaded = False\n        self.link_loaded = False",
+        "detail": "plot4gmns.network",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_by_modes",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_by_modes(\n        mnet: MultiNet,\n        modes: list = ['all'],\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network links of different modes\n    Parameters\n    ----------\n    mnet : MultiNet object",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_by_node_types",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_by_node_types(\n        mnet: MultiNet,\n        osm_highway: list,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network nodes according to specified node types\n    Parameters\n    ----------\n    mnet : MultiNet object",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_by_link_types",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_by_link_types(\n        mnet: MultiNet,\n        link_types: list,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network nodes according to specified link types\n    Parameters\n    ----------\n    mnet : MultiNet object",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_by_link_lanes",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_by_link_lanes(\n        mnet: MultiNet,\n        min_lanes: int,\n        max_lanes: int,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network links according to specified link lane number\n    Parameters\n    ----------",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_by_link_free_speed",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_by_link_free_speed(\n        mnet: MultiNet,\n        min_free_speed: int,\n        max_free_speed: int,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network links according to specified link free speed\n    Parameters\n    ----------",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_by_link_length",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_by_link_length(\n        mnet: MultiNet,\n        min_length: int,\n        max_length: int,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network links according to specified link free speed\n    Parameters\n    ----------",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_by_link_lane_distribution",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_by_link_lane_distribution(\n        mnet: MultiNet,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network links according to the distribution of number of link lanes\n    Parameters\n    ----------\n    mnet : MultiNet object\n    fig_obj : figure object (plt) ,optional",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_by_link_free_speed_distribution",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_by_link_free_speed_distribution(\n        mnet: MultiNet,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network links according to the distribution of link free speed\n    Parameters\n    ----------\n    mnet : MultiNet object\n    fig_obj : figure object (plt) ,optional",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_by_link_capacity_distribution",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_by_link_capacity_distribution(\n        mnet: MultiNet,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network links according to the distribution of link capacity\n    Parameters\n    ----------\n    mnet : MultiNet object\n    fig_obj : figure object (plt) ,optional",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_by_poi_types",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_by_poi_types(\n        mnet: MultiNet,\n        poi_type: Union[str, list],\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network according to the specified POI types\n    Parameters\n    ----------\n    mnet : MultiNet object",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_by_poi_production_distribution",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_by_poi_production_distribution(\n        mnet: MultiNet,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network according to the distribution of poi production\n    Parameters\n    ----------\n    mnet : MultiNet object\n    fig_obj : figure object (plt) ,optional",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_by_poi_attraction_distribution",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_by_poi_attraction_distribution(\n        mnet: MultiNet,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network according to the distribution of poi attraction\n    Parameters\n    ----------\n    mnet : MultiNet object\n    fig_obj : figure object (plt) ,optional",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_demand_matrix_heatmap",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_demand_matrix_heatmap(\n        mnet: MultiNet,\n        annot: bool = False,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network according to the distribution of poi attraction\n    Parameters\n    ----------\n    mnet : MultiNet object\n    annot : bool or rectangular dataset, optional",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "show_network_by_demand_OD",
+        "kind": 2,
+        "importPath": "plot4gmns.plot4gmns",
+        "description": "plot4gmns.plot4gmns",
+        "peekOfCode": "def show_network_by_demand_OD(\n        mnet: MultiNet,\n        load_zone: bool = True,\n        load_network: bool = False,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network according to the distribution of poi attraction\n    Parameters\n    ----------",
+        "detail": "plot4gmns.plot4gmns",
+        "documentation": {}
+    },
+    {
+        "label": "NodeStyle",
+        "kind": 6,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "class NodeStyle:\n    def __init__(self):\n        self.size = 10\n        self.edgecolors = 'none'\n        self.markers = {\n            'traffic_signals': 'd',\n            'bus_stop': 's',\n            'crossing': '>',\n            'elevator': 's',\n            'give_way': '^',",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "LinkStyle",
+        "kind": 6,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "class LinkStyle:\n    def __init__(self):\n        self.linewidth = 0.8\n        self.linecolor = 'violet'\nclass POIStyle:\n    def __init__(self):\n        self.facecolor = 'y'\n        self.edgecolor = 'black'\nclass DemandStyle:\n    def __init__(self):",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "POIStyle",
+        "kind": 6,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "class POIStyle:\n    def __init__(self):\n        self.facecolor = 'y'\n        self.edgecolor = 'black'\nclass DemandStyle:\n    def __init__(self):\n        self.linewidth = 1\n        self.linecolor = 'b'\nclass ZoneStyle:\n    def __init__(self):",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "DemandStyle",
+        "kind": 6,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "class DemandStyle:\n    def __init__(self):\n        self.linewidth = 1\n        self.linecolor = 'b'\nclass ZoneStyle:\n    def __init__(self):\n        self.linewidth = 1\n        self.edgecolors = 'blue'\n        self.fontsize = 10\n        self.fontcolor = 'r'",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "ZoneStyle",
+        "kind": 6,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "class ZoneStyle:\n    def __init__(self):\n        self.linewidth = 1\n        self.edgecolors = 'blue'\n        self.fontsize = 10\n        self.fontcolor = 'r'\nclass Style:\n    def __init__(self):\n        self.figure_size = (10, 8)\n        self.dpi = 300",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "Style",
+        "kind": 6,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "class Style:\n    def __init__(self):\n        self.figure_size = (10, 8)\n        self.dpi = 300\n        self.cmap = 'jet'\n        self.node_style = NodeStyle()\n        self.link_style = LinkStyle()\n        self.poi_style = POIStyle()\n        self.demand_style = DemandStyle()\n        self.zone_style = ZoneStyle()",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "path2linux",
+        "kind": 2,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "def path2linux(path: Union[str, Path]) -> str:\n    \"\"\"Convert a path to a linux path, linux path can run in windows, linux and mac\"\"\"\n    try:\n        return path.replace(\"\\\\\", \"/\")\n    except Exception:\n        return str(path).replace(\"\\\\\", \"/\")\ndef validate_filename(path_filename: str, ) -> bool:\n    filename_abspath = path2linux(os.path.abspath(path_filename))\n    return bool(os.path.exists(filename_abspath))\ndef check_dir(input_dir: str,) -> list:",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "validate_filename",
+        "kind": 2,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "def validate_filename(path_filename: str, ) -> bool:\n    filename_abspath = path2linux(os.path.abspath(path_filename))\n    return bool(os.path.exists(filename_abspath))\ndef check_dir(input_dir: str,) -> list:\n    files_found = []\n    files_not_found = []\n    for file in required_files + optional_files:\n        path_filename = os.path.join(input_dir, file)\n        if validate_filename(path_filename):\n            files_found.append(file)",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "check_dir",
+        "kind": 2,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "def check_dir(input_dir: str,) -> list:\n    files_found = []\n    files_not_found = []\n    for file in required_files + optional_files:\n        path_filename = os.path.join(input_dir, file)\n        if validate_filename(path_filename):\n            files_found.append(file)\n        else:\n            files_not_found.append(file)\n    print(f\"The following file(s) was found in the folder: \\n \\t {files_found}\")",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "get_file_names_from_folder_by_type",
+        "kind": 2,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "def get_file_names_from_folder_by_type(dir_name: str, file_type: str = \"txt\",\n                                       isTraverseSubdirectory: bool = False) -> list:\n    if isTraverseSubdirectory:\n        files_list = []\n        for root, dirs, files in os.walk(dir_name):\n            files_list.extend([os.path.join(root, file) for file in files])\n        return [path2linux(file) for file in files_list if file.split(\".\")[-1] == file_type]\n    # files in the first layer of the folder\n    return [path2linux(os.path.join(dir_name, file)) for file in os.listdir(dir_name) if file.split(\".\")[-1] == file_type]\ndef check_required_files_exist(required_files: list, dir_files: list) -> bool:",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "check_required_files_exist",
+        "kind": 2,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "def check_required_files_exist(required_files: list, dir_files: list) -> bool:\n    # format the required file name to standard linux path\n    required_files = [path2linux(os.path.abspath(filename)) for filename in required_files]\n    required_files_short = [filename.split(\"/\")[-1] for filename in required_files]\n    dir_files_short = [filename.split(\"/\")[-1] for filename in dir_files]\n    # mask have the same length as required_files\n    mask = [file in dir_files_short for file in required_files_short]\n    if all(mask):\n        return True\n    print(f\"Error: Required files are not satisfied, \\",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "generate_absolute_path",
+        "kind": 2,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "def generate_absolute_path(file_name: str = \"p4g_fig.png\", folder_name: str = \"p4g_fig_results\"):\n    # create folder if not exist\n    if not os.path.isdir(os.path.join(Path(__file__).parent, folder_name)):\n        os.mkdir(os.path.join(Path(__file__).parent, folder_name))\n    return path2linux(os.path.join(Path(__file__).parent, folder_name, file_name))\ndef update_filename(path_filename: str, ) -> str:\n    \"\"\"if the file name exist in path,then create new file name with _1, _1_1, ...\"\"\"\n    filename_abspath = path2linux(os.path.abspath(path_filename))\n    file_suffix = filename_abspath.split(\".\")[-1]\n    file_without_suffix = filename_abspath[:-len(file_suffix) - 1]",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "update_filename",
+        "kind": 2,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "def update_filename(path_filename: str, ) -> str:\n    \"\"\"if the file name exist in path,then create new file name with _1, _1_1, ...\"\"\"\n    filename_abspath = path2linux(os.path.abspath(path_filename))\n    file_suffix = filename_abspath.split(\".\")[-1]\n    file_without_suffix = filename_abspath[:-len(file_suffix) - 1]\n    if os.path.exists(filename_abspath):\n        filename_update = f\"{file_without_suffix}_1.{file_suffix}\"\n        return update_filename(filename_update)\n    return filename_abspath",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "target_files",
+        "kind": 5,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "target_files = ['node.csv', 'link.csv', 'poi.csv']\nrequired_files = ['node.csv', 'link.csv', 'poi.csv']\noptional_files = ['demand.csv', 'zone.csv']\nrequired_columns = {\n    'node': ['x_coord', 'y_coord'],\n    'link': ['geometry'],\n    'poi': ['geometry'],\n    'demand': ['geometry'],\n    'zone': ['geometry']}\nnetwork_modes = ['all', 'bike', 'walk', 'auto', 'railway']",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "required_files",
+        "kind": 5,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "required_files = ['node.csv', 'link.csv', 'poi.csv']\noptional_files = ['demand.csv', 'zone.csv']\nrequired_columns = {\n    'node': ['x_coord', 'y_coord'],\n    'link': ['geometry'],\n    'poi': ['geometry'],\n    'demand': ['geometry'],\n    'zone': ['geometry']}\nnetwork_modes = ['all', 'bike', 'walk', 'auto', 'railway']\nclass NodeStyle:",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "optional_files",
+        "kind": 5,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "optional_files = ['demand.csv', 'zone.csv']\nrequired_columns = {\n    'node': ['x_coord', 'y_coord'],\n    'link': ['geometry'],\n    'poi': ['geometry'],\n    'demand': ['geometry'],\n    'zone': ['geometry']}\nnetwork_modes = ['all', 'bike', 'walk', 'auto', 'railway']\nclass NodeStyle:\n    def __init__(self):",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "required_columns",
+        "kind": 5,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "required_columns = {\n    'node': ['x_coord', 'y_coord'],\n    'link': ['geometry'],\n    'poi': ['geometry'],\n    'demand': ['geometry'],\n    'zone': ['geometry']}\nnetwork_modes = ['all', 'bike', 'walk', 'auto', 'railway']\nclass NodeStyle:\n    def __init__(self):\n        self.size = 10",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "network_modes",
+        "kind": 5,
+        "importPath": "plot4gmns.utility_lib",
+        "description": "plot4gmns.utility_lib",
+        "peekOfCode": "network_modes = ['all', 'bike', 'walk', 'auto', 'railway']\nclass NodeStyle:\n    def __init__(self):\n        self.size = 10\n        self.edgecolors = 'none'\n        self.markers = {\n            'traffic_signals': 'd',\n            'bus_stop': 's',\n            'crossing': '>',\n            'elevator': 's',",
+        "detail": "plot4gmns.utility_lib",
+        "documentation": {}
+    },
+    {
+        "label": "path_1",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "path_1 = r'C:\\Users\\roche\\Anaconda_workspace\\001_Github\\plot4gmns\\datasets\\Berlin'\npath_2 =r\"C:\\Users\\roche\\Anaconda_workspace\\001_Github\\plot4gmns\\datasets\\Kansus_City\"\nmnet = p4g.generate_multi_network_from_csv(path_2)\n# cf = p4g.show_network_by_modes(mnet=mnet)\n# cf.show()\n# cf = p4g.show_network_by_modes(mnet=mnet,modes=['bike'])\n# cf.show()\n# cf = p4g.show_network_by_node_types(mnet=mnet,osm_highway=['traffic_signals','crossing'])\n# cf.show()\n# cf = p4g.show_network_by_link_types(mnet=mnet,link_types=['secondary','footway'])",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "mnet",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "mnet = p4g.generate_multi_network_from_csv(path_2)\n# cf = p4g.show_network_by_modes(mnet=mnet)\n# cf.show()\n# cf = p4g.show_network_by_modes(mnet=mnet,modes=['bike'])\n# cf.show()\n# cf = p4g.show_network_by_node_types(mnet=mnet,osm_highway=['traffic_signals','crossing'])\n# cf.show()\n# cf = p4g.show_network_by_link_types(mnet=mnet,link_types=['secondary','footway'])\n# cf.show()\n# cf = p4g.show_network_by_link_length(mnet=mnet,min_length=10,max_length=50)",
+        "detail": "main",
+        "documentation": {}
+    }
+]
