@@ -26,14 +26,6 @@
         "documentation": {}
     },
     {
-        "label": "KeplerGl",
-        "importPath": "keplergl",
-        "description": "keplergl",
-        "isExtraImport": true,
-        "detail": "keplergl",
-        "documentation": {}
-    },
-    {
         "label": "loads",
         "importPath": "shapely.wkt",
         "description": "shapely.wkt",
@@ -353,7 +345,7 @@
         "kind": 2,
         "importPath": "plot4gmns.plot4gmns",
         "description": "plot4gmns.plot4gmns",
-        "peekOfCode": "def show_network_by_link_lanes(\n        mnet: MultiNet,\n        min_lanes: int,\n        max_lanes: int,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network links according to specified link lane number\n    Parameters\n    ----------",
+        "peekOfCode": "def show_network_by_link_lanes(\n        mnet: MultiNet,\n        min_lanes: int,\n        max_lanes: int,\n        fig_obj: plt = None,\n        isSave2png: bool = True) -> plt:\n    \"\"\"draw network links according to specified link lane number\n    Parameters\n    ----------\n    mnet : MultiNet object",
         "detail": "plot4gmns.plot4gmns",
         "documentation": {}
     },
@@ -488,7 +480,7 @@
         "kind": 6,
         "importPath": "plot4gmns.utility_lib",
         "description": "plot4gmns.utility_lib",
-        "peekOfCode": "class ZoneStyle:\n    def __init__(self):\n        self.linewidth = 1\n        self.edgecolors = 'blue'\n        self.fontsize = 10\n        self.fontcolor = 'r'\nclass Style:\n    def __init__(self):\n        self.figure_size = (10, 8)\n        self.dpi = 300",
+        "peekOfCode": "class ZoneStyle:\n    def __init__(self):\n        self.linewidth = 1\n        self.edgecolors = 'blue'\n        self.fontsize = 10\n        self.fontcolor = 'r'\nclass Style:\n    def __init__(self):\n        self.figure_size = (10, 8)\n        self.dpi = 150",
         "detail": "plot4gmns.utility_lib",
         "documentation": {}
     },
@@ -497,7 +489,7 @@
         "kind": 6,
         "importPath": "plot4gmns.utility_lib",
         "description": "plot4gmns.utility_lib",
-        "peekOfCode": "class Style:\n    def __init__(self):\n        self.figure_size = (10, 8)\n        self.dpi = 300\n        self.cmap = 'jet'\n        self.node_style = NodeStyle()\n        self.link_style = LinkStyle()\n        self.poi_style = POIStyle()\n        self.demand_style = DemandStyle()\n        self.zone_style = ZoneStyle()",
+        "peekOfCode": "class Style:\n    def __init__(self):\n        self.figure_size = (10, 8)\n        self.dpi = 150\n        self.cmap = 'jet'\n        self.node_style = NodeStyle()\n        self.link_style = LinkStyle()\n        self.poi_style = POIStyle()\n        self.demand_style = DemandStyle()\n        self.zone_style = ZoneStyle()",
         "detail": "plot4gmns.utility_lib",
         "documentation": {}
     },
@@ -610,20 +602,11 @@
         "documentation": {}
     },
     {
-        "label": "path_1",
-        "kind": 5,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "path_1 = r'C:\\Users\\roche\\Anaconda_workspace\\001_Github\\plot4gmns\\datasets\\Berlin'\npath_2 =r\"C:\\Users\\roche\\Anaconda_workspace\\001_Github\\plot4gmns\\datasets\\Kansus_City\"\nmnet = p4g.generate_multi_network_from_csv(path_2)\n# cf = p4g.show_network_by_modes(mnet=mnet)\n# cf.show()\n# cf = p4g.show_network_by_modes(mnet=mnet,modes=['bike'])\n# cf.show()\n# cf = p4g.show_network_by_node_types(mnet=mnet,osm_highway=['traffic_signals','crossing'])\n# cf.show()\n# cf = p4g.show_network_by_link_types(mnet=mnet,link_types=['secondary','footway'])",
-        "detail": "main",
-        "documentation": {}
-    },
-    {
         "label": "mnet",
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "mnet = p4g.generate_multi_network_from_csv(path_2)\n# cf = p4g.show_network_by_modes(mnet=mnet)\n# cf.show()\n# cf = p4g.show_network_by_modes(mnet=mnet,modes=['bike'])\n# cf.show()\n# cf = p4g.show_network_by_node_types(mnet=mnet,osm_highway=['traffic_signals','crossing'])\n# cf.show()\n# cf = p4g.show_network_by_link_types(mnet=mnet,link_types=['secondary','footway'])\n# cf.show()\n# cf = p4g.show_network_by_link_length(mnet=mnet,min_length=10,max_length=50)",
+        "peekOfCode": "mnet = p4g.generate_multi_network_from_csv(r'E:\\BaiduBackup\\Github\\osm2rail\\convert_csv_to_geos_files')\n# cf = p4g.show_network_by_modes(mnet=mnet,modes=['auto'])\n# cf.show()\n# cf = p4g.show_network_by_modes(mnet=mnet,modes=['bike'])\n# cf.show()\n# cf = p4g.show_network_by_node_types(mnet=mnet,osm_highway=['traffic_signals','crossing'])\n# cf.show()\n# cf = p4g.show_network_by_link_types(mnet=mnet,link_types=['secondary','footway'])\n# cf.show()\n# cf = p4g.show_network_by_link_length(mnet=mnet,min_length=10,max_length=50)",
         "detail": "main",
         "documentation": {}
     }
