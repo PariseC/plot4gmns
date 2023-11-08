@@ -1,6 +1,6 @@
 import plot4gmns as p4g
 
-mnet = p4g.generate_multi_network_from_csv(r'E:\BaiduBackup\Github\osm2rail\convert_csv_to_geos_files')
+mnet = p4g.generate_multi_network_from_csv(r'C:\Users\roche\Anaconda_workspace\001_Github\plot4gmns\datasets\Berlin')
 
 # cf = p4g.show_network_by_modes(mnet=mnet,modes=['auto'])
 # cf.show()

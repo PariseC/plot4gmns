@@ -44,8 +44,13 @@ def generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:
     all_csv_files = get_file_names_from_folder_by_type(input_dir, 'csv')
     isRequired = check_required_files_exist(required_files, all_csv_files)
 
+    # raise exception if not all required files are found
     if not isRequired:
         raise Exception(f"Input directory {input_dir} does not contain all required files!")
+
+    # Additional check for poi.csv
+    if 'poi.csv' not in all_csv_files:
+        print(f"Warning: poi.csv is not found in {input_dir}, poi layer will not be loaded!")
 
     # initialize a MultiNet object
     mnet = MultiNet()

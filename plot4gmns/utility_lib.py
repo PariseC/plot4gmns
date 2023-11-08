@@ -8,8 +8,8 @@ from pathlib import Path
 from typing import Union
 
 target_files = ['node.csv', 'link.csv', 'poi.csv']
-required_files = ['node.csv', 'link.csv', 'poi.csv']
-optional_files = ['demand.csv', 'zone.csv']
+required_files = ['node.csv', 'link.csv', ]
+optional_files = ['poi.csv', 'demand.csv', 'zone.csv']
 
 required_columns = {
     'node': ['x_coord', 'y_coord'],
