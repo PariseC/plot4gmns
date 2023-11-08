@@ -292,4 +292,3 @@ Support web-based network visualization([Kepler.gl](https://github.com/keplergl/
 ### TODO LIST
 
 1. [ ] Add OD 3D visualization
-2. [ ]
