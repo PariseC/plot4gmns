@@ -70,7 +70,7 @@ class Link:
     def update_coords_by_link_types(self, link_types: list) -> None:
         # extract link coordinates of specified link types from link dataset
         node_id_list = []
-        res = self.value[self.value['link_type_name'].isin(link_types)]
+        res = self.value[self.value['facility_type'].isin(link_types)]
         self.link_coords.extend(res['geometry'].map(lambda x: np.array(list(x.coords))).tolist())
         node_id_list.extend(res['from_node_id'].tolist() + res['to_node_id'].tolist())
         self.node_id_list = list(set(self.node_id_list))

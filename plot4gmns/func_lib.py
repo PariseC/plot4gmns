@@ -392,7 +392,7 @@ def extract_coordinates_by_link_types(mnet: MultiNet, link_types: list) -> None:
     mnet.node.update_coords(column='node_id', values=mnet.link.node_id_list)
     mnet.POI.update_coords_by_poi_type()
     if len(mnet.link.link_coords) == 0:
-        valid_values = mnet.link.value['link_type_name'].unique()
+        valid_values = mnet.link.value['facility_type'].unique()
         raise Exception(f"no results found, please try the following keywords:\n{valid_values}")
 
 

@@ -1,7 +1,7 @@
 
 from .func_lib import generate_multi_network_from_csv
 from .plot4gmns import (show_network_by_modes,
-                        show_network_by_node_types,
+                        # show_network_by_node_types,
                         show_network_by_link_types,
                         show_network_by_link_free_speed,
                         show_network_by_link_lanes,
