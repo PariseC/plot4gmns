@@ -1,6 +1,5 @@
-keplergl==0.3.2
-matplotlib==3.4.3
-numpy==1.20.3
+keplergl
+matplotlib
 pandas
-seaborn==0.11.2
-Shapely==2.0.0
+seaborn
+Shapely
