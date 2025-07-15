@@ -4,7 +4,7 @@
 # Contact Info: luoxiangyong01@gmail.com
 # Author/Copyright: Mr. Xiangyong Luo
 ##############################################################
-
+from pathlib import Path
 import numpy as np
 import pandas as pd
 from typing import Union
@@ -30,27 +30,32 @@ from matplotlib.collections import PolyCollection
 import os
 
 
-def show_network_by_modes(
-        mnet: MultiNet,
-        modes: list = ['all'],
-        fig_obj: plt = None,
-        isSave2png: bool = True
-) -> plt:
+def show_network_by_modes(mnet: MultiNet,
+                          modes: list = None,
+                          fig_obj: plt = None,
+                          isSave2png: bool = True,
+                          output_dir: str = None) -> plt:
     """draw network links of different modes
-    Parameters
-    ----------
-    mnet : MultiNet object
-    modes :list, optional
-            network mode, valid to ('all', 'auto', 'bike', 'walk', 'railway'),Defaults to ('all').
-    fig_obj : figure object (plt) ,optional
-              if not None, will continue to draw elements on the existing figure object. Defaults to None
-    isSave2png : bool, optional
-                 if Ture, save the figure to a png file. Defaults to True.
 
-    Returns
-    -------
-    figure object
+    Args:
+        mnet (MultiNet): MultiNet object
+        modes (list): list of network modes to display. Defaults to ['all'].
+        fig_obj (plt): figure object (plt). If not None, will continue to draw elements on the existing figure object.
+        isSave2png (bool): if True, save the figure to a png file. Defaults to True.
+        output_dir (str): directory to save the figure. Defaults to None, which means the current working directory.
+
+    Returns:
+        plt: figure object with the drawn network
     """
+
+    if modes is None:
+        modes = ['all']
+
+    if output_dir is None:
+        output_dir = Path.cwd()
+
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
 
     extract_coordinates_by_network_mode(mnet, modes)
 
@@ -95,35 +100,38 @@ def show_network_by_modes(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_mode.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_mode.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
     return plt
 
 
-def show_network_by_node_types(
-        mnet: MultiNet,
-        osm_highway: list,
-        fig_obj: plt = None,
-        isSave2png: bool = True
-) -> plt:
+def show_network_by_node_types(mnet: MultiNet,
+                               osm_highway: list,
+                               fig_obj: plt = None,
+                               isSave2png: bool = True,
+                               output_dir: str = None) -> plt:
     """draw network nodes according to specified node types
-    Parameters
-    ----------
-    mnet : MultiNet object
-    osm_highway : list
-                  list of network node types to display.
-    fig_obj : figure object (plt) ,optional
-              if not None, will continue to draw elements on the existing figure object. Defaults to None;
-    isSave2png : bool, optional
-                 if Ture, save the figure to a png file. Defaults to True.
 
-    Returns
-    -------
-    figure object
+    Args:
+        mnet (MultiNet): MultiNet object
+        osm_highway (list): list of network node types to display.
+        fig_obj (plt): figure object (plt). If not None, will continue to draw elements on the existing figure object. Defaults to None.
+        isSave2png (bool): if True, save the figure to a png file. Defaults to True.
+        output_dir (str): directory to save the figure. Defaults to None, which means the current working directory.
+
+    Returns:
+        plt: figure object with the drawn network
     """
+
+    if output_dir is None:
+        output_dir = Path.cwd()
+
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
 
     if isinstance(osm_highway, str):
         osm_highway_ = [osm_highway]
@@ -179,35 +187,36 @@ def show_network_by_node_types(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_node_type.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
-        plt.savefig(path_figure,dpi=mnet.style.dpi)
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_node_type.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        plt.savefig(path_figure, dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
     return plt
 
 
-def show_network_by_link_types(
-        mnet: MultiNet,
-        link_types: list,
-        fig_obj: plt = None,
-        isSave2png: bool = True
-) -> plt:
+def show_network_by_link_types(mnet: MultiNet,
+                               link_types: list,
+                               fig_obj: plt = None,
+                               isSave2png: bool = True,
+                               output_dir: str = None) -> plt:
     """draw network nodes according to specified link types
-    Parameters
-    ----------
-    mnet : MultiNet object
-    link_types : list
-                 list of network link types to display.
-    fig_obj : figure object (plt) ,optional
-              if not None, will continue to draw elements on the existing figure object. Defaults to None;
-    isSave2png : bool, optional
-                 if Ture, save the figure to a png file. Defaults to True.
+    Args:
+        mnet (MultiNet): MultiNet object
+        link_types (list): list of network link types to display.
+        fig_obj (plt): figure object (plt). If not None, will continue to draw elements on the existing figure object. Defaults to None.
+        isSave2png (bool): if True, save the figure to a png file. Defaults to True.
+        output_dir (str): directory to save the figure. Defaults to None, which means the current working directory.
 
-    Returns
-    -------
-    figure object
+    Returns:
+        plt: figure object with the drawn network
     """
+
+    if output_dir is None:
+        output_dir = Path.cwd()
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
 
     if isinstance(link_types, str):
         link_types_ = [link_types]
@@ -259,37 +268,38 @@ def show_network_by_link_types(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_type.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_link_type.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
     return plt
 
 
-def show_network_by_link_lanes(
-        mnet: MultiNet,
-        min_lanes: int,
-        max_lanes: int,
-        fig_obj: plt = None,
-        isSave2png: bool = True) -> plt:
+def show_network_by_link_lanes(mnet: MultiNet,
+                               min_lanes: int,
+                               max_lanes: int,
+                               fig_obj: plt = None,
+                               isSave2png: bool = True,
+                               output_dir: str = None) -> plt:
     """draw network links according to specified link lane number
-    Parameters
-    ----------
-    mnet : MultiNet object
-    min_lanes : int
-                the minimum number of lanes to be displayed.
-    max_lanes : int
-                the maximum number of lanes to be displayed.
-    fig_obj : figure object (plt) ,optional
-              if not None, will continue to draw elements on the existing figure object. Defaults to None;
-    isSave2png : bool, optional
-                 if Ture, save the figure to a png file. Defaults to True.
+    Args:
+        mnet (MultiNet): MultiNet object
+        min_lanes (int): Minimum number of lanes to display
+        max_lanes (int): Maximum number of lanes to display
+        fig_obj (plt): Figure object to draw on
+        isSave2png (bool): Whether to save the figure as a PNG
+        output_dir (str): Directory to save the figure
 
-    Returns
-    -------
-    figure object
+    Returns:
+        plt: Figure object with the drawn network
     """
+
+    if output_dir is None:
+        output_dir = Path.cwd()
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
 
     if min_lanes > max_lanes:
         print("ValueError: 'min_lanes' should not less than 'max_lanes' ")
@@ -336,38 +346,39 @@ def show_network_by_link_lanes(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_lane.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_link_lane.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
     return plt
 
 
-def show_network_by_link_free_speed(
-        mnet: MultiNet,
-        min_free_speed: int,
-        max_free_speed: int,
-        fig_obj: plt = None,
-        isSave2png: bool = True
-) -> plt:
+def show_network_by_link_free_speed(mnet: MultiNet,
+                                    min_free_speed: int,
+                                    max_free_speed: int,
+                                    fig_obj: plt = None,
+                                    isSave2png: bool = True,
+                                    output_dir: str = None) -> plt:
     """draw network links according to specified link free speed
-    Parameters
-    ----------
-    mnet : MultiNet object
-    min_free_speed : int
-                     the minimum free speed of link to be displayed.
-    max_free_speed : int
-                     the maximum free speed of link to be displayed.
-    fig_obj : figure object (plt) ,optional
-              if not None, will continue to draw elements on the existing figure object. Defaults to None;
-    isSave2png : bool, optional
-                 if Ture, save the figure to a png file. Defaults to True.
 
-    Returns
-    -------
-    figure object
+    Args:
+        mnet (MultiNet): MultiNet object
+        min_free_speed (int): Minimum free speed of links to display
+        max_free_speed (int): Maximum free speed of links to display
+        fig_obj (plt): Figure object to draw on
+        isSave2png (bool): Whether to save the figure as a PNG
+        output_dir (str): Directory to save the figure
+
+    Returns:
+        plt: Figure object with the drawn network
     """
+
+    if output_dir is None:
+        output_dir = Path.cwd()
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
 
     if min_free_speed > max_free_speed:
         print("ValueError: 'min_lanes' should not less than 'max_lanes' ")
@@ -415,38 +426,38 @@ def show_network_by_link_free_speed(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_free_speed.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_link_free_speed.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
     return plt
 
 
-def show_network_by_link_length(
-        mnet: MultiNet,
-        min_length: int,
-        max_length: int,
-        fig_obj: plt = None,
-        isSave2png: bool = True
-) -> plt:
+def show_network_by_link_length(mnet: MultiNet,
+                                min_length: int,
+                                max_length: int,
+                                fig_obj: plt = None,
+                                isSave2png: bool = True,
+                                output_dir: str = None) -> plt:
     """draw network links according to specified link free speed
-    Parameters
-    ----------
-    mnet : MultiNet object
-    min_length : int
-                 the shortest link to be displayed.
-    max_length : int
-                 the longest link to be displayed.
-    fig_obj : figure object (plt) ,optional
-              if not None, will continue to draw elements on the existing figure object. Defaults to None;
-    isSave2png : bool, optional
-                 if Ture, save the figure to a png file. Defaults to True.
+    Args:
+        mnet (MultiNet): MultiNet object
+        min_length (int): Minimum length of links to display
+        max_length (int): Maximum length of links to display
+        fig_obj (plt): Figure object to draw on
+        isSave2png (bool): Whether to save the figure as a PNG
+        output_dir (str): Directory to save the figure
 
-    Returns
-    -------
-    figure object
+    Returns:
+        plt: Figure object with the drawn network
     """
+
+    if output_dir is None:
+        output_dir = Path.cwd()
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
 
     if min_length > max_length:
         print("ValueError: 'min_lanes' should not less than 'max_lanes' ")
@@ -492,32 +503,35 @@ def show_network_by_link_length(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_length.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_link_length.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
     return plt
 
 
-def show_network_by_link_lane_distribution(
-        mnet: MultiNet,
-        fig_obj: plt = None,
-        isSave2png: bool = True
-) -> plt:
+def show_network_by_link_lane_distribution(mnet: MultiNet,
+                                           fig_obj: plt = None,
+                                           isSave2png: bool = True,
+                                           output_dir: str = None) -> plt:
     """draw network links according to the distribution of number of link lanes
-    Parameters
-    ----------
-    mnet : MultiNet object
-    fig_obj : figure object (plt) ,optional
-              if not None, will continue to draw elements on the existing figure object. Defaults to None;
-    isSave2png : bool, optional
-                 if Ture, save the figure to a png file. Defaults to True.
 
-    Returns
-    -------
-    figure object
+    Args:
+        mnet (MultiNet): MultiNet object
+        fig_obj (plt): figure object (plt). If not None, will continue to draw elements on the existing figure object.
+        isSave2png (bool): if True, save the figure to a png file. Defaults to True.
+        output_dir (str): directory to save the figure. Defaults to None, which means the current working directory.
+
+    Returns:
+        plt: figure object with the drawn network
     """
+
+    if output_dir is None:
+        output_dir = Path.cwd()
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
 
     extract_coordinates_by_link_attr_distribution(mnet, 'lanes')
 
@@ -568,32 +582,35 @@ def show_network_by_link_lane_distribution(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_lane_distribution.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_link_lane_distribution.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
     return plt
 
 
-def show_network_by_link_free_speed_distribution(
-        mnet: MultiNet,
-        fig_obj: plt = None,
-        isSave2png: bool = True
-) -> plt:
+def show_network_by_link_free_speed_distribution(mnet: MultiNet,
+                                                 fig_obj: plt = None,
+                                                 isSave2png: bool = True,
+                                                 output_dir: str = None
+                                                 ) -> plt:
     """draw network links according to the distribution of link free speed
-    Parameters
-    ----------
-    mnet : MultiNet object
-    fig_obj : figure object (plt) ,optional
-              if not None, will continue to draw elements on the existing figure object. Defaults to None;
-    isSave2png : bool, optional
-                 if Ture, save the figure to a png file. Defaults to True.
 
-    Returns
-    -------
-    figure object
+    Args:
+        mnet (MultiNet): MultiNet object
+        fig_obj (plt): figure object (plt). If not None, will continue to draw elements on the existing figure object.
+        isSave2png (bool): if True, save the figure to a png file. Defaults to True.
+        output_dir (str): directory to save the figure. Defaults to None, which means the current working directory.
+
+    Returns:
+        plt: figure object with the drawn network
     """
+    if output_dir is None:
+        output_dir = Path.cwd()
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
 
     extract_coordinates_by_link_attr_distribution(mnet, 'free_speed')
 
@@ -644,32 +661,35 @@ def show_network_by_link_free_speed_distribution(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_free_speed_distribution.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_link_free_speed_distribution.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
     return plt
 
 
-def show_network_by_link_capacity_distribution(
-        mnet: MultiNet,
-        fig_obj: plt = None,
-        isSave2png: bool = True
-) -> plt:
+def show_network_by_link_capacity_distribution(mnet: MultiNet,
+                                               fig_obj: plt = None,
+                                               isSave2png: bool = True,
+                                               output_dir: str = None) -> plt:
     """draw network links according to the distribution of link capacity
-    Parameters
-    ----------
-    mnet : MultiNet object
-    fig_obj : figure object (plt) ,optional
-              if not None, will continue to draw elements on the existing figure object. Defaults to None;
-    isSave2png : bool, optional
-                 if Ture, save the figure to a png file. Defaults to True.
 
-    Returns
-    -------
-    figure object
+    Args:
+        mnet (MultiNet): MultiNet object
+        fig_obj (plt): figure object (plt). If not None, will continue to draw elements on the existing figure object.
+        isSave2png (bool): if True, save the figure to a png file. Defaults to True.
+        output_dir (str): directory to save the figure. Defaults to None, which means the current working directory.
+
+    Returns:
+        plt: figure object with the drawn network
     """
+    if output_dir is None:
+        output_dir = Path.cwd()
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
+
     extract_coordinates_by_link_attr_distribution(mnet, 'capacity')
 
     if fig_obj:
@@ -719,35 +739,37 @@ def show_network_by_link_capacity_distribution(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_link_capacity_distribution.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_link_capacity_distribution.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
     return plt
 
 
-def show_network_by_poi_types(
-        mnet: MultiNet,
-        poi_type: Union[str, list],
-        fig_obj: plt = None,
-        isSave2png: bool = True
-) -> plt:
+def show_network_by_poi_types(mnet: MultiNet,
+                              poi_type: Union[str, list],
+                              fig_obj: plt = None,
+                              isSave2png: bool = True,
+                              output_dir: str = None) -> plt:
     """draw network according to the specified POI types
-    Parameters
-    ----------
-    mnet : MultiNet object
-    poi_type : str|list
-               list of network POI types to display.
-    fig_obj : figure object (plt) ,optional
-              if not None, will continue to draw elements on the existing figure object. Defaults to None;
-    isSave2png : bool, optional
-                 if Ture, save the figure to a png file. Defaults to True.
 
-    Returns
-    -------
-    figure object
+    Args:
+        mnet (MultiNet): MultiNet object
+        poi_type (Union[str, list]): POI type or list of POI types to display.
+        fig_obj (plt): figure object (plt). If not None, will continue to draw elements on the existing figure object.
+        isSave2png (bool): if True, save the figure to a png file. Defaults to True.
+        output_dir (str): directory to save the figure. Defaults to None, which means the current working directory.
+
+    Returns:
+        plt: figure object with the drawn network
     """
+
+    if output_dir is None:
+        output_dir = Path.cwd()
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
 
     if isinstance(poi_type, str):
         poi_type_ = [poi_type]
@@ -798,32 +820,34 @@ def show_network_by_poi_types(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_poi_type.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_poi_type.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
     return plt
 
 
-def show_network_by_poi_production_distribution(
-        mnet: MultiNet,
-        fig_obj: plt = None,
-        isSave2png: bool = True
-) -> plt:
+def show_network_by_poi_production_distribution(mnet: MultiNet,
+                                                fig_obj: plt = None,
+                                                isSave2png: bool = True,
+                                                output_dir: str = None) -> plt:
     """draw network according to the distribution of poi production
-    Parameters
-    ----------
-    mnet : MultiNet object
-    fig_obj : figure object (plt) ,optional
-              if not None, will continue to draw elements on the existing figure object. Defaults to None;
-    isSave2png : bool, optional
-                 if Ture, save the figure to a png file. Defaults to True.
 
-    Returns
-    -------
-    figure object
+    Args:
+        mnet (MultiNet): MultiNet object
+        fig_obj (plt): figure object (plt). If not None, will continue to draw
+            elements on the existing figure object. Defaults to None.
+        isSave2png (bool): if True, save the figure to a png file. Defaults to True.
+        output_dir (str): directory to save the figure. Defaults to None, which means the current working directory.
     """
+
+    if output_dir is None:
+        output_dir = Path.cwd()
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
+
     extract_coordinates_by_poi_attr_distribution(mnet=mnet, column='production')
 
     if fig_obj:
@@ -855,11 +879,11 @@ def show_network_by_poi_production_distribution(
     # draw network pois
     if mnet.POI_loaded:
         poly_coll = PolyCollection(mnet.POI.poi_coords,
-                           alpha=0.7,
-                           array = np.array(mnet.POI.attr_distribution),
-                           cmap = mnet.style.cmap,
-                           edgecolors=mnet.style.poi_style.edgecolor,
-                           zorder=0)
+                                   alpha=0.7,
+                                   array=np.array(mnet.POI.attr_distribution),
+                                   cmap=mnet.style.cmap,
+                                   edgecolors=mnet.style.poi_style.edgecolor,
+                                   zorder=0)
         ax.add_collection(poly_coll)
         fig.colorbar(poly_coll, ax=ax)
 
@@ -869,32 +893,37 @@ def show_network_by_poi_production_distribution(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_poi_production_distribution.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_poi_production_distribution.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
     return plt
 
 
-def show_network_by_poi_attraction_distribution(
-        mnet: MultiNet,
-        fig_obj: plt = None,
-        isSave2png: bool = True
-) -> plt:
+def show_network_by_poi_attraction_distribution(mnet: MultiNet,
+                                                fig_obj: plt = None,
+                                                isSave2png: bool = True,
+                                                output_dir: str = None) -> plt:
     """draw network according to the distribution of poi attraction
-    Parameters
-    ----------
-    mnet : MultiNet object
-    fig_obj : figure object (plt) ,optional
-              if not None, will continue to draw elements on the existing figure object. Defaults to None;
-    isSave2png : bool, optional
-                 if Ture, save the figure to a png file. Defaults to True.
 
-    Returns
-    -------
-    figure object
+    Args:
+        mnet (MultiNet): MultiNet object
+        fig_obj (plt): figure object (plt). If not None, will continue to draw
+            elements on the existing figure object. Defaults to None.
+        isSave2png (bool): if True, save the figure to a png file. Defaults to True.
+        output_dir (str): directory to save the figure. Defaults to None, which means the current working directory.
+
+    Returns:
+        plt: figure object with the drawn network
     """
+
+    if output_dir is None:
+        output_dir = Path.cwd()
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
+
     extract_coordinates_by_poi_attr_distribution(mnet=mnet, column='attraction')
 
     if fig_obj:
@@ -926,11 +955,11 @@ def show_network_by_poi_attraction_distribution(
     # draw network pois
     if mnet.POI_loaded:
         poly_coll = PolyCollection(mnet.POI.poi_coords,
-                           alpha=0.7,
-                           array = np.array(mnet.POI.attr_distribution),
-                           cmap = mnet.style.cmap,
-                           edgecolors=mnet.style.poi_style.edgecolor,
-                           zorder=0)
+                                   alpha=0.7,
+                                   array=np.array(mnet.POI.attr_distribution),
+                                   cmap=mnet.style.cmap,
+                                   edgecolors=mnet.style.poi_style.edgecolor,
+                                   zorder=0)
         ax.add_collection(poly_coll)
         fig.colorbar(poly_coll, ax=ax)
 
@@ -940,34 +969,35 @@ def show_network_by_poi_attraction_distribution(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_poi_attraction_distribution.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_poi_attraction_distribution.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
     return plt
 
 
-def show_network_demand_matrix_heatmap(
-        mnet: MultiNet,
-        annot: bool = False,
-        isSave2png: bool = True
-) -> plt:
+def show_network_demand_matrix_heatmap(mnet: MultiNet,
+                                       annot: bool = False,
+                                       isSave2png: bool = True,
+                                       output_dir: str = None) -> plt:
     """draw network according to the distribution of poi attraction
-    Parameters
-    ----------
-    mnet : MultiNet object
-    annot : bool or rectangular dataset, optional
-            If True, write the data value in each cell. If an array-like with the
-            same shape as ``data``, then use this to annotate the heatmap instead
-            of the data. Note that DataFrames will match on position, not index.
-    isSave2png : bool, optional
-                 if Ture, save the figure to a png file. Defaults to True.
 
-    Returns
-    -------
-    figure object
+    Args:
+        mnet (MultiNet): MultiNet object
+        annot (bool): If True, write the data value in each cell. Defaults to False.
+        isSave2png (bool): If True, save the figure to a png file. Defaults to True.
+        output_dir (str): Directory to save the figure. Defaults to None.
+
+    Returns:
+        plt: figure object with the drawn network
     """
+
+    if output_dir is None:
+        output_dir = Path.cwd()
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
 
     count_demand_matrix(mnet)
     max_vol = np.max(mnet.demand.demand_matrix.reshape(1, -1))
@@ -985,38 +1015,40 @@ def show_network_demand_matrix_heatmap(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_demand_matrix_heatmap.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_demand_matrix_heatmap.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
     return plt
 
 
-def show_network_by_demand_OD(
-        mnet: MultiNet,
-        load_zone: bool = True,
-        load_network: bool = False,
-        fig_obj: plt = None,
-        isSave2png: bool = True
-) -> plt:
+def show_network_by_demand_OD(mnet: MultiNet,
+                              load_zone: bool = True,
+                              load_network: bool = False,
+                              fig_obj: plt = None,
+                              isSave2png: bool = True,
+                              output_dir: str = None) -> plt:
     """draw network according to the distribution of poi attraction
-    Parameters
-    ----------
-    mnet : MultiNet object
-    load_zone : bool, optional
-                if True, draw the zone grid.
-    load_network : bool, optional
-                   if True, draw the network as the background
-    fig_obj : figure object (plt) ,optional
-                 if not None, will continue to draw elements on the existing figure object. Defaults to None;
-    isSave2png : bool, optional
-                    if Ture, save the figure to a png file. Defaults to True.
 
-    Returns
-    -------
-    figure object
+    Args:
+        mnet (MultiNet): MultiNet object
+        load_zone (bool): if True, draw the zone grid. Defaults to True.
+        load_network (bool): if True, draw the network as the background. Defaults to False
+        fig_obj (plt): figure object (plt). If not None, will continue to draw elements on the existing figure object.
+        isSave2png (bool): if True, save the figure to a png file. Defaults to True.
+        output_dir (str): directory to save the figure. Defaults to None, which means the current working directory.
+
+    Returns:
+        plt: figure object with the drawn network
     """
+
+    if output_dir is None:
+        output_dir = Path.cwd()
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
+
     extract_coordinates_by_demand_OD(mnet, load_zone, load_network)
 
     if fig_obj:
@@ -1064,7 +1096,7 @@ def show_network_by_demand_OD(
         for label in mnet.zone.zone_names:
             plt.annotate(
                 str(label[0]),
-                xy=(label[1],label[2]),
+                xy=(label[1], label[2]),
                 xytext=(label[1], label[2]),
                 weight='bold',
                 color=mnet.style.zone_style.fontcolor,
@@ -1086,8 +1118,9 @@ def show_network_by_demand_OD(
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(generate_absolute_path(file_name="network_by_demand_od.png",
-                                                             folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+        path_figure = update_filename(
+            generate_absolute_path(file_name="network_by_demand_od.png",
+                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
