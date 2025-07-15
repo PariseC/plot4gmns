@@ -100,9 +100,8 @@ def generate_multi_network_from_csv(input_dir: str = './', output_dir: str = Non
         map_layer_data["zone"] = pd.read_csv(f"{input_dir}/zone.csv").fillna("None_")
 
     vis_map = generate_visualization_map_using_keplergl(map_layer_data)
-    path_vis_map = update_filename(
-        generate_absolute_path(file_name="plot4gmns_vis_map.html",
-                               folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+    path_vis_map = generate_absolute_path(file_name="plot4gmns_vis_map.html",
+                                          folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
     vis_map.save_to_html(file_name=path_vis_map)
     # print(f"Successfully generate interactive map visualization to {path_vis_map}")
 

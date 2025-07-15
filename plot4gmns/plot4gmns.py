@@ -100,9 +100,8 @@ def show_network_by_modes(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_mode.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(file_name="network_by_mode.png",
+                                             folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
@@ -119,7 +118,7 @@ def show_network_by_node_types(mnet: MultiNet,
     Args:
         mnet (MultiNet): MultiNet object
         osm_highway (list): list of network node types to display.
-        fig_obj (plt): figure object (plt). If not None, will continue to draw elements on the existing figure object. Defaults to None.
+        fig_obj (plt): figure object (plt). If not None, will continue to draw elements on the existing figure object.
         isSave2png (bool): if True, save the figure to a png file. Defaults to True.
         output_dir (str): directory to save the figure. Defaults to None, which means the current working directory.
 
@@ -187,9 +186,8 @@ def show_network_by_node_types(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_node_type.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(file_name="network_by_node_type.png",
+                                             folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure, dpi=mnet.style.dpi)
         print(f"Successfully save figure to {path_figure}")
 
@@ -205,7 +203,7 @@ def show_network_by_link_types(mnet: MultiNet,
     Args:
         mnet (MultiNet): MultiNet object
         link_types (list): list of network link types to display.
-        fig_obj (plt): figure object (plt). If not None, will continue to draw elements on the existing figure object. Defaults to None.
+        fig_obj (plt): figure object (plt). If not None, will continue to draw elements on the existing figure object.
         isSave2png (bool): if True, save the figure to a png file. Defaults to True.
         output_dir (str): directory to save the figure. Defaults to None, which means the current working directory.
 
@@ -268,9 +266,9 @@ def show_network_by_link_types(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_link_type.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(
+            file_name="network_by_link_type.png",
+            folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
@@ -346,9 +344,9 @@ def show_network_by_link_lanes(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_link_lane.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(
+            file_name="network_by_link_lane.png",
+            folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
@@ -426,9 +424,9 @@ def show_network_by_link_free_speed(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_link_free_speed.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(
+            file_name="network_by_link_free_speed.png",
+            folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
@@ -503,9 +501,9 @@ def show_network_by_link_length(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_link_length.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(
+            file_name="network_by_link_length.png",
+            folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
@@ -582,9 +580,9 @@ def show_network_by_link_lane_distribution(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_link_lane_distribution.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(
+            file_name="network_by_link_lane_distribution.png",
+            folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
@@ -594,8 +592,7 @@ def show_network_by_link_lane_distribution(mnet: MultiNet,
 def show_network_by_link_free_speed_distribution(mnet: MultiNet,
                                                  fig_obj: plt = None,
                                                  isSave2png: bool = True,
-                                                 output_dir: str = None
-                                                 ) -> plt:
+                                                 output_dir: str = None) -> plt:
     """draw network links according to the distribution of link free speed
 
     Args:
@@ -661,9 +658,9 @@ def show_network_by_link_free_speed_distribution(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_link_free_speed_distribution.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(
+            file_name="network_by_link_free_speed_distribution.png",
+            folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
@@ -739,9 +736,9 @@ def show_network_by_link_capacity_distribution(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_link_capacity_distribution.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(
+            file_name="network_by_link_capacity_distribution.png",
+            folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
@@ -820,9 +817,9 @@ def show_network_by_poi_types(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_poi_type.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(
+            file_name="network_by_poi_type.png",
+            folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
@@ -893,9 +890,9 @@ def show_network_by_poi_production_distribution(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_poi_production_distribution.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(
+            file_name="network_by_poi_production_distribution.png",
+            folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
@@ -969,9 +966,9 @@ def show_network_by_poi_attraction_distribution(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_poi_attraction_distribution.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(
+            file_name="network_by_poi_attraction_distribution.png",
+            folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
@@ -1015,9 +1012,9 @@ def show_network_demand_matrix_heatmap(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_demand_matrix_heatmap.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(
+            file_name="network_by_demand_matrix_heatmap.png",
+            folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
@@ -1118,9 +1115,9 @@ def show_network_by_demand_OD(mnet: MultiNet,
     plt.tight_layout()
 
     if isSave2png:
-        path_figure = update_filename(
-            generate_absolute_path(file_name="network_by_demand_od.png",
-                                   folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
+        path_figure = generate_absolute_path(
+            file_name="network_by_demand_od.png",
+            folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
         plt.savefig(path_figure)
         print(f"The image has been saved to the designated location: {path_figure}")
 
