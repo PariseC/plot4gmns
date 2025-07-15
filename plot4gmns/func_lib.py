@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import pandas as pd
 from .utility_lib import (required_files,
                           required_columns,
@@ -23,11 +24,12 @@ def read_single_csv_file(file_name: str, geo_type: str) -> tuple:
     return (df, True)
 
 
-def generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:
+def generate_multi_network_from_csv(input_dir: str = './', output_dir: str = None) -> MultiNet:
     """read Multi-mode network from CSV file in the format of GMNS
 
     Args:
         input_dir (str, optional): a file path. Defaults to './'.
+        output_dir(str): a file path to save the visualization map. Defaults to None, which means the current working directory.
 
     Returns:
         MNet: MultiNet object
@@ -39,6 +41,11 @@ def generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:
     # Check if the input directory exists
     if not os.path.exists(input_dir):
         raise Exception(f"Input directory {input_dir} does not exist!")
+
+    if not output_dir:
+        output_dir = Path.cwd()
+    if not Path(output_dir).exists():
+        output_dir = Path.cwd()
 
     # check if the input directory contains all required files
     all_csv_files = get_file_names_from_folder_by_type(input_dir, 'csv')
@@ -93,8 +100,9 @@ def generate_multi_network_from_csv(input_dir: str = './',) -> MultiNet:
         map_layer_data["zone"] = pd.read_csv(f"{input_dir}/zone.csv").fillna("None_")
 
     vis_map = generate_visualization_map_using_keplergl(map_layer_data)
-    path_vis_map = update_filename(generate_absolute_path(file_name="plot4gmns_vis_map.html",
-                                                          folder_name=path2linux(os.path.join(os.getcwd(), "p4g_fig_results"))))
+    path_vis_map = update_filename(
+        generate_absolute_path(file_name="plot4gmns_vis_map.html",
+                               folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results"))))
     vis_map.save_to_html(file_name=path_vis_map)
     # print(f"Successfully generate interactive map visualization to {path_vis_map}")
 
