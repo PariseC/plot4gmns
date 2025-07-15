@@ -87,6 +87,7 @@ class Link:
         self.link_coords = self.value['geometry'].map(lambda x: np.array(list(x.coords))).tolist()
         self.attr_distribution = self.value[column].tolist()
 
+
 class POI:
     def __init__(self):
         self.value = None  # dataframe
@@ -145,7 +146,7 @@ class Demand:
         # load a POI geometry from a WKT string.
         self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))
 
-    def update_demand_matrix(self,number_of_zone):
+    def update_demand_matrix(self, number_of_zone):
 
         demand_matrix = np.zeros((number_of_zone, number_of_zone))
         for row in range(self.value.shape[0]):

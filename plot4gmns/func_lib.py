@@ -348,7 +348,7 @@ def generate_visualization_map_using_keplergl(map_layer_data: dict, map_config: 
 def extract_coordinates_by_network_mode(mnet: MultiNet, modes: list) -> None:
     # extract node,link, and poi coordinates of the specified network mode
     mnet.link.update_coords_by_link_modes(modes)
-    mnet.node.update_coords(column='node_id',values=mnet.link.node_id_list)
+    mnet.node.update_coords(column='node_id', values=mnet.link.node_id_list)
     mnet.POI.update_coords_by_poi_type()
     if len(mnet.link.link_coords) == 0:
         raise Exception("please try other modes")
