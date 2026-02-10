@@ -1,22 +1,33 @@
 # -*- coding: utf-8 -*-
-# @Time    : 2022/11/29 10:48
-# @Author  : Praise
-# @File    : utility_lib.py
-# obj:
 import os
 from pathlib import Path
 from typing import Union
 
 target_files = ['node.csv', 'link.csv', 'poi.csv']
 required_files = ['node.csv', 'link.csv', ]
-optional_files = ['poi.csv', 'demand.csv', 'zone.csv']
+
+optional_files = ['poi.csv', 'demand.csv']
+
+# GMNS data elements with geometry information
+gmns_basic_data_elements = ["node.csv", "link.csv", "geometry.csv", "zone.csv"]
+gmns_advanced_data_elements = ["location.csv", "lane.csv", "movement.csv"]
+gmns_elements = gmns_basic_data_elements + gmns_advanced_data_elements + optional_files
 
 required_columns = {
     'node': ['x_coord', 'y_coord'],
     'link': ['geometry'],
+    'zone': ['geometry'],  # boundary or geometry
+    'zone_boundary': ['boundary'],  # boundary
+    'geometry': ["geometry"],
+
     'poi': ['geometry'],
+    'location': ["x_coord", "y_coord"],
+
     'demand': ['geometry'],
-    'zone': ['geometry']}
+
+    'lane': ["geometry"],
+    'movement': ["geometry"],
+}
 
 network_modes = ['all', 'bike', 'walk', 'auto', 'railway']
 
@@ -69,6 +80,31 @@ class ZoneStyle:
         self.fontcolor = 'r'
 
 
+class LocationStyle:
+    def __init__(self):
+        self.size = 8
+        self.facecolor = 'orange'
+        self.edgecolor = 'black'
+
+
+class LaneStyle:
+    def __init__(self):
+        self.linewidth = 1
+        self.linecolor = 'green'
+
+
+class MovementStyle:
+    def __init__(self):
+        self.linewidth = 1
+        self.linecolor = 'brown'
+
+
+class GeometryStyle:
+    def __init__(self):
+        self.linewidth = 1
+        self.linecolor = 'gray'
+
+
 class Style:
     def __init__(self):
         self.figure_size = (10, 8)
@@ -79,6 +115,10 @@ class Style:
         self.poi_style = POIStyle()
         self.demand_style = DemandStyle()
         self.zone_style = ZoneStyle()
+        self.location_style = LocationStyle()
+        self.lane_style = LaneStyle()
+        self.movement_style = MovementStyle()
+        self.geometry_style = GeometryStyle()
 
 
 def path2linux(path: Union[str, Path]) -> str:
@@ -94,17 +134,18 @@ def validate_filename(path_filename: str, ) -> bool:
     return bool(os.path.exists(filename_abspath))
 
 
-def check_dir(input_dir: str,) -> list:
+def check_dir(input_dir: str) -> list:
     files_found = []
     files_not_found = []
-    for file in required_files + optional_files:
+    for file in gmns_elements:
         path_filename = os.path.join(input_dir, file)
         if validate_filename(path_filename):
             files_found.append(file)
         else:
             files_not_found.append(file)
-    print(f"The following file(s) was found in the folder: \n \t {files_found}")
-    print(f"The following file(s) was not found in the folder: \n \t {files_not_found}")
+
+    print(f"Files found in the folder:\n\t{files_found}")
+    # print(f"The following file(s) was not found in the folder: \n \t {files_not_found}")
 
     return files_found
 

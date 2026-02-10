@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import pandas as pd
 from .utility_lib import (required_files,
+                          gmns_elements,
                           required_columns,
                           check_dir,
                           get_file_names_from_folder_by_type,
@@ -35,8 +36,8 @@ def generate_multi_network_from_csv(input_dir: str = './', output_dir: str = Non
         MNet: MultiNet object
     """
     # Tell the user the input files format
-    print(f"Please note that required input files are {required_files}")
-    print(f"Reading network from CSV files in {input_dir}...")
+    # print(f"Please note that required input files are {required_files}")
+    print(f"Reading GMNS data from CSV files in {input_dir}...")
 
     # Check if the input directory exists
     if not os.path.exists(input_dir):
@@ -48,16 +49,16 @@ def generate_multi_network_from_csv(input_dir: str = './', output_dir: str = Non
         output_dir = Path.cwd()
 
     # check if the input directory contains all required files
-    all_csv_files = get_file_names_from_folder_by_type(input_dir, 'csv')
-    isRequired = check_required_files_exist(required_files, all_csv_files)
+    # all_csv_files = get_file_names_from_folder_by_type(input_dir, 'csv')
+    # isRequired = check_required_files_exist(required_files, all_csv_files)
 
     # raise exception if not all required files are found
-    if not isRequired:
-        raise Exception(f"Input directory {input_dir} does not contain all required files!")
+    # if not isRequired:
+    #     raise Exception(f"Input directory {input_dir} does not contain all required files!")
 
     # Additional check for poi.csv
-    if 'poi.csv' not in all_csv_files:
-        print(f"Warning: poi.csv is not found in {input_dir}, poi layer will not be loaded!")
+    # if 'poi.csv' not in all_csv_files:
+    #     print(f"Warning: poi.csv is not found in {input_dir}, poi layer will not be loaded!")
 
     # initialize a MultiNet object
     mnet = MultiNet()
@@ -67,21 +68,41 @@ def generate_multi_network_from_csv(input_dir: str = './', output_dir: str = Non
     for filename in files_found:
         path_filename = os.path.join(input_dir, filename)
         element = filename.split(".")[0]
-        if element == 'node':
-            mnet.node.value, mnet.node_loaded = read_single_csv_file(path_filename, element)
-        elif element == 'link':
-            mnet.link.value, mnet.link_loaded = read_single_csv_file(path_filename, element)
-            mnet.link.convert_str_to_geometry()
-            mnet.link.extract_link_modes()
-        elif element == 'poi':
-            mnet.POI.value, mnet.POI_loaded = read_single_csv_file(path_filename, element)
-            mnet.POI.convert_str_to_geometry()
-        elif element == 'demand':
-            mnet.demand.value, mnet.demand_loaded = read_single_csv_file(path_filename, element)
-            mnet.demand.convert_str_to_geometry()
-        elif element == 'zone':
-            mnet.zone.value, mnet.zone_loaded = read_single_csv_file(path_filename, element)
-            mnet.zone.convert_str_to_geometry()
+        match element:
+            case 'node':
+                mnet.node.value, mnet.node_loaded = read_single_csv_file(path_filename, element)
+            case 'link':
+                mnet.link.value, mnet.link_loaded = read_single_csv_file(path_filename, element)
+                mnet.link.convert_str_to_geometry()
+                mnet.link.extract_link_modes()
+            case 'poi':
+                mnet.POI.value, mnet.POI_loaded = read_single_csv_file(path_filename, element)
+                mnet.POI.convert_str_to_geometry()
+            case 'demand':
+                mnet.demand.value, mnet.demand_loaded = read_single_csv_file(path_filename, element)
+                mnet.demand.convert_str_to_geometry()
+            case 'zone':
+                try:
+                    mnet.zone.value, mnet.zone_loaded = read_single_csv_file(path_filename, element)
+                    mnet.zone.convert_str_to_geometry()
+                except Exception:
+                    try:
+                        mnet.zone.value, mnet.zone_loaded = read_single_csv_file(path_filename, 'zone_boundary')
+                        mnet.zone.convert_str_to_geometry()
+                    except Exception:
+                        print(f"Error: zone.csv not found in {input_dir}, zone layer will not be loaded!")
+            case 'geometry':
+                mnet.geometry.value, mnet.geometry_loaded = read_single_csv_file(path_filename, element)
+                mnet.geometry.convert_str_to_geometry()
+            case 'location':
+                mnet.location.value, mnet.location_loaded = read_single_csv_file(path_filename, element)
+            case 'lane':
+                mnet.lane.value, mnet.lane_loaded = read_single_csv_file(path_filename, element)
+                mnet.lane.convert_str_to_geometry()
+            case 'movement':
+                mnet.movement.value, mnet.movement_loaded = read_single_csv_file(path_filename, element)
+                mnet.movement.convert_str_to_geometry()
+
     print("Complete file loading")
 
     # generate keplergl map, currently only support node, link, poi
@@ -91,13 +112,22 @@ def generate_multi_network_from_csv(input_dir: str = './', output_dir: str = Non
         map_layer_data["node"] = pd.read_csv(path2linux(f"{input_dir}/node.csv")).fillna("None_")
         print("Test path: ", f"{input_dir}/node.csv")
     if mnet.link_loaded:
-        map_layer_data["link"] = pd.read_csv(f"{input_dir}/link.csv").fillna("None_")
+        map_layer_data["link"] = pd.read_csv(path2linux(f"{input_dir}/link.csv")).fillna("None_")
     if mnet.POI_loaded:
         map_layer_data["poi"] = pd.read_csv(f"{input_dir}/poi.csv").fillna("None_")
     if mnet.demand_loaded:
         map_layer_data["demand"] = pd.read_csv(f"{input_dir}/demand.csv").fillna("None_")
     if mnet.zone_loaded:
         map_layer_data["zone"] = pd.read_csv(f"{input_dir}/zone.csv").fillna("None_")
+
+    if mnet.geometry_loaded:
+        map_layer_data["geometry"] = pd.read_csv(f"{input_dir}/geometry.csv").fillna("None_")
+    if mnet.location_loaded:
+        map_layer_data["location"] = pd.read_csv(f"{input_dir}/location.csv").fillna("None_")
+    if mnet.lane_loaded:
+        map_layer_data["lane"] = pd.read_csv(f"{input_dir}/lane.csv").fillna("None_")
+    if mnet.movement_loaded:
+        map_layer_data["movement"] = pd.read_csv(f"{input_dir}/movement.csv").fillna("None_")
 
     vis_map = generate_visualization_map_using_keplergl(map_layer_data)
     path_vis_map = generate_absolute_path(file_name="plot4gmns_vis_map.html",

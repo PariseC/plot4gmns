@@ -177,16 +177,63 @@ class Zone:
         self.zone_names = self.value[['name', 'centroid_x', 'centroid_y']].values.tolist()
 
 
+class Lane:
+    def __init__(self):
+        self.value = None  # dataframe
+        self.lane_coords = None
+
+    def convert_str_to_geometry(self) -> None:
+        # load a POI geometry from a WKT string.
+        self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))
+
+
+class Movement:
+    def __init__(self):
+        self.value = None  # dataframe
+        self.movement_coords = None
+
+    def convert_str_to_geometry(self) -> None:
+        # load a POI geometry from a WKT string.
+        self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))
+
+
+class Location:
+    def __init__(self):
+        self.value = None  # dataframe
+        self.location_coords = None
+
+
+class Geometry:
+    def __init__(self):
+        self.value = None  # dataframe
+        self.geometry_coords = None
+
+    def convert_str_to_geometry(self) -> None:
+        # load a POI geometry from a WKT string.
+        self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))
+
+
 class MultiNet:
     def __init__(self):
         self.style = Style()
+
         self.node = Node()  # Node
         self.link = Link()  # Link
         self.POI = POI()  # POI
         self.demand = Demand()  # Demand
         self.zone = Zone()  # zone
+
+        self.geometry = Geometry()  # geometry for GMNS element
+        self.location = Location()  # location for GMNS element
+        self.lane = Lane()  # lane for GMNS element
+        self.movement = Movement()  # movement for GMNS element
+
         self.node_loaded = False
         self.link_loaded = False
         self.POI_loaded = False
         self.demand_loaded = False
         self.zone_loaded = False
+        self.geometry_loaded = False
+        self.location_loaded = False
+        self.lane_loaded = False
+        self.movement_loaded = False
