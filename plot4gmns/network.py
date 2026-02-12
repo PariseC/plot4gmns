@@ -9,6 +9,7 @@ from .utility_lib import Style
 from shapely.wkt import loads
 from shapely.geometry import MultiPolygon, Polygon
 import numpy as np
+import pandas as pd
 
 
 class Node:
@@ -57,12 +58,14 @@ class Link:
         # extract link coordinates of specified network mode from link dataset
         if 'all' in modes:
             self.link_coords = self.value['geometry'].map(lambda x: np.array(list(x.coords))).tolist()
+            self.node_id_list = self.value['from_node_id'].tolist() + self.value['to_node_id'].tolist()
             self.ID = []
         else:
             self.link_coords = []
             self.node_id_list = []
             for mode in modes:
-                res = self.value[self.value[mode] == True]
+                res = self.value[self.value["allowed_uses"].map(lambda x, m=mode: m in x.split(';'))]
+
                 self.link_coords.extend(res['geometry'].map(lambda x: np.array(list(x.coords))).tolist())
                 self.node_id_list.extend(res['from_node_id'].tolist() + res['to_node_id'].tolist())
             self.node_id_list = list(set(self.node_id_list))
@@ -70,7 +73,11 @@ class Link:
     def update_coords_by_link_types(self, link_types: list) -> None:
         # extract link coordinates of specified link types from link dataset
         node_id_list = []
-        res = self.value[self.value['link_type_name'].isin(link_types)]
+        try:
+            res = self.value[self.value['facility_type'].isin(link_types)]
+        except Exception:
+            res = self.value[self.value['link_type'].isin(link_types)]
+
         self.link_coords.extend(res['geometry'].map(lambda x: np.array(list(x.coords))).tolist())
         node_id_list.extend(res['from_node_id'].tolist() + res['to_node_id'].tolist())
         self.node_id_list = list(set(self.node_id_list))
@@ -86,6 +93,7 @@ class Link:
     def update_coords_by_attr_distribution(self, column: str) -> None:
         self.link_coords = self.value['geometry'].map(lambda x: np.array(list(x.coords))).tolist()
         self.attr_distribution = self.value[column].tolist()
+
 
 class POI:
     def __init__(self):
@@ -109,12 +117,12 @@ class POI:
                 coords = list(geometry.exterior.coords)
             return coords
         if len(poi_type):
-            res = self.value[(self.value['building'].isin(poi_type)) |
-                             (self.value['amenity'].isin(poi_type)) |
-                             (self.value['leisure'].isin(poi_type))]
-            self.poi_coords = res['geometry'].map(convert_geometry_to_list).tolist()
+            res = self.value[(self.value['building'].isin(poi_type))
+                             | (self.value['amenity'].isin(poi_type))
+                             | (self.value['leisure'].isin(poi_type))]
+            self.poi_coords = res['geometry'].map(lambda x, func=convert_geometry_to_list: func(x)).tolist()
         else:
-            self.poi_coords = self.value['geometry'].map(convert_geometry_to_list).tolist()
+            self.poi_coords = self.value['geometry'].map(lambda x, func=convert_geometry_to_list: func(x)).tolist()
 
     def update_coords_by_attr_distribution(self, column: str, rate: float = 1.0) -> None:
         def convert_geometry_to_list(geometry):
@@ -145,14 +153,23 @@ class Demand:
         # load a POI geometry from a WKT string.
         self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))
 
-    def update_demand_matrix(self,number_of_zone):
+    def update_demand_matrix(self, zone_id_list: list = None) -> None:
 
-        demand_matrix = np.zeros((number_of_zone, number_of_zone))
+        zone_from = self.value["o_zone_id"].tolist()
+        zone_to = self.value["d_zone_id"].tolist()
+        zone_id_list = list(set(zone_from + zone_to))
+
+        # create an empty dataframe with zone_id_list as index and columns
+        demand_matrix = pd.DataFrame(
+            0.0,
+            index=[str(i) for i in zone_id_list],
+            columns=[str(i) for i in zone_id_list],
+        )
         for row in range(self.value.shape[0]):
             o_zone_id = self.value['o_zone_id'][row]
             d_zone_id = self.value['d_zone_id'][row]
             vol = self.value['volume'][row]
-            demand_matrix[o_zone_id - 1, d_zone_id - 1] = vol
+            demand_matrix.loc[str(o_zone_id), str(d_zone_id)] = float(vol)
         self.demand_matrix = demand_matrix
 
     def update_coords(self):
@@ -169,23 +186,98 @@ class Zone:
 
     def convert_str_to_geometry(self) -> None:
         # load a POI geometry from a WKT string.
-        self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))
+        try:
+            self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))
+        except Exception:
+            self.value['geometry'] = self.value['boundary'].map(lambda x: loads(x))
 
     def update_coords(self):
         self.zone_coords = self.value['geometry'].map(lambda x: np.array(list(x.exterior.coords))).tolist()
-        self.zone_names = self.value[['name', 'centroid_x', 'centroid_y']].values.tolist()
+        # self.zone_names = self.value[['name', 'centroid_x', 'centroid_y']].values.tolist()
+
+
+class Lane:
+    def __init__(self):
+        self.value = None  # dataframe
+        self.lane_coords = None
+
+    def convert_str_to_geometry(self) -> None:
+        # load a POI geometry from a WKT string.
+        self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))
+
+    def update_coords(self):
+        self.lane_coords = self.value['geometry'].map(lambda x: np.array(list(x.exterior.coords))).tolist()
+
+
+class Movement:
+    def __init__(self):
+        self.value = None  # dataframe
+        self.movement_coords = None
+
+    def convert_str_to_geometry(self) -> None:
+        # load a POI geometry from a WKT string.
+        self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))
+
+    def update_coords(self):
+        self.movement_coords = self.value['geometry'].map(lambda x: np.array(list(x.exterior.coords))).tolist()
+
+
+class Location:
+    def __init__(self):
+        self.value = None  # dataframe
+        self.location_coords = None
+
+    def update_coords(self, column: str = '', values: list = []) -> None:
+        """extract node coordinates from node dataset
+
+        Args:
+            column (str): node ID set to be extracted
+            values (list): Need to be specified
+        """
+
+        if values:
+            res = self.value[self.value[column].isin(values)]
+            self.x_coords = res['x_coord'].tolist()
+            self.y_coords = res['y_coord'].tolist()
+        else:
+            self.x_coords = self.value['x_coord'].tolist()
+            self.y_coords = self.value['y_coord'].tolist()
+
+
+class Geometry:
+    def __init__(self):
+        self.value = None  # dataframe
+        self.geometry_coords = None
+
+    def convert_str_to_geometry(self) -> None:
+        # load a POI geometry from a WKT string.
+        self.value['geometry'] = self.value['geometry'].map(lambda x: loads(x))
+
+    def update_coords(self):
+        self.geometry_coords = self.value['geometry'].map(lambda x: np.array(list(x.exterior.coords))).tolist()
 
 
 class MultiNet:
     def __init__(self):
         self.style = Style()
+
         self.node = Node()  # Node
         self.link = Link()  # Link
         self.POI = POI()  # POI
         self.demand = Demand()  # Demand
         self.zone = Zone()  # zone
+
+        self.geometry = Geometry()  # geometry for GMNS element
+        self.location = Location()  # location for GMNS element
+        self.lane = Lane()  # lane for GMNS element
+        self.movement = Movement()  # movement for GMNS element
+
         self.node_loaded = False
         self.link_loaded = False
         self.POI_loaded = False
         self.demand_loaded = False
         self.zone_loaded = False
+        self.geometry_loaded = False
+        self.location_loaded = False
+        self.lane_loaded = False
+        self.movement_loaded = False

@@ -1,5 +1,7 @@
 # Plot4GMNS: An open-source academic research tool for visualizing multimodal networks for transportation system modeling and optimization
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/fa4f13889fb546afb83b1a174210e9cc)](https://app.codacy.com/gh/xyluo25/plot4gmns/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![Downloads](https://static.pepy.tech/badge/plot4gmns)](https://pepy.tech/project/plot4gmns) [![PyPI version](https://badge.fury.io/py/plot4gmns.svg)](https://badge.fury.io/py/plot4gmns) [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)[![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
+
 **Authors:** Dr. Junhua Chen, Zanyang Cui, Xiangyong Luo
 
 **Email:** cjh@bjtu.edu.cn, zanyangcui@outlook.com, luoxiangyong01@gmail.com
@@ -11,8 +13,8 @@
 - [Install](#install)
 - [Features](#features)
 - [Usage](#usage)
-    - [Quickstart](#quickstart)
-    - [Advance](#advance)
+  - [Quickstart](#quickstart)
+  - [Advance](#advance)
 - [Contributing](#contributing)
 
 ## Introduction
@@ -45,33 +47,31 @@ pip install plot4gmns
 * [X] **web-based network visualization**
 * [X] **show networks in different modes**
 * [X] **show network with given node types**
-
 * [X] **show network by given link types**
 * [X] **show network by given link attributes range**
-
 * [X] **show network by link attributes distribution**
 * [X] **show network with given POI types**
-
 * [X] **show network by poi attributes distribution**
 * [X] **show network demand matrix heatmap**
-
 * [X] **show network demand OD**
-
 * [X] ***Show only network elements of interest***
 * [X] ***Show different networks on one diagram***
 * [X] ***Set the drawing style***
 
 ## Usage
+
 Before starting, you must have prepared network files, including node.csv, link.csv, poi.csv, demand.csv, and zone.csv. The [osm2gmns](https://github.com/asu-trans-ai-lab/OSM2GMNS) package will help you quickly obtain node, link, and poi data, and the[ grid2demand](https://github.com/asu-trans-ai-lab/grid2demand) package will help you obtain network demand and zone information.
 
 ### Quickstart
+
 **Step 1: generate multimodal network**
 
 ```python
 import plot4gmns as p4g
 mnet=p4g.generate_multi_network_from_csv(r'./datasets')
 ```
->After executing the above command, you will get an Html file, as shown below. More visual operations are supported on the web site..
+
+> After executing the above command, you will get an Html file, as shown below. More visual operations are supported on the web site..
 
 <img src="https://github.com/PariseC/plot4gmns/blob/main/docs/media/1674358532007.png?raw=true" width="800" height="600" alt=" "/><br/>
 
@@ -97,7 +97,7 @@ cf.show() # show the figure on the current window
 **Step 3: show network with given node types**
 
 ```python
-cf = p4g.show_network_by_node_types(mnet=mnet,osm_highway=['traffic_signals','crossing'])
+cf = p4g.show_network_by_node_types(mnet=mnet,ctrl_type=['traffic_signals','crossing'])
 cf.show()
 ```
 
@@ -246,7 +246,7 @@ cf.show()
 Users can refer to the following examples to adjust the color, size and other attributes of the image before drawing.
 
 | parameter                             | Value                   | Description                      |
-|---------------------------------------|-------------------------|----------------------------------|
+| ------------------------------------- | ----------------------- | -------------------------------- |
 | mnet.style.figure_size                | tuple,(width,height)    | Image size                       |
 | mnet.style.dpi                        | int                     | the resolution in dots per inch. |
 | mnet.style.node_style.size            | int                     | node marker size                 |
@@ -277,7 +277,6 @@ cf.show()
 
 Feel free to dive in! [Open an issue](https://github.com/RichardLitt/standard-readme/issues).
 
-
 ## Contributors
 
 [@PraiseC](https://github.com/PariseC)
@@ -286,5 +285,10 @@ Feel free to dive in! [Open an issue](https://github.com/RichardLitt/standard-re
 
 ## Changelog
 
-- 2023-01-25 -- v0.1.1:
-  - Support web-based network visualization([Kepler.gl](https://github.com/keplergl/kepler.gl))
+2023-01-25 -- v0.1.1:
+
+Support web-based network visualization([Kepler.gl](https://github.com/keplergl/kepler.gl))
+
+### TODO LIST
+
+1. [ ] Add OD 3D visualization
