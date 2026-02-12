@@ -14,18 +14,22 @@ from .network import MultiNet
 from keplergl import KeplerGl
 
 
-def read_single_csv_file(file_name: str, geo_type: str) -> tuple:
+def read_single_csv_file(file_name: str, geo_type: str, force_load: bool = False) -> tuple:
     df = pd.read_csv(os.path.join(file_name))
+
+    if force_load:
+        print(f"Force load {file_name} without checking required columns for {geo_type}.")
+        return (df, True)
 
     # check if the required columns exists
     for column in required_columns[geo_type]:
         if column not in df.columns:
-            print(f"{file_name} does not contain required column {column}!")
+            print(f"  :{file_name} does not contain required column {column}!")
             return (None, False)
     return (df, True)
 
 
-def generate_multi_network_from_csv(input_dir: str = './', output_dir: str = None) -> MultiNet:
+def generate_multi_network_from_csv(input_dir: str = './', output_dir: str = None, kepler_map: bool = False) -> MultiNet:
     """read Multi-mode network from CSV file in the format of GMNS
 
     Args:
@@ -71,37 +75,80 @@ def generate_multi_network_from_csv(input_dir: str = './', output_dir: str = Non
         match element:
             case 'node':
                 mnet.node.value, mnet.node_loaded = read_single_csv_file(path_filename, element)
+                try:
+                    mnet.node.update_coords()
+                except Exception as e:
+                    # print(f"Error loading node layer: {e}, node layer will not be loaded!")
+                    mnet.node_loaded = False
             case 'link':
                 mnet.link.value, mnet.link_loaded = read_single_csv_file(path_filename, element)
-                mnet.link.convert_str_to_geometry()
-                mnet.link.extract_link_modes()
+                try:
+                    mnet.link.convert_str_to_geometry()
+                    # mnet.link.extract_link_modes()
+                    mnet.link.update_coords_by_link_modes(modes=['all'])
+                except Exception as e:
+                    # print(f"Error loading link layer: {e}, link layer will not be loaded!")
+                    mnet.link_loaded = False
             case 'poi':
                 mnet.POI.value, mnet.POI_loaded = read_single_csv_file(path_filename, element)
-                mnet.POI.convert_str_to_geometry()
+                try:
+                    mnet.POI.convert_str_to_geometry()
+                    mnet.POI.update_coords_by_poi_type()
+                except Exception as e:
+                    # print(f"Error loading poi layer: {e}, poi layer will not be loaded!")
+                    mnet.POI_loaded = False
             case 'demand':
-                mnet.demand.value, mnet.demand_loaded = read_single_csv_file(path_filename, element)
-                mnet.demand.convert_str_to_geometry()
+                mnet.demand.value, mnet.demand_loaded = read_single_csv_file(path_filename, element, force_load=True)
+                try:
+                    mnet.demand.convert_str_to_geometry()
+                    mnet.demand.update_coords()
+                except Exception as e:
+                    # print(f"Error loading demand layer: {e}, demand layer will not be loaded!")
+                    mnet.demand_loaded = False
             case 'zone':
                 try:
                     mnet.zone.value, mnet.zone_loaded = read_single_csv_file(path_filename, element)
                     mnet.zone.convert_str_to_geometry()
+                    mnet.zone.update_coords()
                 except Exception:
                     try:
                         mnet.zone.value, mnet.zone_loaded = read_single_csv_file(path_filename, 'zone_boundary')
                         mnet.zone.convert_str_to_geometry()
-                    except Exception:
-                        print(f"Error: zone.csv not found in {input_dir}, zone layer will not be loaded!")
+                        mnet.zone.update_coords()
+                    except Exception as e:
+                        # print(f"No geometry/boundary field in zone.csv, zone layer will not be loaded! Error: {e}")
+                        mnet.zone_loaded = False
             case 'geometry':
                 mnet.geometry.value, mnet.geometry_loaded = read_single_csv_file(path_filename, element)
-                mnet.geometry.convert_str_to_geometry()
+                try:
+                    mnet.geometry.convert_str_to_geometry()
+                    mnet.geometry.update_coords()
+                except Exception as e:
+                    # print(f"Error loading geometry layer: {e}, geometry layer will not be loaded!")
+                    mnet.geometry_loaded = False
             case 'location':
                 mnet.location.value, mnet.location_loaded = read_single_csv_file(path_filename, element)
+                try:
+                    mnet.location.update_coords()
+                except Exception as e:
+                    # print(f"Error loading location layer: {e}, location layer will not be loaded!")
+                    mnet.location_loaded = False
             case 'lane':
                 mnet.lane.value, mnet.lane_loaded = read_single_csv_file(path_filename, element)
-                mnet.lane.convert_str_to_geometry()
+                try:
+                    mnet.lane.convert_str_to_geometry()
+                    mnet.lane.update_coords()
+                except Exception as e:
+                    # print(f"Error loading lane layer: {e}, lane layer will not be loaded!")
+                    mnet.lane_loaded = False
             case 'movement':
                 mnet.movement.value, mnet.movement_loaded = read_single_csv_file(path_filename, element)
-                mnet.movement.convert_str_to_geometry()
+                try:
+                    mnet.movement.convert_str_to_geometry()
+                    mnet.movement.update_coords()
+                except Exception as e:
+                    # print(f"Error loading movement layer: {e}, movement layer will not be loaded!")
+                    mnet.movement_loaded = False
 
     print("Complete file loading")
 
@@ -110,30 +157,30 @@ def generate_multi_network_from_csv(input_dir: str = './', output_dir: str = Non
     map_layer_data = {}
     if mnet.node_loaded:
         map_layer_data["node"] = pd.read_csv(path2linux(f"{input_dir}/node.csv")).fillna("None_")
-        print("Test path: ", f"{input_dir}/node.csv")
     if mnet.link_loaded:
         map_layer_data["link"] = pd.read_csv(path2linux(f"{input_dir}/link.csv")).fillna("None_")
     if mnet.POI_loaded:
-        map_layer_data["poi"] = pd.read_csv(f"{input_dir}/poi.csv").fillna("None_")
+        map_layer_data["poi"] = pd.read_csv(path2linux(f"{input_dir}/poi.csv")).fillna("None_")
     if mnet.demand_loaded:
-        map_layer_data["demand"] = pd.read_csv(f"{input_dir}/demand.csv").fillna("None_")
+        map_layer_data["demand"] = pd.read_csv(path2linux(f"{input_dir}/demand.csv")).fillna("None_")
     if mnet.zone_loaded:
-        map_layer_data["zone"] = pd.read_csv(f"{input_dir}/zone.csv").fillna("None_")
+        map_layer_data["zone"] = pd.read_csv(path2linux(f"{input_dir}/zone.csv")).fillna("None_")
 
     if mnet.geometry_loaded:
-        map_layer_data["geometry"] = pd.read_csv(f"{input_dir}/geometry.csv").fillna("None_")
+        map_layer_data["geometry"] = pd.read_csv(path2linux(f"{input_dir}/geometry.csv")).fillna("None_")
     if mnet.location_loaded:
-        map_layer_data["location"] = pd.read_csv(f"{input_dir}/location.csv").fillna("None_")
+        map_layer_data["location"] = pd.read_csv(path2linux(f"{input_dir}/location.csv")).fillna("None_")
     if mnet.lane_loaded:
-        map_layer_data["lane"] = pd.read_csv(f"{input_dir}/lane.csv").fillna("None_")
+        map_layer_data["lane"] = pd.read_csv(path2linux(f"{input_dir}/lane.csv")).fillna("None_")
     if mnet.movement_loaded:
-        map_layer_data["movement"] = pd.read_csv(f"{input_dir}/movement.csv").fillna("None_")
+        map_layer_data["movement"] = pd.read_csv(path2linux(f"{input_dir}/movement.csv")).fillna("None_")
 
-    vis_map = generate_visualization_map_using_keplergl(map_layer_data)
-    path_vis_map = generate_absolute_path(file_name="plot4gmns_vis_map.html",
-                                          folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
-    vis_map.save_to_html(file_name=path_vis_map)
-    # print(f"Successfully generate interactive map visualization to {path_vis_map}")
+    if kepler_map:
+        vis_map = generate_visualization_map_using_keplergl(map_layer_data)
+        path_vis_map = generate_absolute_path(file_name="plot4gmns_vis_map.html",
+                                              folder_name=path2linux(os.path.join(output_dir, "p4g_fig_results")))
+        vis_map.save_to_html(file_name=path_vis_map)
+        # print(f"Successfully generate interactive map visualization to {path_vis_map}")
 
     return mnet
 
@@ -310,7 +357,7 @@ def generate_visualization_map_using_keplergl(map_layer_data: dict, map_config: 
                                                                                               {'name': 'node_id',
                                                                                                'format': None},
                                                                                               {'name': 'osm_node_id', 'format': None},
-                                                                                              {'name': 'osm_highway',
+                                                                                              {'name': 'ctrl_type',
                                                                                                'format': None},
                                                                                               {'name': 'zone_id', 'format': None}],
                                                                                               'link': [{'name': 'name', 'format': None},
@@ -391,18 +438,19 @@ def extract_coordinates_by_network_mode(mnet: MultiNet, modes: list) -> None:
         raise Exception("please try other modes")
 
 
-def extract_coordinates_by_node_types(mnet: MultiNet, osm_highway: list) -> None:
+def extract_coordinates_by_node_types(mnet: MultiNet, ctrl_type: list) -> None:
     # extract node,link, and poi coordinates of the specified node type
 
     x_coords = []
     y_coords = []
     isValid = False
-    for highway_type in osm_highway:
-        mnet.node.update_coords(column='osm_highway', values=[highway_type])
+    for int_ctrl_type in ctrl_type:
+        mnet.node.update_coords(column='ctrl_type', values=[int_ctrl_type])
+
         x_coords.append(mnet.node.x_coords)
         y_coords.append(mnet.node.y_coords)
         if len(mnet.node.x_coords) == 0:
-            print(f"ValueError: '{highway_type}' osm_highway not found")
+            print(f"ValueError: '{int_ctrl_type}' ctrl_type not found")
         else:
             isValid = True
 
@@ -411,7 +459,7 @@ def extract_coordinates_by_node_types(mnet: MultiNet, osm_highway: list) -> None
     mnet.link.update_coords_by_link_modes(modes=('all'))
     mnet.POI.update_coords_by_poi_type()
     if not isValid:
-        valid_values = mnet.node.value['osm_highway'].unique()
+        valid_values = mnet.node.value['ctrl_type'].unique()
         raise Exception(f"No results found, please try the following keywords:\n{valid_values}")
 
 
@@ -486,10 +534,10 @@ def extract_coordinates_by_poi_type(mnet: MultiNet, poi_type: list) -> None:
 def extract_coordinates_by_poi_attr_distribution(mnet: MultiNet, column: str) -> None:
     # extract node,link, and poi coordinates of the network POI attraction or production distribution
 
-    if mnet.POI.value[column].isnull().any():
-        raise Exception(f"ValueError: nan found in {column}")
-    mnet.node.update_coords(column='node_id')
-    mnet.link.update_coords_by_link_modes(modes=('all'))
+    # if mnet.POI.value[column].isnull().any():
+    #     raise Exception(f"ValueError: nan found in {column}")
+    # mnet.node.update_coords(column='node_id')
+    # mnet.link.update_coords_by_link_modes(modes=('all'))
     mnet.POI.update_coords_by_attr_distribution(column=column)
 
 

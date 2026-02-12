@@ -97,7 +97,7 @@ cf.show() # show the figure on the current window
 **Step 3: show network with given node types**
 
 ```python
-cf = p4g.show_network_by_node_types(mnet=mnet,osm_highway=['traffic_signals','crossing'])
+cf = p4g.show_network_by_node_types(mnet=mnet,ctrl_type=['traffic_signals','crossing'])
 cf.show()
 ```
 

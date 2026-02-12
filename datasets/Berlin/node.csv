@@ -1,4 +1,4 @@
-name,node_id,osm_node_id,osm_highway,zone_id,ctrl_type,node_type,activity_type,is_boundary,x_coord,y_coord,intersection_id,poi_id,notes
+name,node_id,osm_node_id,ctrl_type,zone_id,ctrl_type,node_type,activity_type,is_boundary,x_coord,y_coord,intersection_id,poi_id,notes
 ,0,26759665,,35,,,secondary,0,13.2025899,52.5402872,,,
 ,1,3402004183,traffic_signals,35,signal,,secondary,0,13.2025025,52.5400992,,,
 ,2,7701926326,crossing,35,,,secondary,0,13.2024841,52.5400787,,,

@@ -165,7 +165,7 @@
         "kind": 2,
         "importPath": "plot4gmns.func_lib",
         "description": "plot4gmns.func_lib",
-        "peekOfCode": "def extract_coordinates_by_network_mode(mnet: MultiNet, modes: list) -> None:\n    # extract node,link, and poi coordinates of the specified network mode\n    mnet.link.update_coords_by_link_modes(modes)\n    mnet.node.update_coords(column='node_id',values=mnet.link.node_id_list)\n    mnet.POI.update_coords_by_poi_type()\n    if len(mnet.link.link_coords) == 0:\n        raise Exception(\"please try other modes\")\ndef extract_coordinates_by_node_types(mnet: MultiNet, osm_highway: list) -> None:\n    # extract node,link, and poi coordinates of the specified node type\n    x_coords = []",
+        "peekOfCode": "def extract_coordinates_by_network_mode(mnet: MultiNet, modes: list) -> None:\n    # extract node,link, and poi coordinates of the specified network mode\n    mnet.link.update_coords_by_link_modes(modes)\n    mnet.node.update_coords(column='node_id',values=mnet.link.node_id_list)\n    mnet.POI.update_coords_by_poi_type()\n    if len(mnet.link.link_coords) == 0:\n        raise Exception(\"please try other modes\")\ndef extract_coordinates_by_node_types(mnet: MultiNet, ctrl_type: list) -> None:\n    # extract node,link, and poi coordinates of the specified node type\n    x_coords = []",
         "detail": "plot4gmns.func_lib",
         "documentation": {}
     },
@@ -174,7 +174,7 @@
         "kind": 2,
         "importPath": "plot4gmns.func_lib",
         "description": "plot4gmns.func_lib",
-        "peekOfCode": "def extract_coordinates_by_node_types(mnet: MultiNet, osm_highway: list) -> None:\n    # extract node,link, and poi coordinates of the specified node type\n    x_coords = []\n    y_coords = []\n    isValid = False\n    for highway_type in osm_highway:\n        mnet.node.update_coords(column='osm_highway', values=[highway_type])\n        x_coords.append(mnet.node.x_coords)\n        y_coords.append(mnet.node.y_coords)\n        if len(mnet.node.x_coords) == 0:",
+        "peekOfCode": "def extract_coordinates_by_node_types(mnet: MultiNet, ctrl_type: list) -> None:\n    # extract node,link, and poi coordinates of the specified node type\n    x_coords = []\n    y_coords = []\n    isValid = False\n    for highway_type in ctrl_type:\n        mnet.node.update_coords(column='ctrl_type', values=[highway_type])\n        x_coords.append(mnet.node.x_coords)\n        y_coords.append(mnet.node.y_coords)\n        if len(mnet.node.x_coords) == 0:",
         "detail": "plot4gmns.func_lib",
         "documentation": {}
     },
@@ -327,7 +327,7 @@
         "kind": 2,
         "importPath": "plot4gmns.plot4gmns",
         "description": "plot4gmns.plot4gmns",
-        "peekOfCode": "def show_network_by_node_types(\n        mnet: MultiNet,\n        osm_highway: list,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network nodes according to specified node types\n    Parameters\n    ----------\n    mnet : MultiNet object",
+        "peekOfCode": "def show_network_by_node_types(\n        mnet: MultiNet,\n        ctrl_type: list,\n        fig_obj: plt = None,\n        isSave2png: bool = True\n) -> plt:\n    \"\"\"draw network nodes according to specified node types\n    Parameters\n    ----------\n    mnet : MultiNet object",
         "detail": "plot4gmns.plot4gmns",
         "documentation": {}
     },
@@ -606,7 +606,7 @@
         "kind": 5,
         "importPath": "main",
         "description": "main",
-        "peekOfCode": "mnet = p4g.generate_multi_network_from_csv(r'E:\\BaiduBackup\\Github\\osm2rail\\convert_csv_to_geos_files')\n# cf = p4g.show_network_by_modes(mnet=mnet,modes=['auto'])\n# cf.show()\n# cf = p4g.show_network_by_modes(mnet=mnet,modes=['bike'])\n# cf.show()\n# cf = p4g.show_network_by_node_types(mnet=mnet,osm_highway=['traffic_signals','crossing'])\n# cf.show()\n# cf = p4g.show_network_by_link_types(mnet=mnet,link_types=['secondary','footway'])\n# cf.show()\n# cf = p4g.show_network_by_link_length(mnet=mnet,min_length=10,max_length=50)",
+        "peekOfCode": "mnet = p4g.generate_multi_network_from_csv(r'E:\\BaiduBackup\\Github\\osm2rail\\convert_csv_to_geos_files')\n# cf = p4g.show_network_by_modes(mnet=mnet,modes=['auto'])\n# cf.show()\n# cf = p4g.show_network_by_modes(mnet=mnet,modes=['bike'])\n# cf.show()\n# cf = p4g.show_network_by_node_types(mnet=mnet,ctrl_type=['traffic_signals','crossing'])\n# cf.show()\n# cf = p4g.show_network_by_link_types(mnet=mnet,link_types=['secondary','footway'])\n# cf.show()\n# cf = p4g.show_network_by_link_length(mnet=mnet,min_length=10,max_length=50)",
         "detail": "main",
         "documentation": {}
     }

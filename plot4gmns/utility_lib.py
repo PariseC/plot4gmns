@@ -29,7 +29,12 @@ required_columns = {
     'movement': ["geometry"],
 }
 
-network_modes = ['all', 'bike', 'walk', 'auto', 'railway']
+network_node_ctrl_types = ["no_control", "yield", "stop", "stop_2_way",
+                           "stop_4_way", "signal_with_RTOR", "signal"]
+network_line_modes = ['all', 'bike', 'walk', 'auto', 'railway', 'aeroway']
+network_link_types = ['motorway', 'trunk', 'primary', 'secondary',
+                      'tertiary', 'residential', 'service', 'cycleway',
+                      'footway', 'track', 'unclassified', 'railway', 'aeroway']
 
 
 class NodeStyle:
@@ -75,9 +80,10 @@ class DemandStyle:
 class ZoneStyle:
     def __init__(self):
         self.linewidth = 1
-        self.edgecolors = 'blue'
+        self.edgecolor = 'blue'
         self.fontsize = 10
         self.fontcolor = 'r'
+        self.facecolor = 'orange'
 
 
 class LocationStyle:
@@ -159,7 +165,8 @@ def get_file_names_from_folder_by_type(dir_name: str, file_type: str = "txt",
         return [path2linux(file) for file in files_list if file.split(".")[-1] == file_type]
 
     # files in the first layer of the folder
-    return [path2linux(os.path.join(dir_name, file)) for file in os.listdir(dir_name) if file.split(".")[-1] == file_type]
+    return [path2linux(os.path.join(dir_name, file)) for file in os.listdir(dir_name)
+            if file.split(".")[-1] == file_type]
 
 
 def check_required_files_exist(required_files: list, dir_files: list) -> bool:
